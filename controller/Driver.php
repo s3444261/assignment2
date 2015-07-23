@@ -158,5 +158,29 @@ class Driver {
 				break;
 		}
 	}
+	
+	public function summary(){
+		$summary = new SummaryController();
+		$summary->summary = Summary::getInstance();
+		return $summary->summary();
+	}
+	
+	public function summaryCredit(){
+		$summary = new SummaryController();
+		$summary->summary = Summary::getInstance();
+		return $summary->summaryCredit();
+	}
+	
+	public function summaryDebit(){
+		$summary = new SummaryController();
+		$summary->summary = Summary::getInstance();
+		return $summary->summaryDebit();
+	}
+	
+	public function summaryNet(){
+		$summary = new SummaryController();
+		$summary->summary = Summary::getInstance();
+		return $summary->summaryNet();
+	}
 }
 ?>
