@@ -1,0 +1,138 @@
+@CHARSET "ISO-8859-1";
+
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ *
+ * main.css
+ * The purpose of this page is to make additional modifications to the
+ * Twitter Bootstrap css.
+ */
+
+.logo {
+	margin-top: -20px;
+}
+
+h1 {
+	color: #201CED;
+	text-align: right;
+	margin-right: 20px;
+}
+
+.altHeading {
+	color: #FFFFFF;
+	font-weight: bold;
+	font-size: 39px;
+}
+
+.loginBuffer {
+	margin-top: 70px;
+	margin-bottom: 20px;
+}
+
+.smallHeight {
+	margin-top: 50px;
+}
+
+.bluestripe {
+	width: 100%;
+	height: 300px;
+	background-color: #201CED;
+}
+
+.summary {
+	background-color: #FFFFFF;
+	margin-top: 50px;
+}
+
+.accountName, .historyTotals, .accountDetails, .bold {
+	font-weight: bold;
+}
+
+.accountDetails {
+	font-size: 90%;
+}
+
+.accountBalance {
+	text-align: right;
+	margin-right: 10px;
+}
+
+.totals {
+	background-color: #FFFFF1;
+}
+
+.topBorder {
+	border-top: 2px solid #CCCCCC;
+}
+
+.bottomBorder {
+	border-bottom: 2px solid #CCCCCC;
+}
+
+.history, .details {
+	position: absolute;
+	top: 60px;
+	background-color: #FFFFFF;
+	margin-top: 150px;
+	padding: 20px;
+}
+
+.note {
+	font-size: 80%;
+}
+
+.textRight {
+	text-align: right;
+}
+
+.textCentre {
+	text-align: center;
+}
+
+.topPadding {
+	padding-top: 10px;
+}
+
+.bottomPadding {
+	padding-bottom: 10px;
+}
+
+.wellMargin {
+	margin: 20px 20px 20px 20px;
+}
+
+.grp1 {
+	min-height: 50px;
+	border-bottom: #CCC 1px solid;
+	margin-bottom: 10px;
+}
+
+.grp1 div, .grp2 div, .grp3 div, .conf {
+	min-height: 40px;
+}
+
+.marginTop20 {
+	margin-top: 20px;
+}
+
+.ackWell {
+	display: block;
+	overflow: auto;
+	border: #000 1px solid;
+	margin-bottom: 20px;
+}
+
+.clear {
+	clear: left;
+}
+
+.transferHeader {
+	font-size: 120%;
+	font-weight: bold;
+	border-bottom: #CCC 1px solid;
+}
