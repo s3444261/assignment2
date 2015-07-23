@@ -1,0 +1,10 @@
+# The contents of this file were obtained from:
+# http://blogs.shephertz.com/2014/05/21/how-to-implement-url-routing-in-php/
+# The purpose of this file is to redirect all requests not found to index.php
+# The URL is then dissected and the appropriate methods called.
+Options -MultiViews
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
