@@ -76,69 +76,84 @@ class Driver {
 			$uri = ltrim ( $_SERVER ['REQUEST_URI'], '/' );
 		}
 		
+		// If the user is not logged in, go back to Home.
+		if ($uri != 'Login') {
+			if (! isset ( $_SESSION ['loggedin'] )) {
+				$uri = 'Home';
+			}
+		}
+		
 		switch ($uri) {
 			case 'Home' :
-				$home = new Home ();
+				$home = new HomeController ();
 				$home->display ();
 				break;
 			case 'Account-Summary' :
-				$summary = new Summary ();
+				$summary = new SummaryController ();
 				$summary->display ();
 				break;
 			case 'Transaction-History' :
-				$history = new History ();
+				$history = new HistoryController ();
 				$history->display ();
 				break;
 			case 'Account-Details' :
-				$details = new Details ();
+				$details = new DetailsController ();
 				$details->display ();
 				break;
 			case 'New-Bill-Payment' :
-				$payment = new Payment ();
+				$payment = new PaymentController ();
 				$payment->display ();
 				break;
 			case 'Bill-Payment-Amount' :
-				$paymentamt = new Paymentamt ();
+				$paymentamt = new PaymentamtController ();
 				$paymentamt->display ();
 				break;
 			case 'Bill-Payment-Confirmation' :
-				$paymentconf = new Paymentconf ();
+				$paymentconf = new PaymentconfController ();
 				$paymentconf->display ();
 				break;
 			case 'Bill-Payment-Acknowledgement' :
-				$paymentack = new Paymentack ();
+				$paymentack = new PaymentackController ();
 				$paymentack->display ();
 				break;
 			case 'Payment-List' :
-				$paymentlist = new Paymentlist ();
+				$paymentlist = new PaymentlistController ();
 				$paymentlist->display ();
 				break;
 			case 'Payee-List' :
-				$payeelist = new Payeelist ();
+				$payeelist = new PayeelistController ();
 				$payeelist->display ();
 				break;
 			case 'Biller-Add' :
-				$billeradd = new Billeradd ();
+				$billeradd = new BilleraddController ();
 				$billeradd->display ();
 				break;
 			case 'Biller-Modify' :
-				$billermodify = new Billermodify ();
+				$billermodify = new BillermodifyController ();
 				$billermodify->display ();
 				break;
 			case 'New-Funds-Transfer' :
-				$transfer = new Transfer ();
+				$transfer = new TransferController ();
 				$transfer->display ();
 				break;
 			case 'Check-Transfer' :
-				$checktransfer = new Checktransfer ();
+				$checktransfer = new ChecktransferController ();
 				$checktransfer->display ();
 				break;
 			case 'Funds-Transfer-Acknowledgement' :
-				$transferack = new Transferack ();
+				$transferack = new TransferackController ();
 				$transferack->display ();
 				break;
+			case 'Login' :
+				$login = new LoginController ();
+				$login->login ();
+				break;
+			case 'Logout' :
+				$logout = new LoginController ();
+				$logout->logout ();
+				break;
 			default :
-				$home = new Home ();
+				$home = new HomeController ();
 				$home->display ();
 				break;
 		}

@@ -20,21 +20,22 @@ if (! isset ( $_SESSION )) {
 // Include required files.
 include 'connect/config.php';
 include 'controller/Driver.php';
-include 'controller/Home.php';
-include 'controller/Summary.php';
-include 'controller/History.php';
-include 'controller/Details.php';
-include 'controller/Payment.php';
-include 'controller/Paymentamt.php';
-include 'controller/Paymentconf.php';
-include 'controller/Paymentack.php';
-include 'controller/Paymentlist.php';
-include 'controller/Payeelist.php';
-include 'controller/Billeradd.php';
-include 'controller/Billermodify.php';
-include 'controller/Transfer.php';
-include 'controller/Checktransfer.php';
-include 'controller/Transferack.php';
+include 'controller/HomeController.php';
+include 'controller/SummaryController.php';
+include 'controller/HistoryController.php';
+include 'controller/DetailsController.php';
+include 'controller/PaymentController.php';
+include 'controller/PaymentamtController.php';
+include 'controller/PaymentconfController.php';
+include 'controller/PaymentackController.php';
+include 'controller/PaymentlistController.php';
+include 'controller/PayeelistController.php';
+include 'controller/BilleraddController.php';
+include 'controller/BillermodifyController.php';
+include 'controller/TransferController.php';
+include 'controller/ChecktransferController.php';
+include 'controller/TransferackController.php';
+include 'controller/LoginController.php';
 
 // Call a singleton instance of the Driver class.
 $driver = Driver::getInstance ();

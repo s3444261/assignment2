@@ -7,7 +7,7 @@
  * CPT375 Web Database Applications
  * 2015 - Study Period 2
  */
-class History {
+class HistoryController {
 	
 	public function display()
 	{

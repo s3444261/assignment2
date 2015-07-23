@@ -7,11 +7,11 @@
  * CPT375 Web Database Applications
  * 2015 - Study Period 2
  */
-class Payment {
+class HomeController {
 	
 	public function display()
 	{
-		include 'view/layout/payment.php';
+		include 'view/layout/home.php';
 	}
 }
 ?>

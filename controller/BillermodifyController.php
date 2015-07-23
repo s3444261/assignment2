@@ -7,11 +7,11 @@
  * CPT375 Web Database Applications
  * 2015 - Study Period 2
  */
-class Checktransfer {
+class BillermodifyController {
 	
 	public function display()
 	{
-		include 'view/layout/checktransfer.php';
+		include 'view/layout/billermodify.php';
 	}
 }
 ?>

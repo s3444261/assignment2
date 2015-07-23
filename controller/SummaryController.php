@@ -7,11 +7,11 @@
  * CPT375 Web Database Applications
  * 2015 - Study Period 2
  */
-class Paymentamt {
+class SummaryController {
 	
 	public function display()
 	{
-		include 'view/layout/paymentamt.php';
+		include 'view/layout/summary.php';
 	}
 }
 ?>

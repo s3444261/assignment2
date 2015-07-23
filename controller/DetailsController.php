@@ -7,11 +7,11 @@
  * CPT375 Web Database Applications
  * 2015 - Study Period 2
  */
-class Payeelist {
+class DetailsController {
 	
 	public function display()
 	{
-		include 'view/layout/payeelist.php';
+		include 'view/layout/details.php';
 	}
 }
 ?>

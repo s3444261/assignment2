@@ -7,11 +7,11 @@
  * CPT375 Web Database Applications
  * 2015 - Study Period 2
  */
-class Transferack {
+class ChecktransferController {
 	
 	public function display()
 	{
-		include 'view/layout/transferack.php';
+		include 'view/layout/checktransfer.php';
 	}
 }
 ?>

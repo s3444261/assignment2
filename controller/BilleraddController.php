@@ -7,11 +7,11 @@
  * CPT375 Web Database Applications
  * 2015 - Study Period 2
  */
-class Home {
+class BilleraddController {
 	
 	public function display()
 	{
-		include 'view/layout/home.php';
+		include 'view/layout/billeradd.php';
 	}
 }
 ?>
