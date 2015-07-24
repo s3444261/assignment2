@@ -7,7 +7,6 @@
  * CPT375 Web Database Applications
  * 2015 - Study Period 2
  */
-include 'model/Summary.php';
 
 class SummaryController {
 	

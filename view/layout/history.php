@@ -1,4 +1,6 @@
 <?php
+$driver = Driver::getInstance ();
+
 ?>
 <h1>Transaction History</h1>
 
@@ -22,14 +24,20 @@
 					Filter</button>
 			</div>
 		</div>
-		<form class="form-inline" action="">
+		<form class="form-inline" method="post" action="Transaction-History">
 			<div class="row marginTop20">
 				<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 bold">Account:</div>
 				<div class="form-group col-xs-10 col-sm-10 col-md-10 col-lg-10">
-					<select class="form-control" id="account">
-						<option>Kinkead Family Trust/083-006 45-333-3232</option>
-						<option>Kinkead Murphy Unit Trust/083-006 45-214-8745</option>
-						<option>Kinkead Superannuation Fundt/083-006 45-546-3298</option>
+					<select class="form-control" name="account" id="account">
+<?php
+if (isset ( $_SESSION ['accounts'] )) {
+	foreach ( $_SESSION ['accounts'] as $account ) {
+		echo '<option value="' . $account ['accountID'] . '" ';
+		if(isset($_SESSION ['selectedAccount' . $account ['accountID']])){ echo $_SESSION ['selectedAccount' . $account ['accountID']]; }
+		echo ' >' . $account ['accountName'] . '</option>';
+	}
+}
+?>
 					</select>
 				</div>
 			</div>
@@ -38,35 +46,35 @@
 					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 bold">Search
 						Details:</div>
 					<div class="form-group col-xs-10 col-sm-10 col-md-10 col-lg-10">
-						<input type="text" class="form-control" id="searchDetails"
-							placeholder="Search Details">
+						<input type="text" class="form-control" name="searchDetails"
+							id="searchDetails" placeholder="Search Details">
 					</div>
 				</div>
 				<div class="row marginTop20">
 					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 bold">From Amount:</div>
 					<div class="form-group col-xs-10 col-sm-10 col-md-10 col-lg-10">
-						<input type="text" class="form-control" id="fromAmount"
-							placeholder="$">
+						<input type="text" class="form-control" name="fromAmount"
+							id="fromAmount" placeholder="$">
 					</div>
 				</div>
 				<div class="row marginTop20">
 					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 bold">To Amount:</div>
 					<div class="form-group col-xs-10 col-sm-10 col-md-10 col-lg-10">
-						<input type="text" class="form-control" id="toAmount"
-							placeholder="$">
+						<input type="text" class="form-control" name="toAmount"
+							id="toAmount" placeholder="$">
 					</div>
 				</div>
 				<div class="row marginTop20">
 					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 bold">From Date:</div>
 					<div class="form-group col-xs-10 col-sm-10 col-md-10 col-lg-10">
-						<input type="date" class="form-control" id="fromDate"
-							placeholder="From Date">
+						<input type="date" class="form-control" name="fromDate"
+							id="fromDate" placeholder="From Date">
 					</div>
 				</div>
 				<div class="row marginTop20">
 					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 bold">To Date:</div>
 					<div class="form-group col-xs-10 col-sm-10 col-md-10 col-lg-10">
-						<input type="date" class="form-control" id="toDate"
+						<input type="date" class="form-control" name="toDate" id="toDate"
 							placeholder="To Date">
 					</div>
 				</div>
@@ -79,11 +87,10 @@
 		</form>
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 marginTop20">Period:
-				04/04/15 to 13/07/15</div>
+				<?php if(isset($_SESSION['period'])){echo $_SESSION['period'];} ?></div>
 		</div>
 		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">Found: 3
-				Transactions</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">Found: <?php if(isset($_SESSION['found'])){ echo $_SESSION['found'];} ?></div>
 		</div>
 		<div class="row">
 			<div
@@ -99,67 +106,45 @@
 						</tr>
 					</thead>
 					<tbody>
+<?php
+if (isset ( $_SESSION ['history'] )) {
+	foreach ( $_SESSION ['history'] as $history ) {
+		echo '<tr>
+				<td>' . $history ['date'] . '</td>
+				<td><table>
 						<tr>
-							<td>30 Jun 15</td>
-							<td><table>
-									<tr>
-										<td>FEE ACCOUNT 083006 866784433</td>
-									</tr>
-									<tr>
-										<td>FEES</td>
-									</tr>
-								</table></td>
-							<td class="accountBalance">1.00 DR</td>
-							<td class="accountBalance"></td>
-							<td class="accountBalance">58.47 CR</td>
+							<td>' . $history ['transaction'] . '</td>
 						</tr>
 						<tr>
-							<td>22 Jun 15</td>
-							<td><table>
-									<tr>
-										<td>TT40W444234 IB Ref D2343244 TRANSFER</td>
-									</tr>
-									<tr>
-										<td>MISCELLANEOUS DEBIT</td>
-									</tr>
-								</table></td>
-							<td class="accountBalance">2022.00 DR</td>
-							<td class="accountBalance"></td>
-							<td class="accountBalance">59.47 CR</td>
+							<td>' . $history ['type'] . '</td>
 						</tr>
-						<tr>
-							<td>19 Jun 15</td>
-							<td><table>
-									<tr>
-										<td>Transfer BANKVIC</td>
-									</tr>
-									<tr>
-										<td>INTER-BANK CREDIT</td>
-									</tr>
-								</table></td>
-							<td class="accountBalance"></td>
-							<td class="accountBalance">2000.00 CR</td>
-							<td class="accountBalance">2081.477 CR</td>
-						</tr>
+					</table></td>
+				<td class="accountBalance">' . $history ['debit'] . '</td>
+				<td class="accountBalance">' . $history ['credit'] . '</td>
+				<td class="accountBalance">' . $history ['balance'] . '</td>
+			</tr>';
+	}
+}
+?>
 					</tbody>
 				</table>
 			</div>
 		</div>
 		<div class="row topBorder topPadding">
 			<div class="col-xs-3 col-sm-3 col-md-3 historyTotals">Debits</div>
-			<div class="col-xs-3 col-sm-3 col-md-3 textRight">2022 DR</div>
+			<div class="col-xs-3 col-sm-3 col-md-3 textRight"><?php if(isset($_SESSION['historyNet'])){ echo $_SESSION['historyDebit']; } ?></div>
 		</div>
 		<div class="row">
 			<div class="col-xs-3 col-sm-3 col-md-3 historyTotals">+ Fees</div>
-			<div class="col-xs-3 col-sm-3 col-md-3 textRight">1.00 DR</div>
+			<div class="col-xs-3 col-sm-3 col-md-3 textRight"><?php if(isset($_SESSION['historyNet'])){ echo $_SESSION['historyFee']; } ?></div>
 		</div>
 		<div class="row">
 			<div class="col-xs-3 col-sm-3 col-md-3 historyTotals">- Credits</div>
-			<div class="col-xs-3 col-sm-3 col-md-3 textRight">2000 CR</div>
+			<div class="col-xs-3 col-sm-3 col-md-3 textRight"><?php if(isset($_SESSION['historyNet'])){ echo $_SESSION['historyCredit']; } ?></div>
 		</div>
 		<div class="row bottomBorder bottomPadding">
 			<div class="col-xs-3 col-sm-3 col-md-3 historyTotals">= Net Cash Flow</div>
-			<div class="col-xs-3 col-sm-3 col-md-3 textRight">23 DR</div>
+			<div class="col-xs-3 col-sm-3 col-md-3 textRight"><?php if(isset($_SESSION['historyNet'])){ echo $_SESSION['historyNet']; } ?></div>
 		</div>
 		<div class="row topPadding bottomPadding">
 			<div class="col-xs-12 col-sm-12 col-md-12">To view transactions
