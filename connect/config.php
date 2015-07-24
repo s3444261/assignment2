@@ -15,4 +15,27 @@
 error_reporting ( E_ALL );
 ini_set ( 'display_errors', 1 );
 
+function __autoload($class) {
+	$dir = array (
+			'controller/',
+			'model/' 
+	);
+	
+	foreach ( $dir as $directory ) {
+		if (file_exists ( $directory . $class . '.php' )) {
+			require_once ($directory . $class . '.php');
+			return;
+		}
+	}
+}
+
+// Call a singleton instance of the Driver class.
+$driver = Driver::getInstance ();
+
+// Set the basepath for the site.
+if (! isset ( $_SESSION['basepath']) ) {
+	$_SESSION['basepath'] = str_replace(substr($_SERVER['SCRIPT_NAME'], -9), "", $_SERVER['SCRIPT_NAME']);
+}
+$driver->basepath = $_SESSION['basepath'];
+
 ?>

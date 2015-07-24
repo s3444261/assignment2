@@ -17,34 +17,11 @@ if (! isset ( $_SESSION )) {
 	session_start ();
 }
 
-// Include required files.
+// Include config file.
 include 'connect/config.php';
-include 'controller/Driver.php';
-include 'controller/HomeController.php';
-include 'controller/SummaryController.php';
-include 'controller/HistoryController.php';
-include 'controller/DetailsController.php';
-include 'controller/PaymentController.php';
-include 'controller/PaymentamtController.php';
-include 'controller/PaymentconfController.php';
-include 'controller/PaymentackController.php';
-include 'controller/PaymentlistController.php';
-include 'controller/PayeelistController.php';
-include 'controller/BilleraddController.php';
-include 'controller/BillermodifyController.php';
-include 'controller/TransferController.php';
-include 'controller/ChecktransferController.php';
-include 'controller/TransferackController.php';
-include 'controller/LoginController.php';
 
 // Call a singleton instance of the Driver class.
 $driver = Driver::getInstance ();
-
-// Set the basepath for the site.
-if (! isset ( $_SESSION['basepath']) ) {
-	$_SESSION['basepath'] = str_replace(substr($_SERVER['SCRIPT_NAME'], -9), "", $_SERVER['SCRIPT_NAME']);
-}
-$driver->basepath = $_SESSION['basepath'];
 
 // Display the required content.
 $driver->display ();
