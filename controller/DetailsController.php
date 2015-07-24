@@ -11,6 +11,20 @@ class DetailsController {
 	
 	public function display()
 	{
+		$details = new Details();
+		
+		if(isset($_POST['account'])){
+			$details->unsetLast();
+				
+			$accountID = $_POST['account'];
+			unset($_POST['account']);
+				
+			$details->getDetails($accountID);
+				
+		} else {
+			$details->init();
+		}
+		
 		include 'view/layout/details.php';
 	}
 }
