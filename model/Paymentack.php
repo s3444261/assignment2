@@ -7,15 +7,14 @@
  * CPT375 Web Database Applications
  * 2015 - Study Period 2
  */
-class PayeelistController {
+
+
+class Paymentack {
 	
-	public function display()
-	{
-		$payeelist = new Payeelist();
-		
-		$payeelist->init();
-		
-		include 'view/layout/payeelist.php';
+	public function init(){
+		$_SESSION['payStatus'] = 'Paid';
+		$_SESSION['payConf'] = 'B38122113';
+		$_SESSION['payCreated'] = date("Y-m-d H:i:s"); 
 	}
 }
 ?>

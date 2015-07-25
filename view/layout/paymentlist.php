@@ -22,8 +22,8 @@
 				<div class="form-group col-xs-10 col-sm-10 col-md-10 col-lg-10">
 					<select class="form-control" id="paymentType">
 						<option>All Payment Types</option>
-						<option>Bill Payment</option>
-						<option>Funds Transfer</option>
+						<option <?php if(isset($_SESSION['paymentTypeBillSelected'])){ echo $_SESSION['paymentTypeBillSelected']; } ?> >Bill Payment</option>
+						<option <?php if(isset($_SESSION['paymentTypeTransferSelected'])){ echo $_SESSION['paymentTypeTransferSelected']; } ?> >Funds Transfer</option>
 					</select>
 				</div>
 			</div>

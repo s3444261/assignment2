@@ -11,6 +11,15 @@ class PaymentlistController {
 	
 	public function display()
 	{
+		if(isset($_POST['payPaymentList'])){
+			$_SESSION['paymentTypeBillSelected'] = 'selected="selected"';
+			unset($_POST['payPaymentList']);
+		}
+		
+		$paymentlist = new Paymentlist();
+		
+		$paymentlist->init();
+		
 		include 'view/layout/paymentlist.php';
 	}
 }

@@ -7,15 +7,13 @@
  * CPT375 Web Database Applications
  * 2015 - Study Period 2
  */
-class PayeelistController {
+
+
+class Paymentlist {
 	
-	public function display()
-	{
-		$payeelist = new Payeelist();
-		
-		$payeelist->init();
-		
-		include 'view/layout/payeelist.php';
+	public function init(){
+		$payment = new Payment();
+		$payment->cancelSessions();
 	}
 }
 ?>

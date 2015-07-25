@@ -11,6 +11,9 @@ class PaymentController {
 	
 	public function display()
 	{
+		$payment = new Payment();
+		$payment->init();
+		
 		include 'view/layout/payment.php';
 	}
 }

@@ -8,16 +8,21 @@
 <div class="row">
 	<div
 		class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12 details padding20">
-		<form class="form-inline" action="Bill-Payment-Amount">
+		<form class="form-inline" method="post" action="Bill-Payment-Amount">
 			<div class="row marginTop20">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<div class="form-group">
 						<label for="account">Account: &nbsp; &nbsp;</label> <select
-							class="form-control" id="account">
-							<option>Kinkead Family Trust/083-006 45-333-3232 ($33,453.98)</option>
-							<option>Kinkead Murphy Unit Trust/083-006 45-214-8745 ($2,400.33)</option>
-							<option>Kinkead Superannuation Fundt/083-006 45-546-3298
-								($14,342.33)</option>
+							class="form-control" name="account" id="account">
+<?php
+if (isset ( $_SESSION ['accounts'] )) {
+	foreach ( $_SESSION ['accounts'] as $account ) {
+		echo '<option value="' . $account ['accountID'] . '" ';
+		if(isset($_SESSION ['paySelectedAccount' . $account ['accountID']])){ echo $_SESSION ['paySelectedAccount' . $account ['accountID']]; }
+		echo ' >' . $account ['accountName'] . '</option>';
+	}
+} 
+?>
 						</select>
 					</div>
 				</div>
@@ -31,10 +36,16 @@
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<div class="form-group">
 						<label for="biller">Biller: &nbsp; &nbsp;</label> <select
-							class="form-control" id="biller">
-							<option>Select Biller</option>
-							<option>blah</option>
-							<option>blah blah</option>
+							class="form-control" name="biller" id="biller">
+<?php
+if (isset ( $_SESSION ['billers'] )) {
+	foreach ( $_SESSION ['billers'] as $biller ) {
+		echo '<option value="' . $biller ['billerID'] . '" ';
+		if(isset($_SESSION ['paySelectedBiller' . $biller ['billerID']])){ echo $_SESSION ['paySelectedBiller' . $biller ['billerID']]; }
+		echo ' >' . $biller ['billerNickname'] . '</option>';
+	}
+}
+?>
 						</select>
 					</div>
 				</div>

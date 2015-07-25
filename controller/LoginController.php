@@ -14,7 +14,9 @@ class LoginController {
 	public function login(){
 		$login = new Login();
 		$login->fabid = $_POST['fabid'];
+		unset($_POST['fabid']);
 		$login->password = $_POST['password'];
+		unset($_POST['password']);
 		if($login->login()){
 			header('Location: Account-Summary');
 		} else {

@@ -39,6 +39,7 @@ class Login {
 	public function login(){
 		if($this->_fabid == '123456' && $this->_password == 'blah'){
 			$_SESSION['loggedin'] = true;
+			$_SESSION['fabid'] = $this->_fabid;
 			return true;
 		} else {
 			$_SESSION['loggedin'] = false;

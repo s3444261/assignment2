@@ -11,7 +11,42 @@ class PaymentackController {
 	
 	public function display()
 	{
-		include 'view/layout/paymentack.php';
+	if(isset($_POST['next'])){
+			
+			unset($_POST['next']);
+			
+			if(isset($_POST['password'])){
+				
+				if($_POST['password'] == 'blah'){
+					unset($_POST['password']);
+					$paymentack = new Paymentack();
+						
+					$paymentack->init();
+						
+					include 'view/layout/paymentack.php';
+				} else {
+					unset($_POST['password']);
+					$paymentconf = new Paymentconf();
+						
+					$paymentconf->init();
+						
+					include 'view/layout/paymentconf.php';
+				}
+				
+			}
+			
+		} else if(isset($_POST['cancel'])){
+
+			unset($_POST['cancel']);
+			
+			$payment = new Payment();
+			
+			$payment->cancelSessions();
+			
+			$payment->init();
+			
+			include 'view/layout/payment.php';
+		}
 	}
 }
 ?>

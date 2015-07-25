@@ -11,6 +11,20 @@ class PaymentamtController {
 	
 	public function display()
 	{
+		$paymentamt = new Paymentamt();
+
+		if(isset($_POST['account']) && isset($_POST['biller'])){
+			$paymentamt->unsetLast();
+				
+			$_SESSION['payAccountID'] = $_POST['account'];
+			unset($_POST['account']);
+				
+			$_SESSION['payBillerID'] = $_POST['biller'];
+			unset($_POST['biller']);
+		}
+		
+		$paymentamt->init();
+		
 		include 'view/layout/paymentamt.php';
 	}
 }

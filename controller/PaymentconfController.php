@@ -11,7 +11,40 @@ class PaymentconfController {
 	
 	public function display()
 	{
-		include 'view/layout/paymentconf.php';
+		if(isset($_POST['next'])){
+			
+			unset($_POST['next']);
+			
+			if(isset($_POST['amount'])){
+				
+				$_SESSION['payAmount'] = $_POST['amount'];
+				unset($_POST['amount']);
+			}
+			
+			if(isset($_POST['paymentDate'])){
+			
+				$_SESSION['payDate'] = $_POST['paymentDate'];
+				unset($_POST['paymentDate']);
+			}
+			
+			$paymentconf = new Paymentconf();
+			
+			$paymentconf->init();
+			
+			include 'view/layout/paymentconf.php';
+			
+		} else if(isset($_POST['cancel'])){
+
+			unset($_POST['cancel']);
+			
+			$payment = new Payment();
+			
+			$payment->cancelSessions();
+			
+			$payment->init();
+			
+			include 'view/layout/payment.php';
+		}		
 	}
 }
 ?>
