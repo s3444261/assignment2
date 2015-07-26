@@ -40,7 +40,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 textRight marginTop20">
-					<form class="form-inline" method="post" action="Payment-List">
+					<form class="form-inline" method="post" action="Bill-Payment-List">
 						<button type="submit" name="payPaymentList"
 							class="btn btn-primary">Return To List</button>
 					</form>

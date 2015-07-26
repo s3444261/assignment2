@@ -116,7 +116,24 @@ class Driver {
 				$paymentack = new PaymentackController ();
 				$paymentack->display ();
 				break;
-			case 'Payment-List' :
+			case 'All-Payment-List' :
+				$_SESSION['allPaymentList'] = 'selected = "selected"';
+				$_SESSION['billPaymentList'] = null;
+				$_SESSION['fundsTransferPaymentList'] = null;
+				$paymentlist = new PaymentlistController ();
+				$paymentlist->display ();
+				break;
+			case 'Bill-Payment-List' :
+				$_SESSION['allPaymentList'] = null;
+				$_SESSION['billPaymentList'] = 'selected = "selected"';
+				$_SESSION['fundsTransferPaymentList'] = null;
+				$paymentlist = new PaymentlistController ();
+				$paymentlist->display ();
+				break;
+			case 'Funds-Transfer-Payment-List' :
+				$_SESSION['allPaymentList'] = null;
+				$_SESSION['billPaymentList'] = null;
+				$_SESSION['fundsTransferPaymentList'] = 'selected = "selected"';
 				$paymentlist = new PaymentlistController ();
 				$paymentlist->display ();
 				break;

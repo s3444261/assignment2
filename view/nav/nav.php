@@ -46,7 +46,7 @@
 					aria-expanded="false">Bill Payment <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="New-Bill-Payment">New Bill Payment</a></li>
-						<li><a href="Payment-List">Payment List</a></li>
+						<li><a href="Bill-Payment-List">Payment List</a></li>
 						<li><a href="Payee-List">Payee List</a></li>
 					</ul></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -54,7 +54,7 @@
 					aria-expanded="false">Funds Transfer <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="New-Funds-Transfer">New Funds Transfer</a></li>
-						<li><a href="Payment-List">Payment List</a></li>
+						<li><a href="Funds-Transfer-Payment-List">Payment List</a></li>
 						<li><a href="Payee-List">Payee List</a></li>
 					</ul></li>
 			</ul>

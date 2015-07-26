@@ -31,28 +31,28 @@ class HistoryController {
 				$fromAmount = $_POST['fromAmount'];
 				unset($_POST['fromAmount']);
 			} else {
-				$searchDetails = null;
+				$fromAmount = null;
 			}
 			
 			if(isset($_POST['toAmount'])){
 				$toAmount = $_POST['toAmount'];
 				unset($_POST['toAmount']);
 			} else {
-				$searchDetails = null;
+				$toAmount = null;
 			}
 			
 			if(isset($_POST['fromDate'])){
 				$fromDate = $_POST['fromDate'];
 				unset($_POST['fromDate']);
 			} else {
-				$searchDetails = null;
+				$fromDate = null;
 			}
 			
 			if(isset($_POST['toDate'])){
 				$toDate = $_POST['toDate'];
 				unset($_POST['toDate']);
 			} else {
-				$searchDetails = null;
+				$toDate = null;
 			}
 			
 			$search = array('accountID' => $accountID,
