@@ -83,6 +83,12 @@ class Driver {
 			}
 		}
 		
+		if (strpos($uri,'/') !== false) {
+			$uri = explode('/', $uri);
+			$id = $uri[1];
+			$uri = $uri[0] . '-';
+		}
+		
 		switch ($uri) {
 			case 'Home' :
 				$home = new HomeController ();
@@ -156,9 +162,25 @@ class Driver {
 				$billeradd = new BilleraddController ();
 				$billeradd->display ();
 				break;
+			case 'Biller-Modify-' :
+				$_SESSION['billerModifyID'] = $id;
+				$pos = strrpos($_SERVER ['HTTP_REFERER'], '/');
+				$pos = strlen($_SERVER ['HTTP_REFERER']) - $pos;
+				header("Location: " . substr($_SERVER ['HTTP_REFERER'], 0, -$pos + 1) . "Biller-Modify");
+				break;
 			case 'Biller-Modify' :
 				$billermodify = new BillermodifyController ();
 				$billermodify->display ();
+				break;
+			case 'Biller-Delete-' :
+				$_SESSION['billerDeleteID'] = $id;
+				$pos = strrpos($_SERVER ['HTTP_REFERER'], '/');
+				$pos = strlen($_SERVER ['HTTP_REFERER']) - $pos;
+				header("Location: " . substr($_SERVER ['HTTP_REFERER'], 0, -$pos + 1) . "Biller-Delete");
+				break;
+			case 'Biller-Delete' :
+				$billerdelete = new BillerdeleteController ();
+				$billerdelete->display ();
 				break;
 			case 'New-Funds-Transfer' :
 				$transfer = new TransferController ();
@@ -175,6 +197,26 @@ class Driver {
 			case 'Payee-Add' :
 				$payeeadd = new PayeeaddController ();
 				$payeeadd->display ();
+				break;
+			case 'Payee-Modify-' :
+				$_SESSION['payeeModifyID'] = $id;
+				$pos = strrpos($_SERVER ['HTTP_REFERER'], '/');
+				$pos = strlen($_SERVER ['HTTP_REFERER']) - $pos;
+				header("Location: " . substr($_SERVER ['HTTP_REFERER'], 0, -$pos + 1) . "Payee-Modify");
+				break;
+			case 'Payee-Modify' :
+				$payeemodify = new PayeemodifyController ();
+				$payeemodify->display ();
+				break;
+			case 'Payee-Delete-' :
+				$_SESSION['payeeDeleteID'] = $id;
+				$pos = strrpos($_SERVER ['HTTP_REFERER'], '/');
+				$pos = strlen($_SERVER ['HTTP_REFERER']) - $pos;
+				header("Location: " . substr($_SERVER ['HTTP_REFERER'], 0, -$pos + 1) . "Payee-Delete");
+				break;
+			case 'Payee-Delete' :
+				$payeedelete = new PayeedeleteController ();
+				$payeedelete->display ();
 				break;
 			case 'Login' :
 				$login = new LoginController ();

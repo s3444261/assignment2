@@ -1,6 +1,6 @@
 <?php
 ?>
-<h1>Modify Biller Details</h1>
+<h1>Delete Biller Details</h1>
 
 <div class="row">
 	<div class="bluestripe"></div>
@@ -20,23 +20,23 @@
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Biller Nickname:</div>
-				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-					<input type="text" class="form-control" name="updateBillerNickname" id="updateBillerNickname"
-						placeholder="Biller Nickname" value="current nickname">
-				</div>
+				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">CITY WEST WATER
+					LIMITED</div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Customer Reference
 					No:</div>
-				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-					<input type="text" class="form-control" name="updateBillerCustomerRef" id="updateBillerCustomerRef"
-						placeholder="Customer Reference No" value="current reference number">
+				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">45875698</div>
+			</div>
+			<div class="row marginTop20">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					Are you sure you want to Delete this Biller?
 				</div>
 			</div>
 			<div class="row marginTop20">
-				<div class="col-xs-12 textCentre">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textCentre">
 					<a href="Bill-Payee-List" class="btn btn-primary" role="button">Cancel</a>
-					<button type="submit" name="updateBiller" class="btn btn-primary">Update</button>
+					<button type="submit" name="deleteBiller" class="btn btn-primary">Delete</button>
 				</div>
 			</div>
 		</form>
