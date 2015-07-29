@@ -116,30 +116,41 @@ class Driver {
 				$paymentack = new PaymentackController ();
 				$paymentack->display ();
 				break;
-			case 'All-Payment-List' :
-				$_SESSION['allPaymentList'] = 'selected = "selected"';
-				$_SESSION['billPaymentList'] = null;
-				$_SESSION['fundsTransferPaymentList'] = null;
+			case 'Payment-List' :
 				$paymentlist = new PaymentlistController ();
 				$paymentlist->display ();
 				break;
 			case 'Bill-Payment-List' :
-				$_SESSION['allPaymentList'] = null;
-				$_SESSION['billPaymentList'] = 'selected = "selected"';
-				$_SESSION['fundsTransferPaymentList'] = null;
-				$paymentlist = new PaymentlistController ();
-				$paymentlist->display ();
+				$_SESSION['billPayment'] = true;
+				unset($_SESSION['fundsTransferPayment']);
+				$pos = strrpos($_SERVER ['HTTP_REFERER'], '/');
+				$pos = strlen($_SERVER ['HTTP_REFERER']) - $pos;
+				header("Location: " . substr($_SERVER ['HTTP_REFERER'], 0, -$pos + 1) . "Payment-List");
 				break;
 			case 'Funds-Transfer-Payment-List' :
-				$_SESSION['allPaymentList'] = null;
-				$_SESSION['billPaymentList'] = null;
-				$_SESSION['fundsTransferPaymentList'] = 'selected = "selected"';
-				$paymentlist = new PaymentlistController ();
-				$paymentlist->display ();
+				$_SESSION['fundsTransferPayment'] = true;
+				unset($_SESSION['billPayment']);
+				$pos = strrpos($_SERVER ['HTTP_REFERER'], '/');
+				$pos = strlen($_SERVER ['HTTP_REFERER']) - $pos;
+				header("Location: " . substr($_SERVER ['HTTP_REFERER'], 0, -$pos + 1) . "Payment-List");
 				break;
 			case 'Payee-List' :
 				$payeelist = new PayeelistController ();
 				$payeelist->display ();
+				break;
+			case 'Bill-Payee-List' :
+				$_SESSION['billPayee'] = true;
+				unset($_SESSION['fundsTransferPayee']);
+				$pos = strrpos($_SERVER ['HTTP_REFERER'], '/');
+				$pos = strlen($_SERVER ['HTTP_REFERER']) - $pos;
+				header("Location: " . substr($_SERVER ['HTTP_REFERER'], 0, -$pos + 1) . "Payee-List");
+				break;
+			case 'Funds-Transfer-Payee-List' :
+				$_SESSION['fundsTransferPayee'] = true;
+				unset($_SESSION['billPayee']);
+				$pos = strrpos($_SERVER ['HTTP_REFERER'], '/');
+				$pos = strlen($_SERVER ['HTTP_REFERER']) - $pos;
+				header("Location: " . substr($_SERVER ['HTTP_REFERER'], 0, -$pos + 1) . "Payee-List");
 				break;
 			case 'Biller-Add' :
 				$billeradd = new BilleraddController ();

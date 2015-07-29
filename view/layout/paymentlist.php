@@ -17,27 +17,18 @@
 					Filter</button>
 			</div>
 			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-				<form class="form-inline" method="post" action="
-<?php 
-if(isset($_SESSION['AllPaymentList'])){
-	echo 'All-Payment-List';
-} else if(isset($_SESSION['BillPaymentList'])){
-	echo 'Bill-Payment-List';
-} else if(isset($_SESSION['fundsTransferPaymentList'])){
-	echo 'Funds-Transfer-Payment-List';
-}
-?>">
+				<form class="form-inline" method="post" action="Payment-List">
 					<button class="btn btn-primary" type="submit" name="clearFilter">Clear Filter</button>
 				</form>
 			</div>
 		</div>
-		<form class="form-inline" method="post" action="Bill-Payment-List">
+		<form class="form-inline" method="post" action="Payment-List">
 			<div class="row marginTop20">
 				<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 bold">Payment Type:</div>
 				<div class="form-group col-xs-10 col-sm-10 col-md-10 col-lg-10">
 					<select class="form-control" name="paymentType" id="paymentType">
 						<option
-							<?php if(isset($_SESSION['AllPaymentList'])){ echo $_SESSION['AllPaymentList']; } ?>>All
+							<?php if(isset($_SESSION['allPaymentList'])){ echo $_SESSION['allPaymentList']; } ?>>All
 							Payment Types</option>
 						<option
 							<?php if(isset($_SESSION['billPaymentList'])){ echo $_SESSION['billPaymentList']; } ?>>Bill
@@ -153,17 +144,16 @@ if (isset ( $_SESSION ['payees'] )) {
 					</thead>
 					<tbody>
 <?php
-if (isset ( $_SESSION ['billPaymentList'] )) {
-	foreach ( $_SESSION ['payeeTransactions'] as $pt )
-		echo '<tr>
-							<td>' . $pt ['payeeDate'] . '</td>
-							<td>' . $pt ['payeeType'] . '</td>
-							<td>' . $pt ['payeePayFrom'] . '</td>
-							<td>' . $pt ['payeePayTo'] . '</td>
-							<td>' . $pt ['payeeStatus'] . '</td>
-							<td class="accountBalance">' . $pt ['payeeAmount'] . '</td>
-						</tr>'; 
-} 
+foreach ( $_SESSION ['payeeTransactions'] as $pt ){
+	echo '<tr>
+			<td>' . $pt ['payeeDate'] . '</td>
+			<td>' . $pt ['payeeType'] . '</td>
+			<td>' . $pt ['payeePayFrom'] . '</td>
+			<td>' . $pt ['payeePayTo'] . '</td>
+			<td>' . $pt ['payeeStatus'] . '</td>
+			<td class="accountBalance">' . $pt ['payeeAmount'] . '</td>
+		</tr>';
+}
 ?>
 					</tbody>
 				</table>

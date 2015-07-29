@@ -11,9 +11,46 @@ class PaymentlistController {
 	
 	public function display()
 	{
-		if(isset($_POST['payPaymentList'])){
-			$_SESSION['billPaymentList'] = 'selected="selected"';
-			unset($_POST['payPaymentList']);
+		if(isset($_POST['paymentType'])){
+			$paymentType = $_POST['paymentType'];
+			if($_POST['paymentType'] == 'All Payment Types'){
+				$_SESSION['allPaymentList'] = 'selected = "selected"';
+				unset($_SESSION['billPaymentList']);
+				unset($_SESSION['fundsTransferPaymentList']);
+				unset($_SESSION['billPayment']);
+				unset($_SESSION['fundsTransferPayment']);
+				unset($_POST['paymentType']);
+			} elseif($_POST['paymentType'] == 'Bill Payment'){
+				unset($_SESSION['allPaymentList']);
+				$_SESSION['billPaymentList'] = 'selected = "selected"';
+				unset($_SESSION['fundsTransferPaymentList']);
+				unset($_POST['paymentType']);
+				unset($_SESSION['billPayment']);
+				unset($_SESSION['fundsTransferPayment']);
+			} elseif($_POST['paymentType'] == 'Funds Transfer'){
+				unset($_SESSION['allPaymentList']);
+				unset($_SESSION['billPaymentList']);
+				$_SESSION['fundsTransferPaymentList'] = 'selected = "selected"';
+				unset($_POST['paymentType']);
+				unset($_SESSION['billPayment']);
+				unset($_SESSION['fundsTransferPayment']);
+			}
+		} elseif(isset($_SESSION['billPayment'])){
+			unset($_SESSION['allPaymentList']);
+			$_SESSION['billPaymentList'] = 'selected = "selected"';
+			unset($_SESSION['fundsTransferPaymentList']);
+			unset($_SESSION['fundsTransferPayment']);
+		} elseif(isset($_SESSION['fundsTransferPayment'])){
+			unset($_SESSION['allPaymentList']);
+			unset($_SESSION['billPaymentList']);
+			$_SESSION['fundsTransferPaymentList'] = 'selected = "selected"';
+			unset($_SESSION['billPayment']);
+		} else {
+			$_SESSION['allPaymentList'] = 'selected = "selected"';
+			unset($_SESSION['billPaymentList']);
+			unset($_SESSION['fundsTransferPaymentList']);
+			unset($_SESSION['billPayment']);
+			unset($_SESSION['fundsTransferPayment']);
 		}
 		
 		$paymentlist = new Paymentlist();
@@ -27,13 +64,6 @@ class PaymentlistController {
 				
 			$accountID = $_POST['account'];
 			unset($_POST['account']);
-				
-			if(isset($_POST['paymentType'])){
-				$paymentType = $_POST['paymentType'];
-				unset($_POST['paymentType']);
-			} else {
-				$paymentType = null;
-			}
 			
 			if(isset($_POST['payees'])){
 				$payeeID = $_POST['payees'];
