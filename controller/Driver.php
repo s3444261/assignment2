@@ -172,6 +172,10 @@ class Driver {
 				$transferack = new TransferackController ();
 				$transferack->display ();
 				break;
+			case 'Payee-Add' :
+				$payeeadd = new PayeeaddController ();
+				$payeeadd->display ();
+				break;
 			case 'Login' :
 				$login = new LoginController ();
 				$login->login ();

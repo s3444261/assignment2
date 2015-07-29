@@ -11,6 +11,15 @@ class TransferController {
 	
 	public function display()
 	{
+		if(isset($_POST['addPayee'])){
+			// Create Payee Object
+			$_POST['addPayeeAccountName'];
+			$_POST['addPayeeAccountNickname'];
+			$_POST['addPayeeAccountBSB'];
+			$_POST['addPayeeAccountNumber'];
+			// Insert into database
+		}
+		
 		$transfer= new Transfer();
 		$transfer->init();
 		
