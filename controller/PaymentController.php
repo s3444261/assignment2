@@ -11,6 +11,15 @@ class PaymentController {
 	
 	public function display()
 	{
+		if(isset($_POST['addBiller'])){
+			// Create Biller Object
+			$_POST['addBillerName'];
+			$_POST['addBillerNickname'];
+			$_POST['addBillerCode'];
+			$_POST['addBillerCustomerRefNumber'];
+			// Insert into database
+		}
+		
 		$payment = new Payment();
 		$payment->init();
 		

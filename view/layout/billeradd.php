@@ -8,21 +8,21 @@
 <div class="row">
 	<div
 		class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1 details padding20">
-		<form class="form-inline" action="">
+		<form class="form-inline" method="post" action="New-Bill-Payment">
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Biller Code:</div>
-				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><input type="text" class="form-control" id="billercode"
+				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><input type="text" class="form-control" name="addBillerCode" id="addBillerCode"
 						placeholder="Biller Code"></div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Biller Name:</div>
-				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><input type="text" class="form-control" id="billername"
+				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><input type="text" class="form-control" name="addBillerName" id="addBillerName"
 						placeholder="Biller Name"></div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Biller Nickname:</div>
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-					<input type="text" class="form-control" id="nickname"
+					<input type="text" class="form-control" name="addBillerNickname" id="addBillerNickname"
 						placeholder="Biller Nickname">
 				</div>
 			</div>
@@ -30,14 +30,14 @@
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Customer Reference
 					No:</div>
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-					<input type="text" class="form-control" id="custref"
+					<input type="text" class="form-control" name="addBillerCustomerRefNumber" id="addBillerCustomerRefNumber"
 						placeholder="Customer Reference No">
 				</div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-12 textRight">
 					<a href="New-Bill-Payment" class="btn btn-primary" role="button">Cancel</a>
-					<button type="submit" class="btn btn-primary">Add</button>
+					<button type="submit" name="addBiller" class="btn btn-primary">Add</button>
 				</div>
 			</div>
 		</form>
