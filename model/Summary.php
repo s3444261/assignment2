@@ -26,21 +26,24 @@ class Summary {
 		
 		$results = array();
 		
-		$results[] = array('account' => 'Kinkead Family Trust',
+		$results[] = array('accountID' => '1',
+				'account' => 'Kinkead Family Trust',
 				'currentBalance' => '58.47 CR',
 				'availableBalance' => '58.47',
 				'bsb' => '083-016',
 				'accountNo' => '87-456-8734'
 		);
 		
-		$results[] = array('account' => 'Kinkead Murphy Unit Trust',
+		$results[] = array('accountID' => '2',
+				'account' => 'Kinkead Murphy Unit Trust',
 				'currentBalance' => '48183.10 CR',
 				'availableBalance' => '48183.10',
 				'bsb' => '083-016',
 				'accountNo' => '87-456-8874'
 		);
 		
-		$results[] = array('account' => 'Kinkead Super Fund',
+		$results[] = array('accountID' => '3',
+				'account' => 'Kinkead Super Fund',
 				'currentBalance' => '14483.10 CR',
 				'availableBalance' => '14483.10',
 				'bsb' => '083-016',

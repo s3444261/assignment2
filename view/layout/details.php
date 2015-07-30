@@ -25,7 +25,7 @@ if (isset ( $_SESSION ['accounts'] )) {
 ?>
 						</select>
 					</div>
-					<button type="submit" class="btn btn-primary">View Transactions</button>
+					<button type="submit" class="btn btn-primary">View Account Details</button>
 				</form>
 			</div>
 		</div>
