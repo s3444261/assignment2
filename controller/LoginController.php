@@ -7,30 +7,29 @@
  * CPT375 Web Database Applications
  * 2015 - Study Period 2
  */
-include 'model/Login.php';
 
 class LoginController {
 	
 	public function login(){
-		$login = new Login();
-		$login->fabid = $_POST['fabid'];
-		unset($_POST['fabid']);
-		$login->password = $_POST['password'];
-		unset($_POST['password']);
-		if($login->login()){
-			header('Location: Account-Summary');
-		} else {
-			header('Location: Home');
+		if(isset($_POST['fabid']) && isset($_POST['password'])){
+			$user = new Users();
+			$user->user = $_POST['fabid'];
+			$user->password = $_POST['password'];
+			unset($_POST['fabid']);
+			unset($_POST['password']);
+			$user->login();
+			if(isset($_SESSION['loggedin'])){
+				header('Location: Account-Summary');
+			} else {
+				header('Location: Home');
+			}
 		}
 	}
 	
 	public function logout(){
-		$logout = new Login();
-		if($logout->logout()){
-			header('Location: Home');
-		} else {
-			header('Location: Account-Summary');
-		}
+		$user = new Users();
+		$user->logout();
+		header('Location: Home');
 	}
 }
 ?>

@@ -98,13 +98,32 @@ class Driver {
 				$summary = new SummaryController ();
 				$summary->display ();
 				break;
+			case 'Transaction-History-' :
+				$_SESSION ['selectedAccount' . $id] = 'selected="selected"';
+				$pos = strrpos($_SERVER ['HTTP_REFERER'], '/');
+				$pos = strlen($_SERVER ['HTTP_REFERER']) - $pos;
+				header("Location: " . substr($_SERVER ['HTTP_REFERER'], 0, -$pos + 1) . "Transaction-History");
+				break;
 			case 'Transaction-History' :
 				$history = new HistoryController ();
 				$history->display ();
 				break;
+			case 'Account-Details-' :
+				$_SESSION ['detSelectedAccount' . $id] = 'selected="selected"';
+				$pos = strrpos($_SERVER ['HTTP_REFERER'], '/');
+				$pos = strlen($_SERVER ['HTTP_REFERER']) - $pos;
+				header("Location: " . substr($_SERVER ['HTTP_REFERER'], 0, -$pos + 1) . "Account-Details");
+				break;
 			case 'Account-Details' :
 				$details = new DetailsController ();
 				$details->display ();
+				break;
+			case 'New-Bill-Payment-' :
+				$payment = new Paymentamt();
+				$payment->setAccountSelected($id);
+				$pos = strrpos($_SERVER ['HTTP_REFERER'], '/');
+				$pos = strlen($_SERVER ['HTTP_REFERER']) - $pos;
+				header("Location: " . substr($_SERVER ['HTTP_REFERER'], 0, -$pos + 1) . "New-Bill-Payment");
 				break;
 			case 'New-Bill-Payment' :
 				$payment = new PaymentController ();
@@ -181,6 +200,13 @@ class Driver {
 			case 'Biller-Delete' :
 				$billerdelete = new BillerdeleteController ();
 				$billerdelete->display ();
+				break;
+			case 'New-Funds-Transfer-' :
+				$transfer = new CheckTransfer();
+				$transfer->setAccountSelected($id);
+				$pos = strrpos($_SERVER ['HTTP_REFERER'], '/');
+				$pos = strlen($_SERVER ['HTTP_REFERER']) - $pos;
+				header("Location: " . substr($_SERVER ['HTTP_REFERER'], 0, -$pos + 1) . "New-Funds-Transfer");
 				break;
 			case 'New-Funds-Transfer' :
 				$transfer = new TransferController ();
