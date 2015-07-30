@@ -58,6 +58,9 @@
 						<li><a href="Funds-Transfer-Payee-List">Payee List</a></li>
 					</ul></li>
 			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="createdb.php">Create DB</a></li>
+			</ul>
 <?php
 if ($_SESSION ['loggedin']) {
 	echo '<ul class="nav navbar-nav navbar-right">
