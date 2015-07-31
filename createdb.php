@@ -6,6 +6,10 @@ if(!class_exists('Database')){
 
 $db = Database::getInstance();
 
+$query = "DROP TABLE IF EXISTS `Payees`";
+$stmt = $db->prepare($query);
+$stmt->execute();
+
 $query = "DROP TABLE IF EXISTS `Billers`";
 $stmt = $db->prepare($query);
 $stmt->execute();
@@ -65,6 +69,24 @@ $query = "CREATE TABLE `Billers` (
   PRIMARY KEY (`billerID`),
   KEY `FK_Billers_Users_idx` (`userID`),
   CONSTRAINT `FK_Billers_Users` FOREIGN KEY (`userID`) REFERENCES `Users` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+
+$stmt = $db->prepare($query);
+$stmt->execute();
+
+$query = "CREATE TABLE `Payees` (
+  `payeeID` int(11) NOT NULL AUTO_INCREMENT,
+  `userID` int(11) NOT NULL,
+  `bsb` varchar(10) NOT NULL,
+  `accountNumber` varchar(20) NOT NULL,
+  `accountName` varchar(90) NOT NULL,
+  `accountNickname` varchar(45) NOT NULL,
+  `payeeStatus` varchar(10) NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`payeeID`),
+  KEY `FK_Payees_Users_idx` (`userID`),
+  CONSTRAINT `FK_Payees_Users` FOREIGN KEY (`userID`) REFERENCES `Users` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 
 $stmt = $db->prepare($query);
@@ -168,6 +190,48 @@ $args[] = array('userID' => $userID,
 foreach($args as $arg){
 	$biller = new Billers($arg);
 	$biller->set();
+}
+
+$args = array();
+$args[] = array('userID' => $userID,
+		'bsb' => '261-452',
+		'accountNumber' => '32-455-2133',
+		'accountName' => 'M.Peterson',
+		'accountNickname' => 'Michael Petersons Acct',
+		'payeeStatus' => ''
+);
+$args[] = array('userID' => $userID,
+		'bsb' => '334-544',
+		'accountNumber' => '98-332-3454',
+		'accountName' => 'L.Johnson',
+		'accountNickname' => 'Lynda Johnsons Acct',
+		'payeeStatus' => ''
+);
+$args[] = array('userID' => $userID,
+		'bsb' => '243-987',
+		'accountNumber' => '31-354-9987',
+		'accountName' => 'B.Murphy',
+		'accountNickname' => 'Brett Murphys Acct',
+		'payeeStatus' => ''
+);
+$args[] = array('userID' => $userID,
+		'bsb' => '276-873',
+		'accountNumber' => '89-987-2765',
+		'accountName' => 'D.A. Ingles',
+		'accountNickname' => 'Darrn Ingles Acct',
+		'payeeStatus' => ''
+);
+$args[] = array('userID' => $userID,
+		'bsb' => '365-986',
+		'accountNumber' => '23-354-8954',
+		'accountName' => 'P.Jones',
+		'accountNickname' => 'Paul Jones Acct',
+		'payeeStatus' => ''
+);
+
+foreach($args as $arg){
+	$payee = new Payees($arg);
+	$payee->set();
 }
 
 $pos = strrpos($_SERVER ['HTTP_REFERER'], '/');

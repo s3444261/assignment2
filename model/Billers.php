@@ -61,11 +61,13 @@ class Billers
     	 
     	$query = "SELECT *
     				FROM Billers
-    				WHERE userID = :userID";
+    				WHERE userID = :userID
+    				AND billerStatus != :billerStatus";
     	
     	$db = Database::getInstance();
     	$stmt = $db->prepare($query);
     	$stmt->bindParam(':userID', $this->_userID);
+    	$stmt->bindParam(':billerStatus', 'deleted');
     	$stmt->execute();
     	$billers = array();
     	
