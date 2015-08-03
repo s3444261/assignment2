@@ -11,61 +11,47 @@
 
 class Summary {
 	
-	// Attributes.
-	private static $_instance;
+	public function getAccounts(){
+		
+		$accounts = new Accounts(); 
+		$accounts->userID = $_SESSION['userID'];
+		return $accounts->getAccounts();
+	}
 	
-	// Singleton Pattern.
-	public static function getInstance() {
-		if (! isset ( self::$_instance )) {
-			self::$_instance = new self ();
+	public function getCreditBalance(){
+		$accounts = new Accounts(); 
+		$accounts->userID = $_SESSION['userID'];
+		$cb = number_format($accounts->getCreditBalance(), 2);
+		if($cb >= 0){
+			$cb = $cb . ' CR';
+		} else {
+			$cb = $cb . ' DR';
 		}
-		return self::$_instance;
+		return $cb;
 	}
 	
-	public function accounts(){
-		
-		$results = array();
-		
-		$results[] = array('accountID' => '1',
-				'account' => 'Kinkead Family Trust',
-				'currentBalance' => '58.47 CR',
-				'availableBalance' => '58.47',
-				'bsb' => '083-016',
-				'accountNo' => '87-456-8734'
-		);
-		
-		$results[] = array('accountID' => '2',
-				'account' => 'Kinkead Murphy Unit Trust',
-				'currentBalance' => '48183.10 CR',
-				'availableBalance' => '48183.10',
-				'bsb' => '083-016',
-				'accountNo' => '87-456-8874'
-		);
-		
-		$results[] = array('accountID' => '3',
-				'account' => 'Kinkead Super Fund',
-				'currentBalance' => '14483.10 CR',
-				'availableBalance' => '14483.10',
-				'bsb' => '083-016',
-				'accountNo' => '87-456-8721'
-		);
-		
-		return $results;
+	public function getDebitBalance(){
+		$accounts = new Accounts(); 
+		$accounts->userID = $_SESSION['userID'];
+		$db = number_format($accounts->getDebitBalance(), 2);
+		if($db >= 0){
+			$db = $db . ' CR';
+		} else {
+			$db = $db . ' DR';
+		}
+		return $db;
 	}
 	
-	public function credit(){
-		$credit = '68768.10 CR';
-		return $credit;
-	}
-	
-	public function debit(){
-		$debit = '0.00 DR';
-		return $debit;
-	}
-	
-	public function net(){
-		$net = '68768.10 CR';
-		return $net;
+	public function getNetBalance(){
+		$accounts = new Accounts(); 
+		$accounts->userID = $_SESSION['userID'];
+		$nb = number_format($accounts->getNetBalance(), 2);
+		if($nb >= 0){
+			$nb = $nb . ' CR';
+		} else {
+			$nb = $nb . ' DR';
+		}
+		return $nb;
 	}
 }
 ?>

@@ -20,16 +20,22 @@ $driver = Driver::getInstance ();
 						<tbody>
 <?php
 foreach ( $driver->summary () as $account ) {
+	
+	if($account ['currentBalance'] >= 0){
+		$sign = ' . CR';
+	} else {
+		$sign = ' . DR';
+	}
 	echo '<tr>
             <th><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span></th>
-            <td><table><tr><td class="accountName">' . $account ['account'] . '</td></tr>
-            <tr><td class="accountDetails">BSB: ' . $account ['bsb'] . ' Acct No: ' . $account ['accountNo'] . '</td></tr>
+            <td><table><tr><td class="accountName">' . $account ['accountName'] . '</td></tr>
+            <tr><td class="accountDetails">BSB: ' . $account ['bsb'] . ' Acct No: ' . $account ['accountNumber'] . '</td></tr>
             <tr><td class="accountDetails"><a href="Transaction-History/' . $account ['accountID'] . '">Transactions</a> | 
             <a href="New-Bill-Payment/' . $account ['accountID'] . '">Pay Bill</a> | 
             <a href="New-Funds-Transfer/' . $account ['accountID'] . '">Transfer Funds</a> | 
             <a href="Account-Details/' . $account ['accountID'] . '">Account Details</a></td></tr></table></td>
-            <td class="accountBalance">' . $account ['currentBalance'] . '</td>
-            <td class="accountBalance">' . $account ['availableBalance'] . '</td>
+            <td class="accountBalance">' . number_format($account ['currentBalance'], 2) . $sign . '</td>
+            <td class="accountBalance">' . number_format($account ['availableBalance'], 2) . '</td>
           </tr>';
 }
 

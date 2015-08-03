@@ -6,6 +6,10 @@ if(!class_exists('Database')){
 
 $db = Database::getInstance();
 
+$query = "DROP TABLE IF EXISTS `Transactions`";
+$stmt = $db->prepare($query);
+$stmt->execute();
+
 $query = "DROP TABLE IF EXISTS `Payees`";
 $stmt = $db->prepare($query);
 $stmt->execute();
@@ -46,6 +50,8 @@ $query = "CREATE TABLE `Accounts` (
   `accountNickname` varchar(45) NOT NULL,
   `productName` varchar(45) NOT NULL,
   `recordedLimit` decimal(10,2) signed NOT NULL,
+  `openDate` datetime NOT NULL,
+  `openBalance` decimal(10,2) signed NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`accountID`),
@@ -92,6 +98,25 @@ $query = "CREATE TABLE `Payees` (
 $stmt = $db->prepare($query);
 $stmt->execute();
 
+$query = "CREATE TABLE `Transactions` (
+  `transactionID` int(11) NOT NULL AUTO_INCREMENT,
+  `accountID` int(11) NOT NULL,
+  `transactionDate` datetime NOT NULL,
+  `transactionDescription` varchar(90) NULL,
+  `transactee` varchar(90) NULL,
+  `transactionStatus` varchar(10) NULL,
+  `debits` decimal(10,2) unsigned NULL,
+  `credits` decimal(10,2) unsigned NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`transactionID`),
+  KEY `FK_Transactions_Accounts_idx` (`accountID`),
+  CONSTRAINT `FK_Transactions_Accounts` FOREIGN KEY (`accountID`) REFERENCES `Accounts` (`accountID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+
+$stmt = $db->prepare($query);
+$stmt->execute();
+
 
 $user = new Users();
 $user->user = 123456;
@@ -106,7 +131,9 @@ $args[] = array('userID' => $userID,
 		'accountName' => 'G.Kinkead Savings Account',
 		'accountNickname' => 'Savings Acct',
 		'productName' => 'Savings Account',
-		'recordedLimit' => '0.00'
+		'recordedLimit' => '0.00',
+		'openDate' => '2011-07-01',
+		'openBalance' => '1242.23'
 );
 $args[] = array('userID' => $userID,
 		'bsb' => '083-445',
@@ -114,7 +141,9 @@ $args[] = array('userID' => $userID,
 		'accountName' => 'G.Kinkead & M.Kinkead Overdraft Account',
 		'accountNickname' => 'Loan Acct',
 		'productName' => 'Overdraft Account',
-		'recordedLimit' => '-5000'
+		'recordedLimit' => '-5000',
+		'openDate' => '2011-07-01',
+		'openBalance' => '2021.24'
 );
 $args[] = array('userID' => $userID,
 		'bsb' => '083-445',
@@ -122,10 +151,12 @@ $args[] = array('userID' => $userID,
 		'accountName' => 'Kinkead Family Trust Account',
 		'accountNickname' => 'Family Trust',
 		'productName' => 'Investment Account',
-		'recordedLimit' => '0.00'
+		'recordedLimit' => '0.00',
+		'openDate' => '2011-07-01',
+		'openBalance' => '4487.14'
 );
 foreach($args as $arg){
-	$account = new Accounts($arg);
+	$account = new Account($arg);
 	$account->set();
 }
 
@@ -186,6 +217,13 @@ $args[] = array('userID' => $userID,
 		'customerReference' => '8854289491',
 		'billerStatus' => ''
 );
+$args[] = array('userID' => $userID,
+		'billerCode' => '254865',
+		'billerName' => 'NELSON ALEXANDER',
+		'billerNickname' => 'RENT PAYMENT',
+		'customerReference' => '8547289491',
+		'billerStatus' => ''
+);
 
 foreach($args as $arg){
 	$biller = new Billers($arg);
@@ -234,80 +272,118 @@ foreach($args as $arg){
 	$payee->set();
 }
 
+date_default_timezone_set('Australia/Melbourne');
+$startDate = '2011-07-01';
+$currentDate = $startDate;
+$oneDay = new DateInterval('P1D');
+
+while(strtotime($currentDate) < time()){
+	$currentDate = new DateTime($currentDate);
+	$currentDate->add($oneDay);
+	$currentDate = $currentDate->format('Y-m-d');
+	$d = explode('-', $currentDate);
+	
+	if($d[2] == '1'){
+		$args = array('transactionDescription' => 'BANK FEES',
+				'transactee' => 'Federal Australia Bank',
+				'debits' => '10.00'
+		);
+		
+		$transaction = new Account();
+		$transaction->accountID = '1';
+		$transaction->accountTransaction($args);
+	}
+	
+	if($d[2] == '5' && $d[1]%2 == 0){
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'Ref: 5485236485',
+				'transactee' => 'ORIGIN ENERGY',
+				'debits' => '624.26'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '1';
+		$transaction->accountTransaction($args);
+	}
+	
+	if($d[2] == '5' && $d[1]%2 == 1){
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'Ref: 5485236485',
+				'transactee' => 'CITY WEST WATER',
+				'debits' => '132.57'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '1';
+		$transaction->accountTransaction($args);
+	}
+	
+	if($d[2] == '15'){
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'Salary',
+				'transactee' => 'BigShot Software Pty Ltd',
+				'credits' => '6575.19'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '1';
+		$transaction->accountTransaction($args);
+	}
+	
+	if($d[2] == '17'){
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'ATM: Johnston Street, Collingwood',
+				'transactee' => 'FAB',
+				'debits' => '200.00'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '1';
+		$transaction->accountTransaction($args);
+	}
+	
+	if($d[2] == '23'){
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'Rent: 53 Johnston Street, Collingwood',
+				'transactee' => 'NELSON ALEXANDER',
+				'debits' => '1857.24'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '1';
+		$transaction->accountTransaction($args);
+	}
+	
+	if($d[0] == '3' && $d[2] == '24'){
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'Cust Ref: 5654289374',
+				'transactee' => 'VIC ROADS',
+				'debits' => '542.35'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '1';
+		$transaction->accountTransaction($args);
+	}
+	
+	if($d[1] == '9' && $d[2] == '24'){
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'Cust Ref: 8854289491',
+				'transactee' => 'VIC ROADS',
+				'debits' => '496.24'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '1';
+		$transaction->accountTransaction($args);
+	}
+}
+
+
 $pos = strrpos($_SERVER ['HTTP_REFERER'], '/');
 $pos = strlen($_SERVER ['HTTP_REFERER']) - $pos;
 header("Location: " . substr($_SERVER ['HTTP_REFERER'], 0, -$pos + 1) . "Home");
 
-/*
-$query = "CREATE TABLE `Contacts` (
-  `contactID` int(11) NOT NULL AUTO_INCREMENT,
-  `billerStatus` varchar(10) DEFAULT NULL,
-  `company` varchar(90) DEFAULT NULL,
-  `contactName` varchar(45) DEFAULT NULL,
-  `address` varchar(300) DEFAULT NULL,
-  `city` varchar(45) DEFAULT NULL,
-  `state` varchar(45) DEFAULT NULL,
-  `postcode` varchar(45) DEFAULT NULL,
-  `country` varchar(45) DEFAULT NULL,
-  `phone` varchar(45) DEFAULT NULL,
-  `altPhone` varchar(45) DEFAULT NULL,
-  `fax` varchar(45) DEFAULT NULL,
-  `email` varchar(60) DEFAULT NULL,
-  `altEmail` varchar(60) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`contactID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 
-$stmt = $db->prepare($query);
-$stmt->execute();
-
-$query = "CREATE TABLE `Customers` (
-  `customerID` int(11) NOT NULL AUTO_INCREMENT,
-  `billerStatus` varchar(45) NOT NULL,
-  `rating` int(11),
-  `autoQuote` varchar(3) NOT NULL,
-  `contactID` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`customerID`),
-  KEY `FK_Customers_Contacts_idx` (`contactID`),
-  CONSTRAINT `FK_Customers_Contacts` FOREIGN KEY (`contactID`) REFERENCES `Contacts` (`contactID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1";
-
-$stmt = $db->prepare($query);
-$stmt->execute();
-
-$query = "CREATE TABLE `Accounts` (
-  `accountID` int(11) NOT NULL AUTO_INCREMENT,
-  `balance` decimal(10,2) unsigned NOT NULL,
-  `billerStatus` varchar(45) NOT NULL,
-  `startDate` date NOT NULL,
-  `contactID` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`accountID`),
-  KEY `FK_Accounts_Contacts_idx` (`contactID`),
-  CONSTRAINT `FK_Accounts_Contacts` FOREIGN KEY (`contactID`) REFERENCES `Contacts` (`contactID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1";
-
-$stmt = $db->prepare($query);
-$stmt->execute();
-
-$query = "CREATE TABLE `Accountcustomers` (
-  `accountID` int(11) NOT NULL,
-  `customerID` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`accountID`,`customerID`),
-  KEY `FK_Accountcustomers_Account_idx` (`accountID`),
-  KEY `FK_Accountcustomers_Customers_idx` (`customerID`),
-  CONSTRAINT `FK_Accountcustomers_Accounts` FOREIGN KEY (`accountID`) REFERENCES `Accounts` (`accountID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Accountcustomers_Customers` FOREIGN KEY (`customerID`) REFERENCES `Customers` (`customerID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1";
-
-$stmt = $db->prepare($query);
-$stmt->execute();
-*/
 
 ?>

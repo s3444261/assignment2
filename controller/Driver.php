@@ -261,26 +261,22 @@ class Driver {
 	
 	public function summary(){
 		$summary = new SummaryController();
-		$summary->summary = Summary::getInstance();
 		return $summary->summary();
 	}
 	
 	public function summaryCredit(){
 		$summary = new SummaryController();
-		$summary->summary = Summary::getInstance();
-		return $summary->summaryCredit();
+		return $summary->getCreditBalance();
 	}
 	
 	public function summaryDebit(){
 		$summary = new SummaryController();
-		$summary->summary = Summary::getInstance();
-		return $summary->summaryDebit();
+		return $summary->getDebitBalance();
 	}
 	
 	public function summaryNet(){
 		$summary = new SummaryController();
-		$summary->summary = Summary::getInstance();
-		return $summary->summaryNet();
+		return $summary->getNetBalance();
 	}
 }
 ?>

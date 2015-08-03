@@ -10,48 +10,28 @@
 
 class SummaryController {
 	
-	private $_summary;
-	
-	// Constructor.
-	function __construct($args = array()) {
-		foreach ( $args as $key => $val ) {
-			$name = '_' . $key;
-			if (isset ( $this->{$name} )) {
-				$this->{$name} = $val;
-			}
-		}
-	}
-	
-	// Getter.
-	public function &__get($name) {
-		$name = '_' . $name;
-		return $this->$name;
-	}
-	
-	// Setter.
-	public function __set($name, $value) {
-		$name = '_' . $name;
-		$this->$name = $value;
-	}
-	
 	public function display() {
 		include 'view/layout/summary.php';
 	}
 	
 	public function summary(){
-		return $this->_summary->accounts();
+		$summary = new Summary();
+		return $summary->getAccounts();
 	}
 	
-	public function summaryCredit(){
-		return $this->_summary->credit();
+	public function getCreditBalance(){
+		$summary = new Summary();
+		return $summary->getCreditBalance();
 	}
 	
-	public function summaryDebit(){
-		return $this->_summary->debit();
+	public function getDebitBalance(){
+		$summary = new Summary();
+		return $summary->getDebitBalance();
 	}
 	
-	public function summaryNet(){
-		return $this->_summary->net();
+	public function getNetBalance(){
+		$summary = new Summary();
+		return $summary->getNetBalance();
 	}
 }
 ?>
