@@ -33,7 +33,9 @@ $driver = Driver::getInstance ();
 if (isset ( $_SESSION ['accounts'] )) {
 	foreach ( $_SESSION ['accounts'] as $account ) {
 		echo '<option value="' . $account ['accountID'] . '" ';
-		if(isset($_SESSION ['selectedAccount' . $account ['accountID']])){ echo $_SESSION ['selectedAccount' . $account ['accountID']]; }
+		if (isset ( $_SESSION ['selectedAccount' . $account ['accountID']] )) {
+			echo $_SESSION ['selectedAccount' . $account ['accountID']];
+		}
 		echo ' >' . $account ['accountName'] . '</option>';
 	}
 }
@@ -81,7 +83,7 @@ if (isset ( $_SESSION ['accounts'] )) {
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 marginTop20">
-					<button type="submit" class="btn btn-primary">View Transactions</button>
+					<button type="submit" name="viewTransactions" class="btn btn-primary">View Transactions</button>
 				</div>
 			</div>
 		</form>
@@ -90,7 +92,15 @@ if (isset ( $_SESSION ['accounts'] )) {
 				<?php if(isset($_SESSION['period'])){echo $_SESSION['period'];} ?></div>
 		</div>
 		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">Found: <?php if(isset($_SESSION['found'])){ echo $_SESSION['found'];} ?></div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">Found: 
+<?php
+if (isset ( $_SESSION ['found'] )) {
+	echo $_SESSION ['found'] . ' Transaction';
+	if ($_SESSION ['found'] != 1) {
+		echo 's';
+	}
+}
+?></div>
 		</div>
 		<div class="row">
 			<div
@@ -109,19 +119,36 @@ if (isset ( $_SESSION ['accounts'] )) {
 <?php
 if (isset ( $_SESSION ['history'] )) {
 	foreach ( $_SESSION ['history'] as $history ) {
+		$date = date_create ( $history ['transactionDate'] );
+		$date = date_format ( $date, 'd M y' );
+		if ($history ['debits'] != '0.00') {
+			$debits = $history ['debits'] . ' DR';
+		} else {
+			$debits = null;
+		}
+		if ($history ['credits'] != '0.00') {
+			$credits = $history ['credits'] . ' CR';
+		} else {
+			$credits = null;
+		}
+		if ($history ['transactionBalance'] > 0) {
+			$transactionBalance = $history ['transactionBalance'] . ' CR';
+		} else {
+			$transactionBalance = $history ['transactionBalance'] . ' CR';
+		}
 		echo '<tr>
-				<td>' . $history ['date'] . '</td>
+				<td>' . $date . '</td>
 				<td><table>
 						<tr>
-							<td>' . $history ['transaction'] . '</td>
+							<td>' . $history ['transactee'] . '</td>
 						</tr>
 						<tr>
-							<td>' . $history ['type'] . '</td>
+							<td>' . $history ['transactionDescription'] . '</td>
 						</tr>
 					</table></td>
-				<td class="accountBalance">' . $history ['debit'] . '</td>
-				<td class="accountBalance">' . $history ['credit'] . '</td>
-				<td class="accountBalance">' . $history ['balance'] . '</td>
+				<td class="accountBalance">' . $debits . '</td>
+				<td class="accountBalance">' . $credits . '</td>
+				<td class="accountBalance">' . $transactionBalance . '</td>
 			</tr>';
 	}
 }
@@ -132,19 +159,28 @@ if (isset ( $_SESSION ['history'] )) {
 		</div>
 		<div class="row topBorder topPadding">
 			<div class="col-xs-3 col-sm-3 col-md-3 historyTotals">Debits</div>
-			<div class="col-xs-3 col-sm-3 col-md-3 textRight"><?php if(isset($_SESSION['historyNet'])){ echo $_SESSION['historyDebit']; } ?></div>
+			<div class="col-xs-3 col-sm-3 col-md-3 textRight"><?php if(isset($_SESSION['historyDebit'])){ echo $_SESSION['historyDebit']; } ?> DR</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-3 col-sm-3 col-md-3 historyTotals">+ Fees</div>
-			<div class="col-xs-3 col-sm-3 col-md-3 textRight"><?php if(isset($_SESSION['historyNet'])){ echo $_SESSION['historyFee']; } ?></div>
+			<div class="col-xs-3 col-sm-3 col-md-3 textRight"><?php if(isset($_SESSION['historyFee'])){ echo $_SESSION['historyFee']; } ?> DR</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-3 col-sm-3 col-md-3 historyTotals">- Credits</div>
-			<div class="col-xs-3 col-sm-3 col-md-3 textRight"><?php if(isset($_SESSION['historyNet'])){ echo $_SESSION['historyCredit']; } ?></div>
+			<div class="col-xs-3 col-sm-3 col-md-3 textRight"><?php if(isset($_SESSION['historyCredit'])){ echo $_SESSION['historyCredit']; } ?> CR</div>
 		</div>
 		<div class="row bottomBorder bottomPadding">
 			<div class="col-xs-3 col-sm-3 col-md-3 historyTotals">= Net Cash Flow</div>
-			<div class="col-xs-3 col-sm-3 col-md-3 textRight"><?php if(isset($_SESSION['historyNet'])){ echo $_SESSION['historyNet']; } ?></div>
+			<div class="col-xs-3 col-sm-3 col-md-3 textRight">
+<?php
+$net = $_SESSION ['historyNet'];
+if ($net >= 0) {
+	$net = $net . ' CR';
+} else {
+	$net = ltrim ($net, '-') . ' DR';
+}
+echo $net;
+?></div>
 		</div>
 		<div class="row topPadding bottomPadding">
 			<div class="col-xs-12 col-sm-12 col-md-12">To view transactions

@@ -14,7 +14,7 @@ class HistoryController {
 	{
 		$history = new History();
 		
-		if(isset($_POST['account'])){
+		if(isset($_POST['viewTransactions'])){
 			$history->unsetLast();
 			
 			$accountID = $_POST['account'];

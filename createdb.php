@@ -284,7 +284,8 @@ while(strtotime($currentDate) < time()){
 	$d = explode('-', $currentDate);
 	
 	if($d[2] == '1'){
-		$args = array('transactionDescription' => 'BANK FEES',
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'BANK FEES',
 				'transactee' => 'Federal Australia Bank',
 				'debits' => '10.00'
 		);

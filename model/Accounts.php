@@ -65,6 +65,37 @@ class Accounts
     	return $accounts;
     }
     
+    public function getFirstAccount(){
+    
+    	$query = "SELECT *
+					FROM Accounts
+					WHERE userID = :userID
+					ORDER BY accountID ASC
+					LIMIT 0,1";
+    	 
+    	$db = Database::getInstance();
+    	$stmt = $db->prepare($query);
+    	$stmt->bindParam(':userID', $this->_userID);
+    	$stmt->execute();
+    	$accounts = array();
+    	 
+    	$row = $stmt->fetch(PDO::FETCH_ASSOC);
+    		 
+    	$account = array('accountID' => $row['accountID'],
+    				'userID' => $row['userID'],
+    				'bsb' => $row['bsb'],
+    				'accountNumber' => $row['accountNumber'],
+    				'accountName' => $row['accountName'],
+    				'accountNickname' => $row['accountNickname'],
+    				'productName' => $row['productName'],
+    				'recordedLimit' => $row['recordedLimit'],
+    				'openDate' => $row['openDate'],
+    				'openBalance' => $row['openBalance']
+    	);
+    	 
+    	return $account;
+    }
+    
     public function getCreditBalance(){
     	$creditBalance = null;
     	$accounts = $this->getAccounts(); 
