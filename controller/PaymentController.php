@@ -12,13 +12,26 @@ class PaymentController {
 	public function display()
 	{
 		if(isset($_POST['addBiller'])){
-			// Create Biller Object
-			$_POST['addBillerName'];
-			$_POST['addBillerNickname'];
-			$_POST['addBillerCode'];
-			$_POST['addBillerCustomerRefNumber'];
-			// Insert into database
-		}
+			$biller = new Billers();
+			$biller->userID = $_SESSION['userID'];
+			if(isset($_POST['addBillerName'])){
+				$biller->billerName = $_POST['addBillerName'];
+				unset($_POST['addBillerName']);
+			}
+			if(isset($_POST['addBillerNickname'])){
+				$biller->billerNickname = $_POST['addBillerNickname'];
+				unset($_POST['addBillerNickname']);
+			}
+			if(isset($_POST['addBillerCode'])){
+				$biller->billerCode = $_POST['addBillerCode'];
+				unset($_POST['addBillerCode']);
+			}
+			if(isset($_POST['addBillerCustomerRefNumber'])){
+				$biller->customerReference = $_POST['addBillerCustomerRefNumber'];
+				unset($_POST['addBillerCustomerRefNumber']);
+			}
+			$biller->set(); 
+		} 
 		
 		$payment = new Payment();
 		$payment->init();

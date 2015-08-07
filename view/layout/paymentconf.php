@@ -22,9 +22,16 @@
 					<div class="conf col-xs-3 col-sm-3 col-md-2 col-lg-2">Customer Ref:</div>
 					<div class="conf col-xs-9 col-sm-9 col-md-10 col-lg-10"><?php if(isset($_SESSION['payCustomerRef'])){ echo $_SESSION['payCustomerRef']; } ?></div>
 					<div class="conf col-xs-3 col-sm-3 col-md-2 col-lg-2">Amount:</div>
-					<div class="conf col-xs-9 col-sm-9 col-md-10 col-lg-10"><?php if(isset($_SESSION['payAmount'])){ echo $_SESSION['payAmount']; } ?></div>
+					<div class="conf col-xs-9 col-sm-9 col-md-10 col-lg-10"><?php if(isset($_SESSION['payAmount'])){ echo '$' . number_format($_SESSION['payAmount'], 2); } ?></div>
 					<div class="conf col-xs-3 col-sm-3 col-md-2 col-lg-2">Payment Date:</div>
-					<div class="conf col-xs-9 col-sm-9 col-md-10 col-lg-10"><?php if(isset($_SESSION['payDate'])){ echo $_SESSION['payDate']; } ?></div>
+					<div class="conf col-xs-9 col-sm-9 col-md-10 col-lg-10">
+					<?php 
+					if(isset($_SESSION['payDate'])){ 
+						$date = date_create ( $_SESSION['payDate'] );
+						$date = date_format ( $date, 'j F Y' );
+						echo $date; 
+					} 
+					?></div>
 					<div class="conf col-xs-12 col-sm-12 col-md-12 col-lg-12 note">This biller is FAB authorised.</div>
 					<div class="conf col-xs-12 col-sm-12 col-md-12 col-lg-12 bold">Enter your Internet Banking Password.</div>
 					<div class="conf col-xs-3 col-sm-3 col-md-2 col-lg-2">FAB ID:</div>

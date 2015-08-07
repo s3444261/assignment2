@@ -41,12 +41,11 @@ class Billers
     	$query = "SELECT *
     				FROM Billers
     				WHERE billerID = :billerID
-    				AND billerStatus != :billerStatus";
+    				AND billerStatus != 'deleted'";
     	
     	$db = Database::getInstance();
     	$stmt = $db->prepare($query);
     	$stmt->bindParam(':billerID', $this->_billerID);
-    	$stmt->bindParam(':billerStatus', 'deleted');
     	$stmt->execute();
     	$row = $stmt->fetch(PDO::FETCH_ASSOC);
     	$this->_userID = $row['userID'];
@@ -62,18 +61,17 @@ class Billers
     	$query = "SELECT *
     				FROM Billers
     				WHERE userID = :userID
-    				AND billerStatus != :billerStatus";
+    				AND billerStatus != 'deleted'";
     	
     	$db = Database::getInstance();
     	$stmt = $db->prepare($query);
     	$stmt->bindParam(':userID', $this->_userID);
-    	$stmt->bindParam(':billerStatus', 'deleted');
     	$stmt->execute();
     	$billers = array();
     	
     	while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
     	
-    		$biller = array('accountID' => $row['accountID'],
+    		$biller = array('billerID' => $row['billerID'],
     				'userID' => $row['userID'],
     				'billerCode' => $row['billerCode'],
 			    	'billerName' => $row['billerName'],

@@ -32,7 +32,7 @@
 				<div class="hidden-xs col-sm-3 col-md-2 col-lg-2">Customer Ref:</div>
 				<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10"><?php if(isset($_SESSION['payCustomerRef'])){ echo $_SESSION['payCustomerRef']; } ?></div>
 				<div class="hidden-xs col-sm-3 col-md-2 col-lg-2">Amount:</div>
-				<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10"><?php if(isset($_SESSION['payAmount'])){ echo $_SESSION['payAmount']; } ?></div>
+				<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10"><?php if(isset($_SESSION['payAmount'])){ echo '$' . number_format($_SESSION['payAmount'], 2); } ?></div>
 				<div class="hidden-xs col-sm-3 col-md-2 col-lg-2">Payment Date:</div>
 				<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10"><?php if(isset($_SESSION['payDate'])){ echo $_SESSION['payDate']; } ?></div>
 			</div>

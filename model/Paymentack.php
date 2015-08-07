@@ -12,9 +12,11 @@
 class Paymentack {
 	
 	public function init(){
-		$_SESSION['payStatus'] = 'Paid';
-		$_SESSION['payConf'] = 'B38122113';
 		$_SESSION['payCreated'] = date("Y-m-d H:i:s"); 
+		if(isset($_SESSION['payDate'])){
+			$date = date_create ( $_SESSION['payDate'] );
+			$_SESSION['payDate'] = date_format ( $date, 'j F Y' );
+		}
 	}
 }
 ?>

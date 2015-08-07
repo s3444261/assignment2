@@ -162,6 +162,58 @@ class Account
     	
     	return $row['availableBalance'] + $this->_openBalance;
     }
+    
+    public function sufficientFunds()
+    {
+    	if(($this->availableBalance() - $this->_recordedLimit ) >= $_SESSION['payAmount']){
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+    
+    public function processPayment()
+    {
+    	$this->getAccount();
+    	if($this->sufficientFunds()){
+    		$transaction = new Transactions();
+    		$transaction->accountID = $this->_accountID;
+    		$transaction->transactionDate = $_SESSION['payDate'];
+    		$transaction->transactionDescription = 'Customer Ref: ' . $_SESSION['payCustomerRef'];
+    		$transaction->transactee = $_SESSION['payBillerName']; 
+    		if(isset($_SESSION['payDate'])){
+    			$date = date_create ( $_SESSION['payDate'] );
+    			$paymentDate = date_format ( $date, 'zY' );
+    			$paymentDate = intval($paymentDate);
+    			date_default_timezone_set('Australia/Melbourne');
+    			$currentDate = date_create (date('m/d/Y h:i:s a', time()));
+    			$currentDate = date_format ( $currentDate, 'zY' );
+    			$currentDate = intval($currentDate); 
+    			if($paymentDate == $currentDate){
+    				$_SESSION['payStatus'] = 'Paid'; 
+    			} elseif($paymentDate > $currentDate){
+    				$_SESSION['payStatus'] = 'Future Payment';
+    			} else {
+    				return false;
+    			}
+    		}
+    		$transaction->transactionStatus = $_SESSION['payStatus'];
+    		$transaction->debits = $_SESSION['payAmount'];
+    		
+    		$transaction->transactionID = $transaction->set();
+    		if($transaction->transactionID > 0){
+    			$transaction->getTransaction(); 
+    			$conf = 'B' . $paymentDate . $transaction->transactionID;
+    			$_SESSION['payConf'] = $conf;
+    			$_SESSION['payCreated'] = $transaction->transactionDate;
+    			return true;
+    		} else {
+    			return false;
+    		}
+    	} else {
+    		return false;
+    	}
+    }
 	
     // Display Object Contents
     public function printf()

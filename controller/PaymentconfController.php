@@ -15,6 +15,11 @@ class PaymentconfController {
 			
 			unset($_POST['next']);
 			
+			if(isset($_POST['account'])){
+				$_SESSION['payAccountID'] = $_POST['account'];
+				unset($_POST['account']);
+			}
+			
 			if(isset($_POST['amount'])){
 				
 				$_SESSION['payAmount'] = $_POST['amount'];

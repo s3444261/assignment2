@@ -104,7 +104,7 @@ $query = "CREATE TABLE `Transactions` (
   `transactionDate` datetime NOT NULL,
   `transactionDescription` varchar(90) NULL,
   `transactee` varchar(90) NULL,
-  `transactionStatus` varchar(10) NULL,
+  `transactionStatus` varchar(20) NULL,
   `debits` decimal(10,2) unsigned NULL,
   `credits` decimal(10,2) unsigned NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',

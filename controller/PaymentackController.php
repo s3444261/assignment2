@@ -15,19 +15,28 @@ class PaymentackController {
 			
 			if (isset ( $_POST ['password'] )) {
 				
-				if ($_POST ['password'] == 'blah') {
-					unset ( $_POST ['password'] );
-					$paymentack = new Paymentack ();
+				$user = new Users ();
+				$user->userID = $_SESSION ['userID'];
+				$user->password = $_POST ['password'];
+				unset ( $_POST ['password'] );
+				
+				if ($user->confirmPassword ()) {
+					$account = new Account();
+					$account->accountID = $_SESSION['payAccountID'];					
+					if($account->processPayment()){
+						$paymentack = new Paymentack ();
+						$paymentack->init ();
+						include 'view/layout/paymentack.php';
+					} else {
+						$paymentconf = new Paymentconf ();
+						$paymentconf->init ();
+						include 'view/layout/paymentconf.php';
+					}
 					
-					$paymentack->init ();
-					
-					include 'view/layout/paymentack.php';
 				} else {
 					unset ( $_POST ['password'] );
 					$paymentconf = new Paymentconf ();
-					
 					$paymentconf->init ();
-					
 					include 'view/layout/paymentconf.php';
 				}
 			}

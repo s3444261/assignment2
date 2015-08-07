@@ -19,31 +19,14 @@ class Payment {
 			unset($_POST['payNewBillPayment']);
 		}
 		
-		if(!isset($_SESSION['accounts'])){
-			$_SESSION['accounts'] = array();
-			$_SESSION['accounts'][] = array('accountID' => '1',
-					'accountName' => 'Kinkead Family Trust/083-006 45-333-3232 ($45,988.98)'
-			);
-			$_SESSION['accounts'][] = array('accountID' => '2',
-					'accountName' => 'Kinkead Murphy Unit Trust/083-006 45-214-8745 ($5,988.98)'
-			);
-			$_SESSION['accounts'][] = array('accountID' => '3',
-					'accountName' => 'Kinkead Superannuation Fund/083-006 45-546-3298 ($2,438.98)'
-			);
-		}
+		$accounts = new Accounts();
+		$accounts->userID = $_SESSION['userID'];
+		$_SESSION['accounts'] = $accounts->getAccounts();
 		
-		if(!isset($_SESSION['billers'])){
-			$_SESSION['billers'] = array();
-			$_SESSION['billers'][] = array('billerID' => '1',
-					'billerNickname' => 'ASIC'
-			);
-			$_SESSION['billers'][] = array('billerID' => '2',
-					'billerNickname' => 'CITY OF YARRA RATES'
-			);
-			$_SESSION['billers'][] = array('billerID' => '3',
-					'billerNickname' => 'SRO LANDTAX'
-			);
-		}
+		$billers = new Billers();
+		$billers->userID = $_SESSION['userID'];
+		$_SESSION['billers'] = $billers->getBillers();
+		
 	}
 	
 	public function cancelSessions(){

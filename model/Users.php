@@ -90,6 +90,26 @@ class Users
     	}
     }
     
+    public function confirmPassword(){
+    
+    	$this->_password = $this->encryptPassword();
+    	 
+    	$query = "SELECT *
+					FROM Users
+					WHERE userID = :userID";
+    	 
+    	$db = Database::getInstance();
+    	$stmt = $db->prepare($query);
+    	$stmt->bindParam(':userID', $this->_userID);
+    	$stmt->execute();
+    	$row = $stmt->fetch(PDO::FETCH_ASSOC);
+    	if(strcmp($this->_password, $row['password']) == 0){
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+    
 	public function logout(){
 		$_SESSION = array();
 		session_destroy(); 
