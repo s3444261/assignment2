@@ -83,7 +83,8 @@ if (isset ( $_SESSION ['accounts'] )) {
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 marginTop20">
-					<button type="submit" name="viewTransactions" class="btn btn-primary">View Transactions</button>
+					<button type="submit" name="viewTransactions"
+						class="btn btn-primary">View Transactions</button>
 				</div>
 			</div>
 		</form>
@@ -104,6 +105,23 @@ if (isset ( $_SESSION ['found'] )) {
 		</div>
 		<div class="row">
 			<div
+				class=" col-xs-12 col-sm-12 col-md-12 col-lg-12 marginTop20 table-responsive textCentre">
+<?php
+$noGroups = ceil ( $_SESSION ['found'] / 5 );
+$pageNo = 1;
+if ($noGroups > 1) {
+	echo 'Page: ';
+	for($i = 0; $i < $noGroups; $i ++) {
+		echo '<a id="show' . $pageNo . '" href="#">' . $pageNo . ' </a>';
+		$pageNo ++;
+	}
+}
+?>
+			</div>
+		</div>
+
+		<div class="row">
+			<div
 				class=" col-xs-12 col-sm-12 col-md-12 col-lg-12 marginTop20 table-responsive">
 				<table class="table table-striped">
 					<thead>
@@ -118,7 +136,12 @@ if (isset ( $_SESSION ['found'] )) {
 					<tbody>
 <?php
 if (isset ( $_SESSION ['history'] )) {
+	$counter = 1;
+	$displayItems = 5;
+	$group = 1;
+	
 	foreach ( $_SESSION ['history'] as $history ) {
+		
 		$date = date_create ( $history ['transactionDate'] );
 		$date = date_format ( $date, 'd M y' );
 		if ($history ['debits'] != '0.00') {
@@ -136,7 +159,7 @@ if (isset ( $_SESSION ['history'] )) {
 		} else {
 			$transactionBalance = $history ['transactionBalance'] . ' CR';
 		}
-		echo '<tr>
+		echo '<tr class="group' . $group . ' hideRow">
 				<td>' . $date . '</td>
 				<td><table>
 						<tr>
@@ -150,6 +173,10 @@ if (isset ( $_SESSION ['history'] )) {
 				<td class="accountBalance">' . $credits . '</td>
 				<td class="accountBalance">' . $transactionBalance . '</td>
 			</tr>';
+		if ($counter % $displayItems == 0) {
+			$group ++;
+		}
+		$counter ++;
 	}
 }
 ?>
@@ -177,7 +204,7 @@ $net = $_SESSION ['historyNet'];
 if ($net >= 0) {
 	$net = $net . ' CR';
 } else {
-	$net = ltrim ($net, '-') . ' DR';
+	$net = ltrim ( $net, '-' ) . ' DR';
 }
 echo $net;
 ?></div>

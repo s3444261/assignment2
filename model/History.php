@@ -26,6 +26,9 @@ class History {
 		$_SESSION['accountID'] = $firstAccount['accountID'];
 		$this->setAccountSelected($_SESSION['accountID']);
 		
+		$_SESSION['toDate'] = date('Y-m-d');
+		$_SESSION['fromDate'] = date("Y-m-d", strtotime("-1 months"));
+		
 		$transactions = new Transactions();
 		$transactions->accountID = $_SESSION['accountID'];
 		$arr = array('openBalance' => $firstAccount['openBalance']);
@@ -35,8 +38,6 @@ class History {
 		$_SESSION['historyCredit'] = $transactions->getCredits($arr);
 		$_SESSION['historyFee'] = $transactions->getFees($arr);
 		$_SESSION['historyNet'] = $transactions->getNet($arr);
-		$_SESSION['toDate'] = date('Y-m-d');
-		$_SESSION['fromDate'] = date("Y-m-d", strtotime("-1 months"));
 		$_SESSION['period'] = date('d/m/Y', strtotime($_SESSION['fromDate'])) . ' to ' . date('d/m/Y', strtotime($_SESSION['toDate']));
 	}
 	

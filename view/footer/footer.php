@@ -18,5 +18,22 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function(){
+	$(".hideRow").hide();
+    $(".group1").show();
+<?php 
+$noGroups = ceil($_SESSION ['found']/5);
+$pageNo = 1;
+for($i=0; $i<$noGroups; $i++){
+	echo '$("#show' . $pageNo . '").click(function(){
+		$(".hideRow").hide();
+        $(".group' . $pageNo . '").show();
+    });';
+	$pageNo++;
+}
+?>
+});
+</script>
 </body>
 </html>
