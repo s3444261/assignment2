@@ -105,6 +105,7 @@ $query = "CREATE TABLE `Transactions` (
   `transactionDescription` varchar(90) NULL,
   `transactee` varchar(90) NULL,
   `transactionStatus` varchar(20) NULL,
+  `transactionType` varchar(20) NULL,
   `debits` decimal(10,2) unsigned NULL,
   `credits` decimal(10,2) unsigned NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -287,6 +288,7 @@ while(strtotime($currentDate) < time()){
 		$args = array('transactionDate' => $currentDate,
 				'transactionDescription' => 'BANK FEES',
 				'transactee' => 'Federal Australia Bank',
+				'transactionType' => 'Bank',
 				'debits' => '10.00'
 		);
 		
@@ -299,6 +301,8 @@ while(strtotime($currentDate) < time()){
 		$args = array('transactionDate' => $currentDate,
 				'transactionDescription' => 'Ref: 5485236485',
 				'transactee' => 'ORIGIN ENERGY',
+				'transactionType' => 'Biller',
+				'transactionStatus' => 'Paid',
 				'debits' => '624.26'
 		);
 	
@@ -311,6 +315,8 @@ while(strtotime($currentDate) < time()){
 		$args = array('transactionDate' => $currentDate,
 				'transactionDescription' => 'Ref: 5485236485',
 				'transactee' => 'CITY WEST WATER',
+				'transactionType' => 'Biller',
+				'transactionStatus' => 'Paid',
 				'debits' => '132.57'
 		);
 	
@@ -335,6 +341,7 @@ while(strtotime($currentDate) < time()){
 		$args = array('transactionDate' => $currentDate,
 				'transactionDescription' => 'ATM: Johnston Street, Collingwood',
 				'transactee' => 'FAB',
+				'transactionType' => 'Bank',
 				'debits' => '200.00'
 		);
 	
@@ -347,6 +354,8 @@ while(strtotime($currentDate) < time()){
 		$args = array('transactionDate' => $currentDate,
 				'transactionDescription' => 'Rent: 53 Johnston Street, Collingwood',
 				'transactee' => 'NELSON ALEXANDER',
+				'transactionType' => 'Biller',
+				'transactionStatus' => 'Paid',
 				'debits' => '1857.24'
 		);
 	
@@ -359,6 +368,8 @@ while(strtotime($currentDate) < time()){
 		$args = array('transactionDate' => $currentDate,
 				'transactionDescription' => 'Cust Ref: 5654289374',
 				'transactee' => 'VIC ROADS',
+				'transactionType' => 'Biller',
+				'transactionStatus' => 'Paid',
 				'debits' => '542.35'
 		);
 	
@@ -371,6 +382,8 @@ while(strtotime($currentDate) < time()){
 		$args = array('transactionDate' => $currentDate,
 				'transactionDescription' => 'Cust Ref: 8854289491',
 				'transactee' => 'VIC ROADS',
+				'transactionType' => 'Biller',
+				'transactionStatus' => 'Paid',
 				'debits' => '496.24'
 		);
 	

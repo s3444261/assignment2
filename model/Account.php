@@ -185,7 +185,6 @@ class Account
     			$date = date_create ( $_SESSION['payDate'] );
     			$paymentDate = date_format ( $date, 'zY' );
     			$paymentDate = intval($paymentDate);
-    			date_default_timezone_set('Australia/Melbourne');
     			$currentDate = date_create (date('m/d/Y h:i:s a', time()));
     			$currentDate = date_format ( $currentDate, 'zY' );
     			$currentDate = intval($currentDate); 

@@ -62,14 +62,13 @@ class Payees
     	$query = "SELECT *
     				FROM Payees
     				WHERE userID = :userID
-    				AND payeeStatus != :payeeStatus";
+    				AND payeeStatus != 'deleted'";
     	
     	$db = Database::getInstance();
     	$stmt = $db->prepare($query);
     	$stmt->bindParam(':userID', $this->_userID);
-    	$stmt->bindParam(':payeeStatus', 'deleted');
     	$stmt->execute();
-    	$accounts = array();
+    	$payees = array();
     	
     	while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
     	
@@ -85,6 +84,27 @@ class Payees
     	}
     	
     	return $payees;
+    }
+    
+    public function getPayeeIDs(){
+    
+    	$query = "SELECT payeeID
+    				FROM Payees
+    				WHERE userID = :userID
+    				AND payeeStatus != 'deleted'";
+    	 
+    	$db = Database::getInstance();
+    	$stmt = $db->prepare($query);
+    	$stmt->bindParam(':userID', $this->_userID);
+    	$stmt->execute();
+    	$payeeIDs = array();
+    	 
+    	while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+    		 
+    		$payeeIDs[] = $row['payeeID'];
+    	}
+    	 
+    	return $payeeIDs;
     }
     
     public function set(){

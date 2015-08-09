@@ -12,36 +12,30 @@ class Paymentlist {
 		$payment = new Payment ();
 		$payment->cancelSessions ();
 		
-		if (! isset ( $_SESSION ['accounts'] )) {
-			$_SESSION ['accounts'] = array ();
-			$_SESSION ['accounts'] [] = array (
-					'accountID' => '1',
-					'accountName' => 'Kinkead Family Trust/083-006 45-333-3232 ($45,988.98)' 
-			);
-			$_SESSION ['accounts'] [] = array (
-					'accountID' => '2',
-					'accountName' => 'Kinkead Murphy Unit Trust/083-006 45-214-8745 ($5,988.98)' 
-			);
-			$_SESSION ['accounts'] [] = array (
-					'accountID' => '3',
-					'accountName' => 'Kinkead Superannuation Fund/083-006 45-546-3298 ($2,438.98)' 
-			);
-		}
+		$accounts = new Accounts();
+		$accounts->userID = $_SESSION['userID'];
 		
-		if (! isset ( $_SESSION ['payees'] )) {
-			$_SESSION ['payees'] = array ();
-			$_SESSION ['payees'] [] = array (
-					'payeeID' => '1',
-					'payeeNickname' => 'CITY WEST WATER' 
-			);
-			$_SESSION ['payees'] [] = array (
-					'payeeID' => '2',
-					'payeeNickname' => 'GLEN EIRA CITY COUNCIL' 
-			);
-			$_SESSION ['payees'] [] = array (
-					'payeeID' => '3',
-					'payeeNickname' => 'VICROADS' 
-			);
+		$_SESSION['accounts'] = $accounts->getAccounts();
+		
+		$firstAccount = $accounts->getFirstAccount(); 
+		$_SESSION['accountID'] = $firstAccount['accountID'];
+		$this->setAccountSelected($_SESSION['accountID']);
+		
+		$billerPayees = new BillerPayees();
+		$billerPayees->userID = $_SESSION['userID'];
+		
+		if(isset($_SESSION['billPayment'])){
+			unset ( $_SESSION ['allPaymentList'] );
+			$_SESSION ['billPaymentList'] = 'selected="selected"';
+			$_SESSION ['payees'] = $billerPayees->getBillers();
+			unset ( $_SESSION ['fundsTransferPaymentList'] );
+			unset($_SESSION['fundsTransferPayment']);
+		} elseif(isset($_SESSION['fundsTransferPayment'])){
+			unset ( $_SESSION ['allPaymentList'] );
+			unset ( $_SESSION ['billPaymentList'] );
+			unset($_SESSION['billPayment']);
+			$_SESSION ['fundsTransferPaymentList'] = 'selected="selected"';
+			$_SESSION ['payees'] = $billerPayees->getPayees();
 		}
 		
 		if (isset ( $_SESSION ['billPaymentList'] )) {
@@ -52,6 +46,7 @@ class Paymentlist {
 			$this->getAllPayments ();
 		}
 	}
+	
 	public function unsetLast() {
 		unset ( $_SESSION ['accounts'] );
 		unset ( $_SESSION ['payeeTransactions'] );
@@ -63,93 +58,59 @@ class Paymentlist {
 		unset ( $_SESSION ['payListFromDate'] );
 		unset ( $_SESSION ['payListToDate'] );
 	}
+	
 	public function clearFilter() {
-		$payeeIDs = array (
-				1,
-				2,
-				3 
-		);
+		$payees = new Payees();
+		$payeeIDs = $payees->getPayeeIDs();
 		
 		foreach ( $payeeIDs as $pID ) {
 			unset ( $_SESSION ['payListSelectedPayee' . $pID] );
 		}
-		unset ( $_SESSION ['paidSelected'] );
-		unset ( $_SESSION ['pendingSelected'] );
+		unset ( $_SESSION ['payListName'] );
+		unset ( $_SESSION ['payListStatus'] );
 		unset ( $_SESSION ['payListFromAmount'] );
 		unset ( $_SESSION ['payListToAmount'] );
 		unset ( $_SESSION ['payListFromDate'] );
 		unset ( $_SESSION ['payListToDate'] );
 	}
+	
 	public function searchResults($search) {
+		$payment = new Payment ();
+		$payment->cancelSessions ();
+		
+		$billerPayees = new BillerPayees();
+		$billerPayees->userID = $_SESSION['userID'];
+		
 		switch ($search ['paymentType']) {
 			case 'All Payment Types' :
 				$_SESSION ['allPaymentList'] = 'selected="selected"';
+				$_SESSION ['payees'] = $billerPayees->getBoth();
 				unset ( $_SESSION ['billPaymentList'] );
 				unset ( $_SESSION ['fundsTransferPaymentList'] );
 				break;
 			case 'Bill Payment' :
 				unset ( $_SESSION ['allPaymentList'] );
 				$_SESSION ['billPaymentList'] = 'selected="selected"';
+				$_SESSION ['payees'] = $billerPayees->getBillers();
 				unset ( $_SESSION ['fundsTransferPaymentList'] );
 				break;
 			case 'Funds Transfer' :
 				unset ( $_SESSION ['allPaymentList'] );
 				unset ( $_SESSION ['billPaymentList'] );
 				$_SESSION ['fundsTransferPaymentList'] = 'selected="selected"';
+				$_SESSION ['payees'] = $billerPayees->getPayees();
 				break;
 		}
 		
-		if (! isset ( $_SESSION ['accounts'] )) {
-			$_SESSION ['accounts'] = array ();
-			$_SESSION ['accounts'] [] = array (
-					'accountID' => '1',
-					'accountName' => 'Kinkead Family Trust/083-006 45-333-3232 ($45,988.98)' 
-			);
-			$_SESSION ['accounts'] [] = array (
-					'accountID' => '2',
-					'accountName' => 'Kinkead Murphy Unit Trust/083-006 45-214-8745 ($5,988.98)' 
-			);
-			$_SESSION ['accounts'] [] = array (
-					'accountID' => '3',
-					'accountName' => 'Kinkead Superannuation Fund/083-006 45-546-3298 ($2,438.98)' 
-			);
-		}
+		$accounts = new Accounts();
+		$accounts->userID = $_SESSION['userID'];
+		$_SESSION['accounts'] = $accounts->getAccounts(); 
 		
 		$_SESSION ['accountID'] = $search ['accountID'];
-		
 		$this->setAccountSelected ( $_SESSION ['accountID'] );
 		
-		if (! isset ( $_SESSION ['payees'] )) {
-			$_SESSION ['payees'] = array ();
-			$_SESSION ['payees'] [] = array (
-					'payeeID' => '1',
-					'payeeNickname' => 'CITY WEST WATER' 
-			);
-			$_SESSION ['payees'] [] = array (
-					'payeeID' => '2',
-					'payeeNickname' => 'GLEN EIRA CITY COUNCIL' 
-			);
-			$_SESSION ['payees'] [] = array (
-					'payeeID' => '3',
-					'payeeNickname' => 'VICROADS' 
-			);
-		}
-		
-		$_SESSION ['payeeID'] = $search ['payeeID'];
-		
-		$this->setPayeeSelected ( $_SESSION ['payeeID'] );
-		
-		switch ($search ['status']) {
-			case 'Paid' :
-				$_SESSION ['paidSelected'] = 'selected="selected"';
-				unset ( $_SESSION ['pendingSelected'] );
-				break;
-			case 'Pending' :
-				unset ( $_SESSION ['paidSelected'] );
-				$_SESSION ['pendingSelected'] = 'selected="selected"';
-				break;
-		}
-		
+		$_SESSION ['payListName'] = $search ['payListName'];
+		$_SESSION ['payListStatus'] = $search ['payListStatus'];
 		$_SESSION ['payListFromAmount'] = $search ['payListFromAmount'];
 		$_SESSION ['payListToAmount'] = $search ['payListToAmount'];
 		$_SESSION ['payListFromDate'] = $search ['payListFromDate'];
@@ -162,201 +123,41 @@ class Paymentlist {
 		} elseif (isset ( $_SESSION ['allPaymentList'] )) {
 			$this->getAllPayments ();
 		}
-	}
-	public function setAccountSelected($accountID) {
-		$accountIDs = array (
-				1,
-				2,
-				3 
-		);
 		
-		foreach ( $accountIDs as $aID ) {
+		
+	}
+	
+	public function setAccountSelected($accountID){
+		$accounts = new Accounts();
+		$accounts->userID = $_SESSION['userID'];
+		$accountIDs = $accounts->getAccountIDs();
+	
+		foreach($accountIDs as $aID){
 			unset ( $_SESSION ['payListSelectedAccount' . $aID] );
 		}
 		$_SESSION ['payListSelectedAccount' . $accountID] = 'selected="selected"';
 	}
-	public function setPayeeSelected($payeeID) {
-		$payeeIDs = array (
-				1,
-				2,
-				3 
-		);
-		
-		foreach ( $payeeIDs as $pID ) {
-			unset ( $_SESSION ['payListSelectedPayee' . $pID] );
-		}
-		$_SESSION ['payListSelectedPayee' . $payeeID] = 'selected="selected"';
-	}
 	
-	// Example Data
 	public function getBillPayments() {
-		$_SESSION ['payeeTransactions'] = array ();
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '13 Jul 15',
-				'payeeType' => 'Bill Payment',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'CITY WEST WATER LIMITED',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '198.48' 
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '29 May 15',
-				'payeeType' => 'Bill Payment',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'YARRA CITY COUNCIL RATES',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '410.00' 
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '26 May 15',
-				'payeeType' => 'Bill Payment',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'STATE REVENUE OFFICE VIC LAND TAX',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '626.81' 
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '22 May 15',
-				'payeeType' => 'Bill Payment',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'RACV INSURANCE PTY LTD',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '159.48' 
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '19 May 15',
-				'payeeType' => 'Bill Payment',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'RACV INSURANCE PTY LTD',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '137.21' 
-		);
+		$payments = new Transactions();
+		$payments->accountID = $_SESSION ['accountID'];
+		$payments->transactionType = 'Biller';
+		$_SESSION ['payeeTransactions'] = $payments->getPayments();
+		$_SESSION['numPayments'] = $payments->countPayments(); 
 	}
 	public function getFundsTransferPayments() {
-		$_SESSION ['payeeTransactions'] = array ();
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '13 Jul 15',
-				'payeeType' => 'Funds Transfer',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'A.C Cortese',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '198.48' 
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '29 May 15',
-				'payeeType' => 'Funds Transfer',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'R.M. Williams',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '410.00' 
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '26 May 15',
-				'payeeType' => 'Funds Transfer',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'W.F. Hamilton',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '626.81' 
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '22 May 15',
-				'payeeType' => 'Funds Transfer',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'P.V. O\'View',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '159.48' 
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '19 May 15',
-				'payeeType' => 'Funds Transfer',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'Dr Carslisle',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '137.21' 
-		);
+		$payments = new Transactions();
+		$payments->accountID = $_SESSION ['accountID'];
+		$payments->transactionType = 'Payee';
+		$_SESSION ['payeeTransactions'] = $payments->getPayments();
+		$_SESSION['numPayments'] = $payments->countPayments();
 	}
 	public function getAllPayments() {
-		$_SESSION ['payeeTransactions'] = array ();
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '13 Jul 15',
-				'payeeType' => 'Bill Payment',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'CITY WEST WATER LIMITED',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '198.48'
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '19 May 15',
-				'payeeType' => 'Funds Transfer',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'Dr Carslisle',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '137.21'
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '29 May 15',
-				'payeeType' => 'Bill Payment',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'YARRA CITY COUNCIL RATES',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '410.00'
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '22 May 15',
-				'payeeType' => 'Funds Transfer',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'P.V. O\'View',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '159.48'
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '26 May 15',
-				'payeeType' => 'Bill Payment',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'STATE REVENUE OFFICE VIC LAND TAX',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '626.81'
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '29 May 15',
-				'payeeType' => 'Funds Transfer',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'R.M. Williams',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '410.00'
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '26 May 15',
-				'payeeType' => 'Funds Transfer',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'W.F. Hamilton',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '626.81'
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '22 May 15',
-				'payeeType' => 'Bill Payment',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'RACV INSURANCE PTY LTD',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '159.48'
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '19 May 15',
-				'payeeType' => 'Bill Payment',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'RACV INSURANCE PTY LTD',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '137.21'
-		);
-		$_SESSION ['payeeTransactions'] [] = array (
-				'payeeDate' => '13 Jul 15',
-				'payeeType' => 'Funds Transfer',
-				'payeePayFrom' => 'Kinkead Family Trust/083-006 45-333-3232',
-				'payeePayTo' => 'A.C Cortese',
-				'payeeStatus' => 'Paid',
-				'payeeAmount' => '198.48'
-		);
+		$payments = new Transactions();
+		$payments->accountID = $_SESSION ['accountID'];
+		$payments->transactionType = 'Both';
+		$_SESSION ['payeeTransactions'] = $payments->getPayments();
+		$_SESSION['numPayments'] = $payments->countPayments();
 	}
 }
 ?>

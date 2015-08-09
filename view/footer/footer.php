@@ -23,14 +23,27 @@ $(document).ready(function(){
 	$(".hideRow").hide();
     $(".group1").show();
 <?php 
-$noGroups = ceil($_SESSION ['found']/5);
-$pageNo = 1;
-for($i=0; $i<$noGroups; $i++){
-	echo '$("#show' . $pageNo . '").click(function(){
-		$(".hideRow").hide();
-        $(".group' . $pageNo . '").show();
-    });';
-	$pageNo++;
+if(isset($_SESSION ['found'])){
+	$noGroups = ceil($_SESSION ['found']/5);
+	$pageNo = 1;
+	for($i=0; $i<$noGroups; $i++){
+		echo '$("#show' . $pageNo . '").click(function(){
+			$(".hideRow").hide();
+	        $(".group' . $pageNo . '").show();
+	    });';
+		$pageNo++;
+	}
+}
+if(isset($_SESSION ['numPayments'])){
+	$noGroups = ceil($_SESSION ['numPayments']/5);
+	$pageNo = 1;
+	for($i=0; $i<$noGroups; $i++){
+		echo '$("#show' . $pageNo . '").click(function(){
+			$(".hideRow").hide();
+	        $(".group' . $pageNo . '").show();
+	    });';
+		$pageNo++;
+	}
 }
 ?>
 });

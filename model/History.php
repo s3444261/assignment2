@@ -13,8 +13,6 @@ class History {
 	
 	public function init(){
 		
-		date_default_timezone_set('Australia/Melbourne');
-		
 		$accounts = new Accounts();
 		$accounts->userID = $_SESSION['userID'];
 		
@@ -96,7 +94,9 @@ class History {
 	}
 	
 	public function setAccountSelected($accountID){
-		$accountIDs = array(1,2,3);
+		$accounts = new Accounts();
+		$accounts->userID = $_SESSION['userID'];
+		$accountIDs = $accounts->getAccountIDs();
 		
 		foreach($accountIDs as $aID){
 			unset($_SESSION['selectedAccount' . $aID]);

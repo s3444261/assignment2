@@ -1,5 +1,4 @@
 <?php
-
 ?>
 <h1>Payment List</h1>
 
@@ -18,7 +17,8 @@
 			</div>
 			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 				<form class="form-inline" method="post" action="Payment-List">
-					<button class="btn btn-primary" type="submit" name="clearFilter">Clear Filter</button>
+					<button class="btn btn-primary" type="submit" name="clearFilter">Clear
+						Filter</button>
 				</form>
 			</div>
 		</div>
@@ -66,11 +66,7 @@ if (isset ( $_SESSION ['accounts'] )) {
 <?php
 if (isset ( $_SESSION ['payees'] )) {
 	foreach ( $_SESSION ['payees'] as $payee ) {
-		echo '<option value="' . $payee ['payeeID'] . '" ';
-		if (isset ( $_SESSION ['payListSelectedPayee' . $payee ['payeeID']] )) {
-			echo $_SESSION ['payListSelectedPayee' . $payee ['payeeID']];
-		}
-		echo ' >' . $payee ['payeeNickname'] . '</option>';
+		echo '<option >' . $payee . '</option>';
 	}
 }
 ?>
@@ -82,10 +78,9 @@ if (isset ( $_SESSION ['payees'] )) {
 					<div class="form-group col-xs-10 col-sm-10 col-md-10 col-lg-10">
 						<select class="form-control" name="status" id="status">
 							<option>--- Select Status ---</option>
-							<option
-								<?php if(isset($_SESSION['paidSelected'])){ echo $_SESSION['paidSelected']; } ?>>Paid</option>
-							<option
-								<?php if(isset($_SESSION['pendingSelected'])){ echo $_SESSION['pendingSelected']; } ?>>Pending</option>
+							<option>Paid</option>
+							<option>Pending</option>
+							<option>Future Payment</option>
 						</select>
 					</div>
 				</div>
@@ -130,6 +125,22 @@ if (isset ( $_SESSION ['payees'] )) {
 		</form>
 		<div class="row">
 			<div
+				class=" col-xs-12 col-sm-12 col-md-12 col-lg-12 marginTop20 table-responsive textCentre">
+<?php
+$noGroups = ceil ( $_SESSION ['numPayments'] / 5 );
+$pageNo = 1;
+if ($noGroups > 1) {
+	echo 'Page: ';
+	for($i = 0; $i < $noGroups; $i ++) {
+		echo '<a id="show' . $pageNo . '" href="#">' . $pageNo . ' </a>';
+		$pageNo ++;
+	}
+}
+?>
+			</div>
+		</div>
+		<div class="row">
+			<div
 				class=" col-xs-12 col-sm-12 col-md-12 col-lg-12 marginTop20 table-responsive">
 				<table class="table table-striped">
 					<thead>
@@ -144,15 +155,24 @@ if (isset ( $_SESSION ['payees'] )) {
 					</thead>
 					<tbody>
 <?php
-foreach ( $_SESSION ['payeeTransactions'] as $pt ){
-	echo '<tr>
-			<td>' . $pt ['payeeDate'] . '</td>
+$counter = 1;
+$displayItems = 5;
+$group = 1;
+foreach ( $_SESSION ['payeeTransactions'] as $pt ) {
+	$date = date_create ( $pt ['payeeDate'] );
+	$date = date_format ( $date, 'd M y' );
+	echo '<tr class="group' . $group . ' hideRow">
+			<td>' . $date . '</td>
 			<td>' . $pt ['payeeType'] . '</td>
 			<td>' . $pt ['payeePayFrom'] . '</td>
 			<td>' . $pt ['payeePayTo'] . '</td>
 			<td>' . $pt ['payeeStatus'] . '</td>
 			<td class="accountBalance">' . $pt ['payeeAmount'] . '</td>
 		</tr>';
+	if ($counter % $displayItems == 0) {
+		$group++;
+	}
+	$counter++;
 }
 ?>
 					</tbody>

@@ -10,6 +10,7 @@ class Transactions {
 	private $_transactee = '';
 	private $_accountNickname = '';
 	private $_transactionStatus = '';
+	private $_transactionType = '';
 	private $_debits = '';
 	private $_credits = '';
 	private $_created_at;
@@ -45,6 +46,7 @@ class Transactions {
 		$this->_transactionDescription = $row ['transactionDescription'];
 		$this->_transactee = $row ['transactee'];
 		$this->_transactionStatus = $row ['transactionStatus'];
+		$this->_transactionType = $row ['transactionType'];
 		$this->_debits = $row ['debits'];
 		$this->_credits = $row ['credits'];
 	}
@@ -55,7 +57,8 @@ class Transactions {
 		$searchDetails = $this->querySearch ();
 		
 		$transactions = array ();
-		$query = "SELECT transactionID AS tid, accountID, transactionDate, transactionDescription, transactee, transactionStatus, debits, credits, 
+		$query = "SELECT transactionID AS tid, accountID, transactionDate, transactionDescription, transactee, 
+					transactionStatus, transactionType,debits, credits, 
 					FORMAT((SELECT SUM(credits) - SUM(debits) + :openBalance
 					FROM Transactions
 					WHERE accountID = :accountID
@@ -76,6 +79,7 @@ class Transactions {
 			$transaction ['transactionDescription'] = $row ['transactionDescription'];
 			$transaction ['transactee'] = $row ['transactee'];
 			$transaction ['transactionStatus'] = $row ['transactionStatus'];
+			$transaction ['transactionType'] = $row ['transactionType'];
 			$transaction ['debits'] = $row ['debits'];
 			$transaction ['credits'] = $row ['credits'];
 			$transaction ['transactionBalance'] = $row ['transactionBalance'];
@@ -214,6 +218,7 @@ class Transactions {
     					transactionDescription = :transactionDescription,
 		    			transactee = :transactee,
 		    			transactionStatus = :transactionStatus,
+						transactionType = :transactionType,
 		    			debits = :debits,
 		    			credits = :credits,
 						created_at = NULL";
@@ -225,6 +230,7 @@ class Transactions {
 		$stmt->bindParam ( ':transactionDescription', $this->_transactionDescription );
 		$stmt->bindParam ( ':transactee', $this->_transactee );
 		$stmt->bindParam ( ':transactionStatus', $this->_transactionStatus );
+		$stmt->bindParam ( ':transactionType', $this->_transactionType );
 		$stmt->bindParam ( ':debits', $this->_debits );
 		$stmt->bindParam ( ':credits', $this->_credits );
 		$stmt->execute ();
@@ -278,6 +284,155 @@ class Transactions {
 		}
 		
 		return $amount;
+	}
+	
+	public function getPayments() {
+		
+		$transactionType = null;
+		$payee = null;
+		$status = null;
+		$amount = null;
+		$date = null;
+		
+		if($this->_transactionType == 'Biller'){
+			$transactionType = "AND transactionType = 'Biller'";
+		} elseif($this->_transactionType == 'Payee'){
+			$transactionType = "AND transactionType = 'Payee'";
+		} elseif($this->_transactionType == 'Both'){
+			$transactionType = "AND (transactionType = 'Biller' OR transactionType = 'Payee')";
+		}
+		
+		if(isset($_SESSION ['payListName'])){
+			$payee = " AND transactee = '" . $_SESSION ['payListName'] . "'";
+		}
+		
+		if(isset($_SESSION ['payListStatus'])){
+			$status = " AND transactionStatus = '" . $_SESSION ['payListStatus'] . "'";
+		}
+		
+		if(isset($_SESSION ['payListFromAmount']) && isset($_SESSION ['payListToAmount'])){
+			if($_SESSION ['payListFromAmount'] > 0 && $_SESSION ['payListToAmount'] > 0){
+				$amount = " AND debits >= '" . $_SESSION ['payListFromAmount'] .
+							"' AND debits <= '" . $_SESSION ['payListToAmount'] . "'";
+			} elseif($_SESSION ['payListFromAmount'] > 0 && $_SESSION ['payListToAmount'] == 0){
+				$amount = " AND debits >= '" . $_SESSION ['payListFromAmount'] . "'";
+			} elseif($_SESSION ['payListFromAmount'] == 0 && $_SESSION ['payListToAmount'] > 0){
+				$amount = " AND debits <= '" . $_SESSION ['payListToAmount'] . "'";
+			}
+		} 
+		
+		if(isset($_SESSION ['payListFromDate']) && isset($_SESSION ['payListToDate'])){
+			if(strlen($_SESSION ['payListFromDate']) > 0 && strlen($_SESSION ['payListToDate']) > 0){
+				$date = " AND transactionDate >= '" . $_SESSION ['payListFromDate'] .
+							"' AND transactionDate <= '" . $_SESSION ['payListToDate'] . "'";
+			} elseif(strlen($_SESSION ['payListFromDate']) > 0 && strlen($_SESSION ['payListToDate']) == 0){
+				$date = " AND transactionDate >= '" . $_SESSION ['payListFromDate'] . "'";
+			} elseif(strlen($_SESSION ['payListFromDate']) == 0 && strlen($_SESSION ['payListToDate']) > 0){
+				$date = " AND transactionDate <= '" . $_SESSION ['payListToDate'] . "'";
+			}
+		}
+		
+		$payments = array ();
+		$query = "SELECT transactionDate, transactionType, accountID,
+					(SELECT CONCAT(accountName, '/', bsb, ' ', accountNumber) 
+						FROM Accounts WHERE Accounts.accountID = Transactions.accountID) AS payFrom, transactee,
+					transactionStatus, debits
+					FROM Transactions
+					WHERE accountID = :accountID 
+					" . $transactionType . 
+					$payee .
+					$status .
+					$amount .
+					$date . "
+					ORDER BY transactionDate DESC"; 
+	
+		$db = Database::getInstance ();
+		$stmt = $db->prepare ( $query );
+		$stmt->bindParam ( ':accountID', $this->_accountID );
+		$stmt->execute ();
+	
+		while ( $row = $stmt->fetch ( PDO::FETCH_ASSOC ) ) {
+			$payment = array ();
+			$payment ['payeeDate'] = $row ['transactionDate'];
+			$payment ['payeeType'] = $row ['transactionType'];
+			if($payment ['payeeType'] == 'Biller'){
+				$payment ['payeeType'] = 'Bill Payment';
+			} elseif($payment ['payeeType'] == 'Payee'){
+				$payment ['payeeType'] = 'Funds Transfer';
+			}
+			$payment ['accountID'] = $row ['accountID'];
+			$payment ['payeePayFrom'] = $row ['payFrom'];
+			$payment ['payeePayTo'] = $row ['transactee'];
+			$payment ['payeeStatus'] = $row ['transactionStatus'];
+			$payment ['payeeAmount'] = $row ['debits'];
+			$payments [] = $payment; 
+		}
+		return $payments;
+	}
+	
+	public function countPayments() {
+	
+		$transactionType = null;
+		$payee = null;
+		$status = null;
+		$amount = null;
+		$date = null;
+	
+		if($this->_transactionType == 'Biller'){
+			$transactionType = "AND transactionType = 'Biller'";
+		} elseif($this->_transactionType == 'Payee'){
+			$transactionType = "AND transactionType = 'Payee'";
+		} elseif($this->_transactionType == 'Both'){
+			$transactionType = "AND (transactionType = 'Biller' OR transactionType = 'Payee')";
+		}
+	
+		if(isset($_SESSION ['payListName'])){
+			$payee = " AND transactee = '" . $_SESSION ['payListName'] . "'";
+		}
+	
+		if(isset($_SESSION ['payListStatus'])){
+			$status = " AND transactionStatus = '" . $_SESSION ['payListStatus'] . "'";
+		}
+	
+		if(isset($_SESSION ['payListFromAmount']) && isset($_SESSION ['payListToAmount'])){
+			if($_SESSION ['payListFromAmount'] > 0 && $_SESSION ['payListToAmount'] > 0){
+				$amount = " AND debits >= '" . $_SESSION ['payListFromAmount'] .
+				"' AND debits <= '" . $_SESSION ['payListToAmount'] . "'";
+			} elseif($_SESSION ['payListFromAmount'] > 0 && $_SESSION ['payListToAmount'] == 0){
+				$amount = " AND debits >= '" . $_SESSION ['payListFromAmount'] . "'";
+			} elseif($_SESSION ['payListFromAmount'] == 0 && $_SESSION ['payListToAmount'] > 0){
+				$amount = " AND debits <= '" . $_SESSION ['payListToAmount'] . "'";
+			}
+		}
+	
+		if(isset($_SESSION ['payListFromDate']) && isset($_SESSION ['payListToDate'])){
+			if(strlen($_SESSION ['payListFromDate']) > 0 && strlen($_SESSION ['payListToDate']) > 0){
+				$date = " AND transactionDate >= '" . $_SESSION ['payListFromDate'] .
+				"' AND transactionDate <= '" . $_SESSION ['payListToDate'] . "'";
+			} elseif(strlen($_SESSION ['payListFromDate']) > 0 && strlen($_SESSION ['payListToDate']) == 0){
+				$date = " AND transactionDate >= '" . $_SESSION ['payListFromDate'] . "'";
+			} elseif(strlen($_SESSION ['payListFromDate']) == 0 && strlen($_SESSION ['payListToDate']) > 0){
+				$date = " AND transactionDate <= '" . $_SESSION ['payListToDate'] . "'";
+			}
+		}
+	
+		$query = "SELECT count(*) AS numPayments
+					FROM Transactions
+					WHERE accountID = :accountID
+					" . $transactionType .
+						$payee .
+						$status .
+						$amount .
+						$date . "
+					ORDER BY transactionDate DESC";
+	
+		$db = Database::getInstance ();
+		$stmt = $db->prepare ( $query );
+		$stmt->bindParam ( ':accountID', $this->_accountID );
+		$stmt->execute ();
+	
+		$row = $stmt->fetch ( PDO::FETCH_ASSOC );
+		return $row['numPayments'];
 	}
 	
 	// Display Object Contents

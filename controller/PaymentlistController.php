@@ -65,14 +65,14 @@ class PaymentlistController {
 			$accountID = $_POST['account'];
 			unset($_POST['account']);
 			
-			if(isset($_POST['payees'])){
-				$payeeID = $_POST['payees'];
+			if(isset($_POST['payees']) && ($_POST['payees'] != '--- Select a Payee ---')){
+				$payeeName = $_POST['payees'];
 				unset($_POST['payees']);
 			} else {
-				$payees = null;
+				$payeeName = null;
 			}
 			
-			if(isset($_POST['status'])){
+			if(isset($_POST['status']) && ($_POST['status'] != '--- Select Status ---')){
 				$status = $_POST['status'];
 				unset($_POST['status']);
 			} else {
@@ -109,8 +109,8 @@ class PaymentlistController {
 				
 			$search = array('accountID' => $accountID,
 					'paymentType' => $paymentType,
-					'payeeID' => $payeeID,
-					'status' => $status,
+					'payListName' => $payeeName,
+					'payListStatus' => $status,
 					'payListFromAmount' => $fromAmount,
 					'payListToAmount' => $toAmount,
 					'payListFromDate' => $fromDate,

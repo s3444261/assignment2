@@ -96,6 +96,26 @@ class Accounts
     	return $account;
     }
     
+    public function getAccountIDs(){
+    
+    	$query = "SELECT accountID
+    				FROM Accounts
+    				WHERE userID = :userID";
+    	 
+    	$db = Database::getInstance();
+    	$stmt = $db->prepare($query);
+    	$stmt->bindParam(':userID', $this->_userID);
+    	$stmt->execute();
+    	$accountIDs = array();
+    	 
+    	while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+    
+    		$accountIDs[] = $row['accountID'];
+    	}
+    	 
+    	return $accountIDs;
+    }
+    
     public function getCreditBalance(){
     	$creditBalance = null;
     	$accounts = $this->getAccounts(); 
