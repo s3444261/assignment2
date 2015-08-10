@@ -11,6 +11,14 @@ class BillerdeleteController {
 	
 	public function display()
 	{
+		$biller = new Billers();
+		$biller->billerID = $_SESSION['billerDeleteID'];
+		$biller->getBiller();
+		$_SESSION['billerCode'] = $biller->billerCode;
+		$_SESSION['billerName'] = $biller->billerName;
+		$_SESSION['billerNickname'] = $biller->billerNickname;
+		$_SESSION['customerReference'] = $biller->customerReference;
+		
 		include 'view/layout/billerdelete.php';
 	}
 }

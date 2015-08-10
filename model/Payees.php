@@ -41,12 +41,11 @@ class Payees
     	$query = "SELECT *
     				FROM Payees
     				WHERE payeeID = :payeeID
-    				AND payeeStatus != :payeeStatus";
+    				AND payeeStatus != 'deleted'";
     	
     	$db = Database::getInstance();
     	$stmt = $db->prepare($query);
     	$stmt->bindParam(':payeeID', $this->_payeeID);
-    	$stmt->bindParam(':payeeStatus', 'deleted');
     	$stmt->execute();
     	$row = $stmt->fetch(PDO::FETCH_ASSOC);
     	$this->_userID = $row['userID'];
@@ -133,6 +132,39 @@ class Payees
     	} else {
     		return 0;
     	}
+    }
+    
+    public function update(){
+    
+    	$query = "UPDATE Payees
+					SET accountName = :accountName,
+		    			accountNickname = :accountNickname,
+    					bsb = :bsb,
+    					accountNumber = :accountNumber
+    				WHERE payeeID = :payeeID";
+    
+    	$db = Database::getInstance();
+    	$stmt = $db->prepare($query);
+    	$stmt->bindParam(':payeeID', $this->_payeeID);
+    	$stmt->bindParam(':accountName', $this->_accountName);
+    	$stmt->bindParam(':accountNickname', $this->_accountNickname);
+    	$stmt->bindParam(':bsb', $this->_bsb);
+    	$stmt->bindParam(':accountNumber', $this->_accountNumber);
+    	$stmt->execute();
+    	return true;
+    }
+    
+    public function delete(){
+    
+    	$query = "UPDATE Payees
+					SET payeeStatus = 'deleted'
+    				WHERE payeeID = :payeeID";
+    
+    	$db = Database::getInstance();
+    	$stmt = $db->prepare($query);
+    	$stmt->bindParam(':payeeID', $this->_payeeID);
+    	$stmt->execute();
+    	return true;
     }
 	
     // Display Object Contents

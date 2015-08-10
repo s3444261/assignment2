@@ -12,12 +12,31 @@ class TransferController {
 	public function display()
 	{
 		if(isset($_POST['addPayee'])){
-			// Create Payee Object
-			$_POST['addPayeeAccountName'];
-			$_POST['addPayeeAccountNickname'];
-			$_POST['addPayeeAccountBSB'];
-			$_POST['addPayeeAccountNumber'];
-			// Insert into database
+			
+			$payee = new Payees();
+			$payee->userID = $_SESSION['userID'];
+			
+			if(isset($_POST['addPayeeAccountName'])){
+				$payee->accountName = $_POST['addPayeeAccountName'];
+				unset($_POST['addPayeeAccountName']);
+			}
+			
+			if(isset($_POST['addPayeeAccountNickname'])){
+				$payee->accountNickname = $_POST['addPayeeAccountNickname'];
+				unset($_POST['addPayeeAccountNickname']);
+			}
+			
+			if(isset($_POST['addPayeeBSB'])){
+				$payee->bsb = $_POST['addPayeeBSB'];
+				unset($_POST['addPayeeBSB']);
+			}
+			
+			if(isset($_POST['addPayeeAccountNumber'])){
+				$payee->accountNumber = $_POST['addPayeeAccountNumber'];
+				unset($_POST['addPayeeAccountNumber']);
+			}
+			
+			$payee->set();
 		}
 		
 		$transfer= new Transfer();

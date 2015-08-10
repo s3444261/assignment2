@@ -112,6 +112,35 @@ class Billers
     		return 0;
     	} 
     }
+    
+    public function update(){
+    
+    	$query = "UPDATE Billers
+					SET billerNickname = :billerNickname,
+		    			customerReference = :customerReference
+    				WHERE billerID = :billerID";
+    
+    	$db = Database::getInstance();
+    	$stmt = $db->prepare($query);
+    	$stmt->bindParam(':billerID', $this->_billerID);
+    	$stmt->bindParam(':billerNickname', $this->_billerNickname);
+    	$stmt->bindParam(':customerReference', $this->_customerReference);
+    	$stmt->execute();
+    	return true;
+    }
+    
+    public function delete(){
+    
+    	$query = "UPDATE Billers
+					SET billerStatus = 'deleted'
+    				WHERE billerID = :billerID";
+    
+    	$db = Database::getInstance();
+    	$stmt = $db->prepare($query);
+    	$stmt->bindParam(':billerID', $this->_billerID);
+    	$stmt->execute();
+    	return true;
+    }
 	
     // Display Object Contents
     public function printf()

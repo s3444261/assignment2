@@ -61,6 +61,7 @@ if (isset ( $_SESSION ['payeeList'] )) {
 			</tr>';
 	}
 }
+
 ?>
 				</tbody>
 			</table>

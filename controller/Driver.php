@@ -70,10 +70,12 @@ class Driver {
 	// Convert URI to array
 	public function getRoute() {
 		// Retrieve the URI
-		if (strlen ( $this->_basepath ) > 0) {
+		if (strlen ( $this->_basepath ) > 1) {
+			// Local Server
 			$uri = str_replace ( $this->_basepath, "", $_SERVER ['REQUEST_URI'] );
 		} else {
-			$uri = ltrim ( $_SERVER ['REQUEST_URI'], '/' );
+			// AWS Server
+			$uri = substr($_SERVER ['REQUEST_URI'], 1);
 		}
 		
 		// If the user is not logged in, go back to Home.
@@ -83,8 +85,8 @@ class Driver {
 			}
 		}
 		
-		if (strpos($uri,'/') !== false) {
-			$uri = explode('/', $uri);
+		if (strrpos($uri,'/') !== false) {
+			$uri = explode('/', $uri); echo 'GOT TO HERE<br />';
 			$id = $uri[1];
 			$uri = $uri[0] . '-';
 		}
@@ -164,8 +166,8 @@ class Driver {
 				$payeelist->display ();
 				break;
 			case 'Bill-Payee-List' :
-				$_SESSION['billPayee'] = true;
-				unset($_SESSION['fundsTransferPayee']);
+				$_SESSION['billPayee'] = true; 
+				unset($_SESSION['fundsTransferPayee']); 
 				$pos = strrpos($_SERVER ['HTTP_REFERER'], '/');
 				$pos = strlen($_SERVER ['HTTP_REFERER']) - $pos;
 				header("Location: " . substr($_SERVER ['HTTP_REFERER'], 0, -$pos + 1) . "Payee-List");
