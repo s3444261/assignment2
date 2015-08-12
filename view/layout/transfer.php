@@ -49,9 +49,9 @@ if (isset ( $_SESSION ['accounts'] )) {
 <?php
 if (isset ( $_SESSION ['accountPayee'] )) {
 	foreach ( $_SESSION ['accountPayee'] as $accountPayee ) {
-		echo '<option value="' . $accountPayee ['accountPayeeID'] . '" ';
-		if(isset($_SESSION ['transferSelectedAccountPayee' . $accountPayee ['accountPayeeID']])){ echo $_SESSION ['transferSelectedAccountPayee' . $accountPayee ['accountPayeeID']]; }
-		echo ' >' . $accountPayee ['accountPayeeName'] . '</option>';
+		echo '<option value="' . $accountPayee ['toID'] . '" ';
+		if(isset($_SESSION ['transferSelectedAccountPayee' . $accountPayee ['toID']])){ echo $_SESSION ['transferSelectedAccountPayee' . $accountPayee ['toID']]; }
+		echo ' >' . $accountPayee ['accountName'] . '</option>';
 	}
 } 
 ?>

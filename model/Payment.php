@@ -38,13 +38,17 @@ class Payment {
 		unset($_SESSION['payBillerNickname']);
 		unset($_SESSION['payCustomerRef']);
 		
-		$accountIDs = array(1,2,3);
+		$accounts = new Accounts();
+		$accounts->userID = $_SESSION['userID'];
+		$accountIDs = $accounts->getAccountIDs();
 		
 		foreach($accountIDs as $aID){
 			unset($_SESSION['paySelectedAccount' . $aID]);
 		}
 		
-		$billerIDs = array(1,2,3);
+		$billers = new Billers();
+		$billers->userID = $_SESSION['userID'];
+		$billerIDs = $billers->getBillerIDs();
 		
 		foreach($billerIDs as $bID){
 			unset($_SESSION['paySelectedBiller' . $bID]);

@@ -12,48 +12,31 @@
 class CheckTransfer {
 	
 	public function init(){
+		$account = new Account();
+		$account->accountID = $_SESSION['transferAccountID'];
+		$account->getAccount();
+		$_SESSION['transferAccount'] = $account->accountName;
 		
-		switch($_SESSION['transferAccountID']){
-				case 1 : 
-				$_SESSION['transferAccount'] = 'Kinkead Family Trust/083-006 45-333-3232 ($45,988.98)';
-				break;
-			case 2 :
-				$_SESSION['transferAccount'] = 'Kinkead Murphy Unit Trust/083-006 45-214-8745 ($5,988.98)';
-				break;
-			case 3 :
-				$_SESSION['transferAccount'] = 'Kinkead Superannuation Fund/083-006 45-546-3298 ($2,438.98)';
-				break;
-		}
-		
-		switch($_SESSION['transferAccountPayeeID']){
-			case 1 :
-				$_SESSION['transferAccountPayee'] = 'Kinkead Family Trust/083-006 45-333-3232 ($45,988.98)';
-				break;
-			case 2 :
-				$_SESSION['transferAccountPayee'] = 'M. Kinkead/083-332 22-123-9876 ($3,345.87)';
-				break;
-			case 3 :
-				$_SESSION['transferAccountPayee'] = 'Kinkead Murphy Unit Trust/083-006 45-214-8745 ($5,988.98)';
-				break;
-			case 4 :
-				$_SESSION['transferAccountPayee'] = 'C. K. Kinkead/083-554 21-445-543 ($8,456.45)';
-				break;
-			case 5 :
-				$_SESSION['transferAccountPayee'] = 'Kinkead Superannuation Fund/083-006 45-546-3298 ($2,438.98)';
-				break;
-		}
+		$accountPayees = new AccountPayees();
+		$accountPayees->accountPayeeID = $_SESSION['transferAccountPayeeID']; 
+		$accountPayees->userID = $_SESSION['userID'];
+		$accountPayees->getAccountPayee(); 
+		$_SESSION['transferAccountPayee'] = $accountPayees->accountName;
+		$_SESSION['transferType'] = $accountPayees->accountType;
 		
 		$this->setAccountSelected($_SESSION['transferAccountID']);
-		$this->setAccountPayeeSelected($_SESSION['transferAccountPayeeID']);
+		$this->setAccountPayeeSelected($_SESSION['transferAccountPayeeID']); 
 	}
 	
 	public function unsetLast(){
 		unset($_SESSION['accounts']);
-		unset($_SESSION['accountPayees']);
+		unset($_SESSION['accountPayee']);
 	}
 	
 	public function setAccountSelected($accountID){
-		$accountIDs = array(1,2,3);
+		$accounts = new Accounts();
+		$accounts->userID = $_SESSION['userID'];
+		$accountIDs = $accounts->getAccountIDs();
 	
 		foreach($accountIDs as $aID){
 			unset($_SESSION['transferSelectedAccount' . $aID]);
@@ -62,10 +45,12 @@ class CheckTransfer {
 	}
 	
 	public function setAccountPayeeSelected($accountPayeeID){
-		$accountPayeeIDs = array(1,2,3,4,5);
-	
-		foreach($accountPayeeIDs as $pID){
-			unset($_SESSION['transferSelectedAccountPayee' . $pID]);
+		$accountPayees = new AccountPayees();
+		$accountPayees->userID = $_SESSION['userID'];
+		$toIDs = $accountPayees->getToIDs();
+		
+		foreach($toIDs as $tID){
+			unset($_SESSION['transferSelectedAccountPayee' . $tID]);
 		}
 		$_SESSION['transferSelectedAccountPayee' . $accountPayeeID] = 'selected="selected"';
 	}

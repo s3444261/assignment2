@@ -225,6 +225,13 @@ $args[] = array('userID' => $userID,
 		'customerReference' => '8547289491',
 		'billerStatus' => ''
 );
+$args[] = array('userID' => $userID,
+		'billerCode' => '4587',
+		'billerName' => 'G.M. FINANCE',
+		'billerNickname' => 'CAR REPAYMENT',
+		'customerReference' => '55412298',
+		'billerStatus' => ''
+);
 
 foreach($args as $arg){
 	$biller = new Billers($arg);
@@ -297,6 +304,43 @@ while(strtotime($currentDate) < time()){
 		$transaction->accountTransaction($args);
 	}
 	
+	if($d[2] == '2'){
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'transfer',
+				'transactee' => 'Kinkead Family Trust Account',
+				'transactionType' => 'Payee',
+				'transactionStatus' => 'Paid',
+				'debits' => '2000.00'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '1';
+		$transaction->accountTransaction($args);
+		
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'transfer',
+				'transactee' => 'G.Kinkead Savings Account',
+				'transactionType' => 'Deposit',
+				'credits' => '2000.00'
+		);
+		
+		$transaction = new Account();
+		$transaction->accountID = '3';
+		$transaction->accountTransaction($args);
+		
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'Kids Martial Arts',
+				'transactee' => 'D.A. Ingles',
+				'transactionType' => 'Payee',
+				'transactionStatus' => 'Paid',
+				'debits' => '320.00'
+		);
+		
+		$transaction = new Account();
+		$transaction->accountID = '3';
+		$transaction->accountTransaction($args);
+	}
+	
 	if($d[2] == '5' && $d[1]%2 == 0){
 		$args = array('transactionDate' => $currentDate,
 				'transactionDescription' => 'Ref: 5485236485',
@@ -325,11 +369,75 @@ while(strtotime($currentDate) < time()){
 		$transaction->accountTransaction($args);
 	}
 	
+	if($d[2] == '8'){
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'transfer',
+				'transactee' => 'Kinkead Family Trust Account',
+				'transactionType' => 'Payee',
+				'transactionStatus' => 'Paid',
+				'debits' => '250.00'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '2';
+		$transaction->accountTransaction($args);
+	
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'transfer',
+				'transactee' => 'G.Kinkead & M.Kinkead Overdraft Account',
+				'transactionType' => 'Deposit',
+				'credits' => '250.00'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '3';
+		$transaction->accountTransaction($args);
+	
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'Garden Maintenance',
+				'transactee' => 'P.Jones',
+				'transactionType' => 'Payee',
+				'transactionStatus' => 'Paid',
+				'debits' => '290.00'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '3';
+		$transaction->accountTransaction($args);
+	}
+	
 	if($d[2] == '15'){
 		$args = array('transactionDate' => $currentDate,
 				'transactionDescription' => 'Salary',
 				'transactee' => 'BigShot Software Pty Ltd',
+				'transactionType' => 'Deposit',
 				'credits' => '6575.19'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '1';
+		$transaction->accountTransaction($args);
+		
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'G.Kinkead Shed Rental',
+				'transactee' => 'L.Johnson',
+				'transactionType' => 'Payee',
+				'transactionStatus' => 'Paid',
+				'debits' => '211.26'
+		);
+		
+		$transaction = new Account();
+		$transaction->accountID = '2';
+		$transaction->accountTransaction($args);
+	}
+	
+	if($d[2] == '16'){
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'Ref: 55412298',
+				'transactee' => 'G.M. FINANCE',
+				'transactionType' => 'Biller',
+				'transactionStatus' => 'Paid',
+				'debits' => '1450.00'
 		);
 	
 		$transaction = new Account();
@@ -350,6 +458,59 @@ while(strtotime($currentDate) < time()){
 		$transaction->accountTransaction($args);
 	}
 	
+	if($d[2] == '18'){
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'transfer',
+				'transactee' => 'G.Kinkead & M.Kinkead Overdraft Account',
+				'transactionType' => 'Payee',
+				'transactionStatus' => 'Paid',
+				'debits' => '400.00'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '1';
+		$transaction->accountTransaction($args);
+	
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'transfer',
+				'transactee' => 'G.Kinkead Savings Account',
+				'transactionType' => 'Deposit',
+				'credits' => '400.00'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '2';
+		$transaction->accountTransaction($args);
+	}
+	
+	if($d[2] == '20' && $d[1]%2 == 1){
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'Ref: 55487445 - Contents',
+				'transactee' => 'RACV INSURANCE',
+				'transactionType' => 'Biller',
+				'transactionStatus' => 'Paid',
+				'debits' => '110.36'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '2';
+		$transaction->accountTransaction($args);
+	}
+	
+	if($d[2] == '20' && $d[1]%2 == 0){
+		$args = array('transactionDate' => $currentDate,
+				'transactionDescription' => 'Ref: 5477125 - Public Liability',
+				'transactee' => 'RACV INSURANCE',
+				'transactionType' => 'Biller',
+				'transactionStatus' => 'Paid',
+				'debits' => '37.25'
+		);
+	
+		$transaction = new Account();
+		$transaction->accountID = '3';
+		$transaction->accountTransaction($args);
+	}
+	
 	if($d[2] == '23'){
 		$args = array('transactionDate' => $currentDate,
 				'transactionDescription' => 'Rent: 53 Johnston Street, Collingwood',
@@ -364,7 +525,7 @@ while(strtotime($currentDate) < time()){
 		$transaction->accountTransaction($args);
 	}
 	
-	if($d[0] == '3' && $d[2] == '24'){
+	if($d[1] == '3' && $d[2] == '24'){
 		$args = array('transactionDate' => $currentDate,
 				'transactionDescription' => 'Cust Ref: 5654289374',
 				'transactee' => 'VIC ROADS',

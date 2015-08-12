@@ -12,9 +12,6 @@
 class Transferack {
 	
 	public function init(){
-		$_SESSION['transferStatus'] = 'Paid';
-		$_SESSION['transferConf'] = 'G34340000';
-		$_SESSION['transferCreated'] = date("Y-m-d H:i:s");
 	}
 }
 ?>

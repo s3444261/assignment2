@@ -161,14 +161,16 @@ $group = 1;
 foreach ( $_SESSION ['payeeTransactions'] as $pt ) {
 	$date = date_create ( $pt ['payeeDate'] );
 	$date = date_format ( $date, 'd M y' );
-	echo '<tr class="group' . $group . ' hideRow">
-			<td>' . $date . '</td>
-			<td>' . $pt ['payeeType'] . '</td>
-			<td>' . $pt ['payeePayFrom'] . '</td>
-			<td>' . $pt ['payeePayTo'] . '</td>
-			<td>' . $pt ['payeeStatus'] . '</td>
-			<td class="accountBalance">' . $pt ['payeeAmount'] . '</td>
-		</tr>';
+	if($pt['payeeAmount'] != '0.00'){
+		echo '<tr class="group' . $group . ' hideRow">
+				<td>' . $date . '</td>
+				<td>' . $pt ['payeeType'] . '</td>
+				<td>' . $pt ['payeePayFrom'] . '</td>
+				<td>' . $pt ['payeePayTo'] . '</td>
+				<td>' . $pt ['payeeStatus'] . '</td>
+				<td class="accountBalance">' . $pt ['payeeAmount'] . '</td>
+			</tr>';
+	}
 	if ($counter % $displayItems == 0) {
 		$group++;
 	}

@@ -27,7 +27,7 @@ class ChecktransferController {
 			
 				$_SESSION['transferAccountID'] = $_POST['account'];
 				unset($_POST['account']);
-			
+							
 				$_SESSION['transferAccountPayeeID'] = $_POST['accountPayee'];
 				unset($_POST['accountPayee']);
 			}

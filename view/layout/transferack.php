@@ -30,9 +30,16 @@
 				<div class="hidden-xs col-sm-3 col-md-2 col-lg-2">Remitter:</div>
 				<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10"><?php if(isset($_SESSION['transferRemitter'])){ echo $_SESSION['transferRemitter']; } ?></div>
 				<div class="hidden-xs col-sm-3 col-md-2 col-lg-2">Amount:</div>
-				<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10"><?php if(isset($_SESSION['transferAmount'])){ echo $_SESSION['transferAmount']; } ?></div>
+				<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10"><?php if(isset($_SESSION['transferAmount'])){ echo '$' . number_format($_SESSION['transferAmount'], 2); } ?></div>
 				<div class="hidden-xs col-sm-3 col-md-2 col-lg-2">Payment Date:</div>
-				<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10"><?php if(isset($_SESSION['transferDate'])){ echo $_SESSION['transferDate']; } ?></div>
+				<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
+				<?php 
+					if(isset($_SESSION['transferDate'])){ 
+						$date = date_create ( $_SESSION['transferDate'] );
+						$date = date_format ( $date, 'j F Y' );
+						echo $date; 
+					} 
+				?></div>
 			</div>
 		</div>
 		<div class="row">

@@ -23,16 +23,29 @@ class TransferackController {
 				
 			if (isset ( $_POST ['password'] )) {
 			
-				if ($_POST ['password'] == 'blah') {
-					unset ( $_POST ['password'] );
-					$transferack = new Transferack ();
-					$transferack->init ();
-					include 'view/layout/transferack.php';
+				$user = new Users ();
+				$user->userID = $_SESSION ['userID'];
+				$user->password = $_POST ['password'];
+				unset ( $_POST ['password'] );
+				
+				if ($user->confirmPassword ()) {
+					$account = new Account();
+					$account->accountID = $_SESSION['transferAccountID'];					
+					if($account->processTransfer()){
+						$transferack = new Transferack ();
+						$transferack->init ();
+						include 'view/layout/transferack.php';
+					} else {
+						$checkTransfer = new CheckTransfer();
+						$checkTransfer->init ();
+						include 'view/layout/checktransfer.php';
+					}
+					
 				} else {
 					unset ( $_POST ['password'] );
-					$pos = strrpos($_SERVER ['HTTP_REFERER'], '/');
-					$pos = strlen($_SERVER ['HTTP_REFERER']) - $pos;
-					header("Location: " . substr($_SERVER ['HTTP_REFERER'], 0, -$pos + 1) . "Check-Transfer");
+					$checkTransfer = new CheckTransfer();
+					$checkTransfer->init ();
+					include 'view/layout/checktransfer.php';
 				}
 			}
 		}

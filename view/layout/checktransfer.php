@@ -41,7 +41,7 @@
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 bold textRight">Amount:</div>
-				<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8"><?php if(isset($_SESSION['transferAmount'])){ echo $_SESSION['transferAmount']; } ?></div>
+				<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8"><?php if(isset($_SESSION['transferAmount'])){ echo '$' . number_format($_SESSION['transferAmount'], 2); } ?></div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 bold textRight">Description:</div>
@@ -60,7 +60,14 @@
 			<div class="row marginTop20">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 bold textRight">Transfer
 					Date:</div>
-				<div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8"><?php if(isset($_SESSION['transferDate'])){ echo $_SESSION['transferDate']; } ?></div>
+				<div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8">
+				<?php 
+					if(isset($_SESSION['transferDate'])){ 
+						$date = date_create ( $_SESSION['transferDate'] );
+						$date = date_format ( $date, 'j F Y' );
+						echo $date; 
+					} 
+				?></div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 transferHeader">

@@ -85,6 +85,27 @@ class Billers
     	return $billers;
     }
     
+    public function getBillerIDs(){
+    
+    	$query = "SELECT billerID
+    				FROM Billers
+    				WHERE userID = :userID
+    				AND billerStatus != 'deleted'";
+    
+    	$db = Database::getInstance();
+    	$stmt = $db->prepare($query);
+    	$stmt->bindParam(':userID', $this->_userID);
+    	$stmt->execute();
+    	$billerIDs = array();
+    
+    	while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+    		 
+    		$billerIDs[] = $row['billerID'];
+    	}
+    
+    	return $billerIDs;
+    }
+    
     public function set(){
     	 
     	$query = "INSERT INTO Billers
