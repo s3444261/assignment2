@@ -31,6 +31,8 @@ if (! isset ( $_SESSION ['loggedin'] )) {
 					</div>
 					<button type="submit" class="btn btn-default">Login</button>
 				</form>';
+} else {
+	echo '<div class="col-xs-8 col-sm-11 col-md-10 intro">Welcome to FAB!</div>';
 }
 ?>
 				

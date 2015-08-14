@@ -19,4 +19,11 @@
 $driver = Driver::getInstance ();
 ?>
 <div class="container-fluid">
+<?php 
+if(isset($_SESSION['error'])){
+	echo '<span class="error">' . $_SESSION['error'] . '</span>';
+	$_SESSION['error'] = null;
+}
+?>
+
 	

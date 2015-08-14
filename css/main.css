@@ -136,3 +136,17 @@ h1 {
 	font-weight: bold;
 	border-bottom: #CCC 1px solid;
 }
+
+.intro {
+	color: white;
+	font-weight: bold;
+	font-size: 400%;
+}
+
+.error {
+	position: absolute;
+	top: 70px;
+	width: 100%;
+	color: red;
+	text-align: center;
+}

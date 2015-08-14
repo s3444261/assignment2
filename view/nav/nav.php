@@ -62,7 +62,7 @@
 				<li><a href="createdb.php">Create DB</a></li>
 			</ul>
 <?php
-if ($_SESSION ['loggedin']) {
+if (isset($_SESSION ['loggedin'])) {
 	echo '<ul class="nav navbar-nav navbar-right">
         <li><a href="Logout">Logout</a></li>
       </ul>';

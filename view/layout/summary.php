@@ -20,11 +20,13 @@ $driver = Driver::getInstance ();
 						<tbody>
 <?php
 foreach ( $driver->summary () as $account ) {
+	$balance = $account ['currentBalance'];
 	
-	if($account ['currentBalance'] >= 0){
+	if($balance >= 0){
 		$sign = ' . CR';
 	} else {
 		$sign = ' . DR';
+		$balance = -$balance;
 	}
 	echo '<tr>
             <th><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span></th>
@@ -34,7 +36,7 @@ foreach ( $driver->summary () as $account ) {
             <a href="New-Bill-Payment/' . $account ['accountID'] . '">Pay Bill</a> | 
             <a href="New-Funds-Transfer/' . $account ['accountID'] . '">Transfer Funds</a> | 
             <a href="Account-Details/' . $account ['accountID'] . '">Account Details</a></td></tr></table></td>
-            <td class="accountBalance">' . number_format($account ['currentBalance'], 2) . $sign . '</td>
+            <td class="accountBalance">' . number_format($balance, 2) . $sign . '</td>
             <td class="accountBalance">' . number_format($account ['availableBalance'], 2) . '</td>
           </tr>';
 }

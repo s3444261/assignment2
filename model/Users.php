@@ -87,6 +87,8 @@ class Users
     			$_SESSION['userID'] = $row['userID'];
     			$_SESSION['fabid'] = $row['user'];
     		}
+    	} else {
+    		throw new ValidationException('FAB ID and Password did not match!');
     	}
     }
     
@@ -106,7 +108,7 @@ class Users
     	if(strcmp($this->_password, $row['password']) == 0){
     		return true;
     	} else {
-    		return false;
+    		throw new ValidationException('FAB ID and Password did not match!');
     	}
     }
     

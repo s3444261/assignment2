@@ -148,8 +148,8 @@ class Account {
 		
 		return $row ['availableBalance'] + $this->_openBalance;
 	}
-	public function sufficientFunds() {
-		if (($this->availableBalance () - $this->_recordedLimit) >= $_SESSION ['payAmount']) {
+	public function sufficientFunds($amount) {
+		if (($this->availableBalance () - $this->_recordedLimit) >= $amount) {
 			return true;
 		} else {
 			return false;
@@ -178,14 +178,15 @@ class Account {
 			}
 		}
 		$transaction->transactionStatus = $_SESSION ['payStatus'];
+		$transaction->transactionType = 'Biller';
 		$transaction->debits = $_SESSION ['payAmount'];
 		
 		$transaction->transactionID = $transaction->set ();
-		if ($transaction->transactionID > 0) {
+		if ($transaction->transactionID > 0) { 
 			$transaction->getTransaction ();
 			$conf = 'B' . $paymentDate . $transaction->transactionID;
 			$_SESSION ['payConf'] = $conf;
-			$_SESSION ['payCreated'] = $transaction->transactionDate;
+			$_SESSION ['payCreated'] = $transaction->transactionDate; 
 			return true;
 		} else {
 			return false;
