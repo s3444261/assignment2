@@ -11,27 +11,27 @@
 		<form class="form-inline" method="post" action="New-Bill-Payment">
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Biller Code:</div>
-				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><input type="text" class="form-control" name="addBillerCode" id="addBillerCode"
-						placeholder="Biller Code"></div>
+				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><input type="number" class="form-control" name="addBillerCode" id="addBillerCode"
+						placeholder="Biller Code" minlength="4" required></div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Biller Name:</div>
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><input type="text" class="form-control" name="addBillerName" id="addBillerName"
-						placeholder="Biller Name"></div>
+						placeholder="Biller Name" required></div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Biller Nickname:</div>
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
 					<input type="text" class="form-control" name="addBillerNickname" id="addBillerNickname"
-						placeholder="Biller Nickname">
+						placeholder="Biller Nickname" required>
 				</div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Customer Reference
 					No:</div>
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-					<input type="text" class="form-control" name="addBillerCustomerRefNumber" id="addBillerCustomerRefNumber"
-						placeholder="Customer Reference No">
+					<input type="number" class="form-control" name="addBillerCustomerRefNumber" id="addBillerCustomerRefNumber"
+						placeholder="Customer Reference No" minlength="8" required>
 				</div>
 			</div>
 			<div class="row marginTop20">

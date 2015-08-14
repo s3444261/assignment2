@@ -20,25 +20,25 @@ $_SESSION['accountNumber'] = $payee->accountNumber;
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Account Name:</div>
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><input type="text" class="form-control" name="updatePayeeAccountName" id="updatePayeeAccountName"
-						placeholder="Account Name" value="<?php if(isset($_SESSION['accountName'])){ echo $_SESSION['accountName']; } ?>"></div>
+						placeholder="Account Name" value="<?php if(isset($_SESSION['accountName'])){ echo $_SESSION['accountName']; } ?>" required></div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Account Nickname:</div>
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><input type="text" class="form-control" name="updatePayeeAccountNickname" id="updatePayeeAccountNickname"
-						placeholder="Account Nickname" value="<?php if(isset($_SESSION['accountNickname'])){ echo $_SESSION['accountNickname']; } ?>"></div>
+						placeholder="Account Nickname" value="<?php if(isset($_SESSION['accountNickname'])){ echo $_SESSION['accountNickname']; } ?>" required></div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">BSB:</div>
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
 					<input type="text" class="form-control" name="updatePayeeBSB" id="updatePayeeBSB"
-						placeholder="BSB" value="<?php if(isset($_SESSION['bsb'])){ echo $_SESSION['bsb']; } ?>">
+						placeholder="BSB" value="<?php if(isset($_SESSION['bsb'])){ echo $_SESSION['bsb']; } ?>" required>
 				</div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Account Number:</div>
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
 					<input type="text" class="form-control" name="updatePayeeAccountNumber" id="updatePayeeAccountNumber"
-						placeholder="Account No" value="<?php if(isset($_SESSION['accountNumber'])){ echo $_SESSION['accountNumber']; } ?>">
+						placeholder="Account No" value="<?php if(isset($_SESSION['accountNumber'])){ echo $_SESSION['accountNumber']; } ?>" required>
 				</div>
 			</div>
 			<div class="row marginTop20">

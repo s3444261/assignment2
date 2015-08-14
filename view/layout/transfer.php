@@ -72,7 +72,8 @@ if (isset ( $_SESSION ['accountPayee'] )) {
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 bold textRight">Amount:</div>
 				<div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8">
 					<input type="text" class="form-control" name="transferAmount" id="transferAmount"
-						placeholder="Amount" value="<?php if(isset($_SESSION['transferAmount'])){ echo $_SESSION['transferAmount']; } ?>">
+						placeholder="0.00" value="<?php if(isset($_SESSION['transferAmount'])){ echo $_SESSION['transferAmount']; } ?>"
+						pattern="\d+(\.\d{2})?" required>
 				</div>
 			</div>
 			<div class="row">
@@ -84,7 +85,7 @@ if (isset ( $_SESSION ['accountPayee'] )) {
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 bold textRight">Description:</div>
 				<div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8">
 					<input type="text" class="form-control" name="transferDescription" id="transferDescription"
-						placeholder="Description" value="<?php if(isset($_SESSION['transferDescription'])){ echo $_SESSION['transferDescription']; } ?>">
+						placeholder="Description" value="<?php if(isset($_SESSION['transferDescription'])){ echo $_SESSION['transferDescription']; } ?>" required>
 				</div>
 			</div>
 			<div class="row">
@@ -97,7 +98,7 @@ if (isset ( $_SESSION ['accountPayee'] )) {
 					Name:</div>
 				<div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8">
 					<input type="text" class="form-control" name="transferRemitter" id="transferRemitter"
-						placeholder="Remitter" value="<?php if(isset($_SESSION['transferRemitter'])){ echo $_SESSION['transferRemitter']; } ?>">
+						placeholder="Remitter" value="<?php if(isset($_SESSION['transferRemitter'])){ echo $_SESSION['transferRemitter']; } ?>" required>
 				</div>
 			</div>
 			<div class="row">
@@ -114,7 +115,7 @@ if (isset ( $_SESSION ['accountPayee'] )) {
 					Date:</div>
 				<div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8">
 					<input type="date" class="form-control" name="transferDate" id="transferDate"
-						placeholder="Transfer Date" value="<?php if(isset($_SESSION['transferDate'])){ echo $_SESSION['transferDate']; } ?>">
+						placeholder="Transfer Date" value="<?php if(isset($_SESSION['transferDate'])){ echo $_SESSION['transferDate']; } ?>" required>
 				</div>
 			</div>
 			<div class="row">

@@ -19,15 +19,15 @@
 			<div class="col-xs-8 col-sm-8 col-md-6">
 <?php
 if (! isset ( $_SESSION ['loggedin'] )) {
-	echo '<form class="form-inline" method="post" action="Login">
+	echo '<form data-toggle="validator" role="form" class="form-inline" method="post" action="Login">
 					<div class="form-group">
 						<label class="sr-only" for="fabid">FAB ID</label> <input
-							type="text" class="form-control" name="fabid" id="fabid" placeholder="FAB ID">
+							type="text" class="form-control" name="fabid" id="fabid" placeholder="FAB ID" minlength="6" required>
 					</div>
 					<div class="form-group">
 						<label class="sr-only" for="password">Password</label> <input
 							type="password" class="form-control" name="password" id="password"
-							placeholder="Password">
+							placeholder="Password" minlength="8"  required>
 					</div>
 					<button type="submit" class="btn btn-default">Login</button>
 				</form>';

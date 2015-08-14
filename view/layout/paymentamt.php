@@ -46,15 +46,15 @@ if (isset ( $_SESSION ['accounts'] )) {
 						<div class="hidden-xs hidden-sm col-md-1 col-lg-1">&nbsp;</div>
 						<div class="hidden-xs col-sm-3 col-md-2 col-lg-2">Customer Ref:</div>
 						<div class="form-group col-xs-12 col-sm-9 col-md-7 col-lg-7">
-							<input type="text" class="form-control" name="custref" id="custref"
-								placeholder="Customer Reference No" value="<?php if(isset($_SESSION['payCustomerRef'])){ echo $_SESSION['payCustomerRef']; } ?>">
+							<input type="number" class="form-control" name="custref" id="custref"
+								placeholder="Customer Reference No" value="<?php if(isset($_SESSION['payCustomerRef'])){ echo $_SESSION['payCustomerRef']; } ?>" minlength="8" required>
 						</div>
 						<div class="hidden-xs hidden-sm col-md-2 col-lg-2">&nbsp;</div>
 						<div class="hidden-xs hidden-sm col-md-1 col-lg-1">&nbsp;</div>
 						<div class="hidden-xs col-sm-3 col-md-2 col-lg-2">Amount:</div>
 						<div class="form-group col-xs-12 col-sm-9 col-md-5 col-lg-5">
-							<input type="text" class="form-control" name="amount" id="amount"
-								placeholder="Amount" value="<?php if(isset($_SESSION['payAmount'])){ echo $_SESSION['payAmount']; } ?>">
+							<input type="text" class="form-control" name="amount" id="amount" pattern="\d+(\.\d{2})?"
+								placeholder="0.00" value="<?php if(isset($_SESSION['payAmount'])){ echo $_SESSION['payAmount']; } ?>" required>
 						</div>
 						<div class="note hidden-xs hidden-sm col-md-4 col-lg-4">Daily transfer limits apply for
 							payments outside of your own accounts.</div>
@@ -64,7 +64,7 @@ if (isset ( $_SESSION ['accounts'] )) {
 						<div class="hidden-xs col-sm-3 col-md-2 col-lg-2">Payment Date:</div>
 						<div class="form-group col-xs-12 col-sm-9 col-md-5 col-lg-5">
 							<input type="date" class="form-control" name="paymentDate" id="paymentDate"
-								placeholder="Payment Date" value="<?php if(isset($_SESSION['payDate'])){ echo $_SESSION['payDate']; } ?>">
+								placeholder="Payment Date" value="<?php if(isset($_SESSION['payDate'])){ echo $_SESSION['payDate']; } ?>" required>
 						</div>
 						<div class="note hidden-xs  hidden-sm col-md-4 col-lg-4">Please ensure your payment does
 							not exceed your limit and you have available funds on the due
