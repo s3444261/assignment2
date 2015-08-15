@@ -59,10 +59,10 @@ class Transactions {
 		$transactions = array ();
 		$query = "SELECT transactionID AS tid, accountID, transactionDate, transactionDescription, transactee, 
 					transactionStatus, transactionType,debits, credits, 
-					FORMAT((SELECT SUM(credits) - SUM(debits) + :openBalance
+					(SELECT SUM(credits) - SUM(debits) + :openBalance
 					FROM Transactions
 					WHERE accountID = :accountID
-					AND transactionID <= tid), 2) AS transactionBalance
+					AND transactionID <= tid) AS transactionBalance
 					FROM Transactions
 					WHERE accountID = :accountID " . $searchDetails . $amount . $fromDate . $toDate . " ORDER BY transactionDate DESC";
 		

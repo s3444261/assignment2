@@ -304,6 +304,114 @@ class Account {
 		}
 	}
 	
+	// This function is for the purpose of seed data and is not used in the application.
+	public function balanceAtDate($date) {
+		$query = "SELECT SUM(credits) - SUM(debits) as currentBalance
+					FROM Transactions
+					WHERE accountID = :accountID
+					AND transactionDate <= :transactionDate";
+	
+		$db = Database::getInstance ();
+		$stmt = $db->prepare ( $query );
+		$stmt->bindParam ( ':accountID', $this->_accountID );
+		$stmt->bindParam ( ':transactionDate', $date );
+		$stmt->execute ();
+		$row = $stmt->fetch ( PDO::FETCH_ASSOC );
+		
+		$this->getAccount ();
+		$balanceAtDate = $row ['currentBalance'] + $this->_openBalance;
+		
+		return $balanceAtDate;
+	}
+	
+	// This function is for the purpose of seed data and is not used in the application.
+	public function dailyInterest($date) {
+		$balance = $this->balanceAtDate($date);
+		if($balance >= 0){
+			$dailyInterest = ($balance * 0.015)/365;
+		} elseif($balance < 0){
+			$dailyInterest = ($balance * 0.1312)/365;
+		}
+		
+		return $dailyInterest;
+	}
+	
+	public function accruedDebitInterest(){
+		
+		if(date("n") <= 6){
+			$transactionDate = (date("Y") - 1) . '-07-01';
+		} else {
+			$transactionDate = date("Y") . '-07-01';
+		}
+		
+		$query = "SELECT SUM(debits) AS debitInterest
+					FROM transactions
+					WHERE accountID = :accountID
+					AND transactionDescription = 'DEBIT INTEREST'
+					AND transactionDate >= :transactionDate";
+		
+		$db = Database::getInstance ();
+		$stmt = $db->prepare ( $query );
+		$stmt->bindParam ( ':accountID', $this->_accountID );
+		$stmt->bindParam ( ':transactionDate', $transactionDate );
+		$stmt->execute ();
+		$row = $stmt->fetch ( PDO::FETCH_ASSOC );
+		
+		return $row['debitInterest'];
+	}
+	
+	public function accruedCreditInterest(){
+		
+		if(date("n") <= 6){
+			$transactionDate = (date("Y") - 1) . '-07-01';
+		} else {
+			$transactionDate = date("Y") . '-07-01';
+		}
+		
+		$query = "SELECT SUM(credits) AS creditInterest
+					FROM transactions
+					WHERE accountID = :accountID
+					AND transactionDescription = 'CREDIT INTEREST'
+					AND transactionDate >= :transactionDate";
+		
+		$db = Database::getInstance ();
+		$stmt = $db->prepare ( $query );
+		$stmt->bindParam ( ':accountID', $this->_accountID );
+		$stmt->bindParam ( ':transactionDate', $transactionDate );
+		$stmt->execute ();
+		$row = $stmt->fetch ( PDO::FETCH_ASSOC );
+		
+		return $row['creditInterest'];
+	}
+	
+	public function creditInterestLFY(){
+		
+		if(date("n") <= 6){
+			$startDate = (date("Y") - 2) . '-07-01';
+			$endDate = (date("Y") - 1) . '-06-30';
+		} else {
+			$startDate = (date("Y") - 1) . '-07-01';
+			$endDate = date("Y") . '-06-30';
+		}
+		
+		$query = "SELECT SUM(credits) AS creditInterest
+					FROM transactions
+					WHERE accountID = :accountID
+					AND transactionDescription = 'CREDIT INTEREST'
+					AND transactionDate >= :startDate
+					AND transactionDate <= :endDate";
+		
+		$db = Database::getInstance ();
+		$stmt = $db->prepare ( $query );
+		$stmt->bindParam ( ':accountID', $this->_accountID );
+		$stmt->bindParam ( ':startDate', $startDate );
+		$stmt->bindParam ( ':endDate', $endDate );
+		$stmt->execute ();
+		$row = $stmt->fetch ( PDO::FETCH_ASSOC );
+		
+		return $row['creditInterest'];
+	}
+	
 	// Display Object Contents
 	public function printf() {
 		echo '<br /><strong>Account Object:</strong><br />';

@@ -145,19 +145,20 @@ if (isset ( $_SESSION ['history'] )) {
 		$date = date_create ( $history ['transactionDate'] );
 		$date = date_format ( $date, 'd M y' );
 		if ($history ['debits'] != '0.00') {
-			$debits = $history ['debits'] . ' DR';
+			$debits = number_format($history ['debits'], 2) . ' DR';
 		} else {
 			$debits = null;
 		}
 		if ($history ['credits'] != '0.00') {
-			$credits = $history ['credits'] . ' CR';
+			$credits = number_format($history ['credits'], 2) . ' CR';
 		} else {
 			$credits = null;
 		}
+		$history ['transactionBalance'] = number_format($history ['transactionBalance'], 2);
 		if ($history ['transactionBalance'] > 0) {
 			$transactionBalance = $history ['transactionBalance'] . ' CR';
 		} else {
-			$transactionBalance = $history ['transactionBalance'] . ' CR';
+			$transactionBalance = ltrim($history ['transactionBalance'], '-') . ' DR';
 		}
 		echo '<tr class="group' . $group . ' hideRow">
 				<td>' . $date . '</td>

@@ -38,13 +38,25 @@ class Details {
 			$_SESSION['detRecordedLimit'] = $account->recordedLimit;
 		}
 		if(!isset($_SESSION['detAccruedDebitInterest'])){
-			$_SESSION['detAccruedDebitInterest'] = '0.00';
+			if(strlen($account->accruedDebitInterest()) == 0){
+				$_SESSION['detAccruedDebitInterest'] = '$0.00';
+			} else {
+				$_SESSION['detAccruedDebitInterest'] = '$' . number_format($account->accruedDebitInterest(),2);
+			}
 		}
 		if(!isset($_SESSION['detAccruedCreditInterest'])){
-			$_SESSION['detAccruedCreditInterest'] = '0.00';
+			if(strlen($account->accruedCreditInterest()) == 0){
+				$_SESSION['detAccruedCreditInterest'] = '$0.00';
+			} else {
+				$_SESSION['detAccruedCreditInterest'] = '$' . number_format($account->accruedCreditInterest(),2);
+			}
 		}
 		if(!isset($_SESSION['detInterestEarned'])){
-			$_SESSION['detInterestEarned'] = '0.00';
+			if(strlen($account->creditInterestLFY()) == 0){
+				$_SESSION['detInterestEarned'] = '$0.00';
+			} else {
+				$_SESSION['detInterestEarned'] = '$' . number_format($account->creditInterestLFY(),2);
+			}
 		}
 	}
 	
@@ -78,13 +90,25 @@ class Details {
 		$_SESSION['detProductName'] = $account->productName;
 		$_SESSION['detRecordedLimit'] = $account->recordedLimit;
 		if(!isset($_SESSION['detAccruedDebitInterest'])){
-			$_SESSION['detAccruedDebitInterest'] = '3.00';
+			if(strlen($account->accruedDebitInterest()) == 0){
+				$_SESSION['detAccruedDebitInterest'] = '$0.00';
+			} else {
+				$_SESSION['detAccruedDebitInterest'] = '$' . number_format($account->accruedDebitInterest(),2);
+			}
 		}
 		if(!isset($_SESSION['detAccruedCreditInterest'])){
-			$_SESSION['detAccruedCreditInterest'] = '5.00';
+			if(strlen($account->accruedCreditInterest()) == 0){
+				$_SESSION['detAccruedCreditInterest'] = '$0.00';
+			} else {
+				$_SESSION['detAccruedCreditInterest'] = '$' . number_format($account->accruedCreditInterest(),2);
+			}
 		}
 		if(!isset($_SESSION['detInterestEarned'])){
-			$_SESSION['detInterestEarned'] = '2.00';
+			if(strlen($account->creditInterestLFY()) == 0){
+				$_SESSION['detInterestEarned'] = '$0.00';
+			} else {
+				$_SESSION['detInterestEarned'] = '$' . number_format($account->creditInterestLFY(),2);
+			}
 		}
 	}
 	

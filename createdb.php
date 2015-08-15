@@ -134,7 +134,7 @@ $args[] = array('userID' => $userID,
 		'productName' => 'Savings Account',
 		'recordedLimit' => '0.00',
 		'openDate' => '2011-07-01',
-		'openBalance' => '1242.23'
+		'openBalance' => '2242.23'
 );
 $args[] = array('userID' => $userID,
 		'bsb' => '083-445',
@@ -144,7 +144,7 @@ $args[] = array('userID' => $userID,
 		'productName' => 'Overdraft Account',
 		'recordedLimit' => '-5000',
 		'openDate' => '2011-07-01',
-		'openBalance' => '2021.24'
+		'openBalance' => '4021.24'
 );
 $args[] = array('userID' => $userID,
 		'bsb' => '083-445',
@@ -284,12 +284,16 @@ date_default_timezone_set('Australia/Melbourne');
 $startDate = '2011-07-01';
 $currentDate = $startDate;
 $oneDay = new DateInterval('P1D');
+$int1 = 0;
+$int2 = 0;
+$int3 = 0;
 
 while(strtotime($currentDate) < time()){
 	$currentDate = new DateTime($currentDate);
 	$currentDate->add($oneDay);
 	$currentDate = $currentDate->format('Y-m-d');
 	$d = explode('-', $currentDate);
+	$lastDayOfMonth = date('t', strtotime($currentDate));
 	
 	if($d[2] == '1'){
 		$args = array('transactionDate' => $currentDate,
@@ -551,6 +555,99 @@ while(strtotime($currentDate) < time()){
 		$transaction = new Account();
 		$transaction->accountID = '1';
 		$transaction->accountTransaction($args);
+	}
+	
+	// Interest for Savings Account
+	$int = new Account();
+	$int->accountID = '1';
+	$int1 += $int->dailyInterest($currentDate);
+	
+	if($d[2] == $lastDayOfMonth){
+		if($int1 >= 0){
+			$args = array('transactionDate' => $currentDate,
+					'transactionDescription' => 'CREDIT INTEREST',
+					'transactee' => 'FAB',
+					'transactionType' => 'Credit',
+					'transactionStatus' => 'Deposit',
+					'credits' => $int1
+			);
+		} elseif($int1 < 0){
+			$args = array('transactionDate' => $currentDate,
+					'transactionDescription' => 'DEBIT INTEREST',
+					'transactee' => 'FAB',
+					'transactionType' => 'Debit',
+					'transactionStatus' => 'Paid',
+					'debits' => -$int1
+			);
+		}
+		
+		$transaction = new Account();
+		$transaction->accountID = '1';
+		$transaction->accountTransaction($args);
+		
+		$int1 = 0;
+	} 
+	
+	// Interest for Overdraft Account
+	$int = new Account();
+	$int->accountID = '2';
+	$int2 += $int->dailyInterest($currentDate);
+	
+	if($d[2] == $lastDayOfMonth){
+		if($int2 >= 0){
+			$args = array('transactionDate' => $currentDate,
+					'transactionDescription' => 'CREDIT INTEREST',
+					'transactee' => 'FAB',
+					'transactionType' => 'Credit',
+					'transactionStatus' => 'Deposit',
+					'credits' => $int2
+			);
+		} elseif($int2 < 0){
+			$args = array('transactionDate' => $currentDate,
+					'transactionDescription' => 'DEBIT INTEREST',
+					'transactee' => 'FAB',
+					'transactionType' => 'Debit',
+					'transactionStatus' => 'Paid',
+					'debits' => -$int2
+			);
+		}
+	
+		$transaction = new Account();
+		$transaction->accountID = '2';
+		$transaction->accountTransaction($args);
+	
+		$int2 = 0;
+	}
+	
+	// Interest for Savings Account
+	$int = new Account();
+	$int->accountID = '3';
+	$int3 += $int->dailyInterest($currentDate);
+	
+	if($d[2] == $lastDayOfMonth){
+		if($int3 >= 0){
+			$args = array('transactionDate' => $currentDate,
+					'transactionDescription' => 'CREDIT INTEREST',
+					'transactee' => 'FAB',
+					'transactionType' => 'Credit',
+					'transactionStatus' => 'Deposit',
+					'credits' => $int3
+			);
+		} elseif($int3 < 0){
+			$args = array('transactionDate' => $currentDate,
+					'transactionDescription' => 'DEBIT INTEREST',
+					'transactee' => 'FAB',
+					'transactionType' => 'Debit',
+					'transactionStatus' => 'Paid',
+					'debits' => -$int3
+			);
+		}
+	
+		$transaction = new Account();
+		$transaction->accountID = '3';
+		$transaction->accountTransaction($args);
+	
+		$int3 = 0;
 	}
 }
 
