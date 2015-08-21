@@ -11,6 +11,7 @@
 
 class Payeelist {
 	
+	// Initializes the Payee List based on which type of list is required.
 	public function init(){
 		$payment = new Payment();
 		$payment->cancelSessions();

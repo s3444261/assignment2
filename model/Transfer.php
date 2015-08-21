@@ -7,66 +7,63 @@
  * CPT375 Web Database Applications
  * 2015 - Study Period 2
  */
-
-
 class Transfer {
 	
-	public function init(){
-		
-		if(isset($_POST['transferNewFundsTransfer'])){
-			$transfer = new Transfer();
-			$transfer->cancelSessions();
-			unset($_POST['transferNewFundsTransfer']);
+	// Initialize the New Funds Transfer Page.
+	public function init() {
+		if (isset ( $_POST ['transferNewFundsTransfer'] )) {
+			$this->cancelSessions ();
+			unset ( $_POST ['transferNewFundsTransfer'] );
 		}
 		
-		$accounts = new Accounts();
-		$accounts->userID = $_SESSION['userID'];
-		$_SESSION['accounts'] = $accounts->getAccounts();
+		$accounts = new Accounts ();
+		$accounts->userID = $_SESSION ['userID'];
+		$_SESSION ['accounts'] = $accounts->getAccounts ();
 		
-		$accountPayees = new AccountPayees();
-		$accountPayees->userID = $_SESSION['userID'];
-		$_SESSION['accountPayee'] = $accountPayees->getBoth();
+		$accountPayees = new AccountPayees ();
+		$accountPayees->userID = $_SESSION ['userID'];
+		$_SESSION ['accountPayee'] = $accountPayees->getBoth ();
 	}
 	
-	public function cancelSessions(){
+	// Cancel any extraneous sessions for a funds transfer.
+	public function cancelSessions() {
+		unset ( $_SESSION ['accountID'] );
+		unset ( $_SESSION ['toID'] );
 		
-		unset($_SESSION['accountID']);
-		unset($_SESSION['toID']);
+		$accounts = new Accounts ();
+		$accounts->userID = $_SESSION ['userID'];
+		$accountIDs = $accounts->getAccountIDs ();
 		
-		$accounts = new Accounts();
-		$accounts->userID = $_SESSION['userID'];
-		$accountIDs = $accounts->getAccountIDs();
-		
-		foreach($accountIDs as $aID){
-			unset($_SESSION['transferSelectedAccount' . $aID]);
+		foreach ( $accountIDs as $aID ) {
+			unset ( $_SESSION ['transferSelectedAccount' . $aID] );
 		}
 		
-		$accountPayees = new AccountPayees();
-		$accountPayees->userID = $_SESSION['userID'];
-		$toIDs = $accountPayees->getToIDs();
+		$accountPayees = new AccountPayees ();
+		$accountPayees->userID = $_SESSION ['userID'];
+		$toIDs = $accountPayees->getToIDs ();
 		
-		foreach($toIDs as $tID){
-			unset($_SESSION['transferSelectedAccountPayee' . $tID]);
+		foreach ( $toIDs as $tID ) {
+			unset ( $_SESSION ['transferSelectedAccountPayee' . $tID] );
 		}
 		
-		if(isset($_SESSION['transferAmount'])){
-		
-			unset($_SESSION['transferAmount']);
-		}
+		if (isset ( $_SESSION ['transferAmount'] )) {
 			
-		if(isset($_SESSION['transferDescription'])){
-		
-			unset($_SESSION['transferDescription']);
+			unset ( $_SESSION ['transferAmount'] );
 		}
 		
-		if(isset($_SESSION['transferRemitter'])){
-		
-			unset($_SESSION['transferRemitter']);
+		if (isset ( $_SESSION ['transferDescription'] )) {
+			
+			unset ( $_SESSION ['transferDescription'] );
 		}
 		
-		if(isset($_SESSION['transferDate'])){
+		if (isset ( $_SESSION ['transferRemitter'] )) {
+			
+			unset ( $_SESSION ['transferRemitter'] );
+		}
 		
-			unset($_SESSION['transferDate']);
+		if (isset ( $_SESSION ['transferDate'] )) {
+			
+			unset ( $_SESSION ['transferDate'] );
 		}
 	}
 }

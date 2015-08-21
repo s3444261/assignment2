@@ -11,6 +11,7 @@
 
 class Summary {
 	
+	// Retrive all accounts for the user.
 	public function getAccounts(){
 		
 		$accounts = new Accounts(); 
@@ -18,6 +19,7 @@ class Summary {
 		return $accounts->getAccounts();
 	}
 	
+	// Retrieve the credit balance for the accounts.
 	public function getCreditBalance(){
 		$accounts = new Accounts(); 
 		$accounts->userID = $_SESSION['userID'];
@@ -30,6 +32,7 @@ class Summary {
 		return $cb;
 	}
 	
+	// Retrieve the debit balance for the accounts.
 	public function getDebitBalance(){
 		$accounts = new Accounts(); 
 		$accounts->userID = $_SESSION['userID'];
@@ -42,6 +45,7 @@ class Summary {
 		return $db;
 	}
 	
+	// Retrieve the net balance for the accounts.
 	public function getNetBalance(){
 		$accounts = new Accounts(); 
 		$accounts->userID = $_SESSION['userID'];

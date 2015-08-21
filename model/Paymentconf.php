@@ -11,6 +11,7 @@
 
 class Paymentconf {
 	
+	// Initialize the payment confirmation page.
 	public function init(){
 		
 		$account = new Account();

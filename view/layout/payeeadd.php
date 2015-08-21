@@ -1,4 +1,12 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
 ?>
 <h1>Add Payee Details</h1>
 
@@ -11,25 +19,31 @@
 		<form class="form-inline" method="post" action="New-Funds-Transfer">
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Account Name:</div>
-				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><input type="text" class="form-control" name="addPayeeAccountName" id="addPayeeAccountName"
-						placeholder="Account Name" required></div>
+				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+					<input type="text" class="form-control" name="addPayeeAccountName"
+						id="addPayeeAccountName" placeholder="Account Name" required>
+				</div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Account Nickname:</div>
-				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><input type="text" class="form-control" name="addPayeeAccountNickname" id="addPayeeAccountNickname"
-						placeholder="Account Nickname" required></div>
+				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+					<input type="text" class="form-control"
+						name="addPayeeAccountNickname" id="addPayeeAccountNickname"
+						placeholder="Account Nickname" required>
+				</div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">BSB:</div>
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-					<input type="text" class="form-control" name="addPayeeBSB" id="addPayeeBSB"
-						placeholder="BSB" required>
+					<input type="text" class="form-control" name="addPayeeBSB"
+						id="addPayeeBSB" placeholder="BSB" required>
 				</div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Account Number:</div>
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-					<input type="text" class="form-control" name="addPayeeAccountNumber" id="addPayeeAccountNumber"
+					<input type="text" class="form-control"
+						name="addPayeeAccountNumber" id="addPayeeAccountNumber"
 						placeholder="Account No" required>
 				</div>
 			</div>

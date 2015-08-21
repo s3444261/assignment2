@@ -1,4 +1,12 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
 $driver = Driver::getInstance ();
 
 ?>
@@ -13,7 +21,7 @@ $driver = Driver::getInstance ();
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 note">* Balances
 				shown on this transaction history may include transactions that are
-				not yet completed and may vary from the blanaces shown on your
+				not yet completed and may vary from the balances shown on your
 				account statements</div>
 		</div>
 		<div class="row">
@@ -145,20 +153,20 @@ if (isset ( $_SESSION ['history'] )) {
 		$date = date_create ( $history ['transactionDate'] );
 		$date = date_format ( $date, 'd M y' );
 		if ($history ['debits'] != '0.00') {
-			$debits = number_format($history ['debits'], 2) . ' DR';
+			$debits = number_format ( $history ['debits'], 2 ) . ' DR';
 		} else {
 			$debits = null;
 		}
 		if ($history ['credits'] != '0.00') {
-			$credits = number_format($history ['credits'], 2) . ' CR';
+			$credits = number_format ( $history ['credits'], 2 ) . ' CR';
 		} else {
 			$credits = null;
 		}
-		$history ['transactionBalance'] = number_format($history ['transactionBalance'], 2);
+		$history ['transactionBalance'] = number_format ( $history ['transactionBalance'], 2 );
 		if ($history ['transactionBalance'] > 0) {
 			$transactionBalance = $history ['transactionBalance'] . ' CR';
 		} else {
-			$transactionBalance = ltrim($history ['transactionBalance'], '-') . ' DR';
+			$transactionBalance = ltrim ( $history ['transactionBalance'], '-' ) . ' DR';
 		}
 		echo '<tr class="group' . $group . ' hideRow">
 				<td>' . $date . '</td>

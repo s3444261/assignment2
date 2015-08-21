@@ -1,8 +1,21 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
+
 if (! class_exists ( 'Database' )) {
 	require_once ('connect/Database.php');
 }
+
+// Transactions Class
 class Transactions {
+	
+	// Attributes
 	private $_transactionID = '';
 	private $_accountID = '';
 	private $_transactionDate = '';
@@ -15,6 +28,8 @@ class Transactions {
 	private $_credits = '';
 	private $_created_at;
 	private $_updated_at;
+	
+	// Constructor
 	function __construct($args = array()) {
 		foreach ( $args as $key => $val ) {
 			$name = '_' . $key;
@@ -23,14 +38,20 @@ class Transactions {
 			}
 		}
 	}
+	
+	// Getters.
 	public function &__get($name) {
 		$name = '_' . $name;
 		return $this->$name;
 	}
+	
+	// Setters.
 	public function __set($name, $value) {
 		$name = '_' . $name;
 		$this->$name = $value;
 	}
+	
+	// Retrieve a transaction from the database.
 	public function getTransaction() {
 		$query = "SELECT *
     				FROM Transactions
@@ -50,6 +71,8 @@ class Transactions {
 		$this->_debits = $row ['debits'];
 		$this->_credits = $row ['credits'];
 	}
+	
+	// Retrieve a number of transactions from a database, based on search parameters.
 	public function getTransactions($arr) {
 		$fromDate = $this->queryFromDate ();
 		$toDate = $this->queryToDate ();
@@ -88,6 +111,8 @@ class Transactions {
 		
 		return $transactions;
 	}
+	
+	// Retrieve the total debits for the search.
 	public function getDebits($arr) {
 		$fromDate = $this->queryFromDate ();
 		$toDate = $this->queryToDate ();
@@ -107,6 +132,8 @@ class Transactions {
 		
 		return $row ['totalDebits'];
 	}
+	
+	// Retrieve the total credits for the search.
 	public function getCredits($arr) {
 		$fromDate = $this->queryFromDate ();
 		$toDate = $this->queryToDate ();
@@ -126,6 +153,8 @@ class Transactions {
 		
 		return $row ['totalCredits'];
 	}
+	
+	// Retrieve the total fees for the search.
 	public function getFees($arr) {
 		$fromDate = $this->queryFromDate ();
 		$toDate = $this->queryToDate ();
@@ -150,6 +179,8 @@ class Transactions {
 		
 		return $row ['fees'];
 	}
+	
+	// Retrieve the net value for the search.
 	public function getNet($arr) {
 		$fromDate = $this->queryFromDate ();
 		$toDate = $this->queryToDate ();
@@ -191,6 +222,8 @@ class Transactions {
 		
 		return $row ['net'];
 	}
+	
+	// Count the resulting number of transactions.
 	public function countTransactions($arr) {
 		$fromDate = $this->queryFromDate ();
 		$toDate = $this->queryToDate ();
@@ -211,6 +244,8 @@ class Transactions {
 		
 		return $row ['numTransactions'];
 	}
+	
+	// Insert the transaction into the database.
 	public function set() {
 		$query = "INSERT INTO Transactions
 					SET accountID = :accountID,
@@ -241,6 +276,8 @@ class Transactions {
 			return 0;
 		}
 	}
+	
+	// Create the search parameter for the search string.
 	private function querySearch() {
 		$search = null;
 		if (isset ( $_SESSION ['searchDetails'] )) {
@@ -253,6 +290,8 @@ class Transactions {
 		}
 		return $search;
 	}
+	
+	// Create the from date parameter for the search string.
 	private function queryFromDate() {
 		if (isset ( $_SESSION ['fromDate'] )) {
 			$from = " AND transactionDate >= '" . $_SESSION ['fromDate'] . "'";
@@ -261,6 +300,8 @@ class Transactions {
 		}
 		return $from;
 	}
+	
+	// Create the to date parameter for the search string.
 	private function queryToDate() {
 		if (isset ( $_SESSION ['toDate'] )) {
 			$to = " AND transactionDate <= '" . $_SESSION ['toDate'] . "'";
@@ -269,6 +310,8 @@ class Transactions {
 		}
 		return $to;
 	}
+	
+	// Create the amount parameter for the search string.
 	private function queryAmount() {
 		$amount = null;
 		if (isset ( $_SESSION ['fromAmount'] ) && isset ( $_SESSION ['toAmount'] )) {
@@ -286,6 +329,7 @@ class Transactions {
 		return $amount;
 	}
 	
+	// Retireve Payments.
 	public function getPayments() {
 		
 		$transactionType = null;
@@ -370,6 +414,7 @@ class Transactions {
 		return $payments;
 	}
 	
+	// Count Payments retrieved.
 	public function countPayments() {
 	
 		$transactionType = null;

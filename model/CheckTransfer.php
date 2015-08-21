@@ -11,6 +11,8 @@
 
 class CheckTransfer {
 	
+	// Retrieves the values of the transfer to be displayed on the
+	// Check Transfer Page.
 	public function init(){
 		$account = new Account();
 		$account->accountID = $_SESSION['transferAccountID'];
@@ -28,11 +30,13 @@ class CheckTransfer {
 		$this->setAccountPayeeSelected($_SESSION['transferAccountPayeeID']); 
 	}
 	
+	// Clears the last settings displayed on the page.
 	public function unsetLast(){
 		unset($_SESSION['accounts']);
 		unset($_SESSION['accountPayee']);
 	}
 	
+	// Sets the account selected.
 	public function setAccountSelected($accountID){
 		$accounts = new Accounts();
 		$accounts->userID = $_SESSION['userID'];
@@ -44,6 +48,7 @@ class CheckTransfer {
 		$_SESSION['transferSelectedAccount' . $accountID] = 'selected="selected"';
 	}
 	
+	// Sets the payee selected.
 	public function setAccountPayeeSelected($accountPayeeID){
 		$accountPayees = new AccountPayees();
 		$accountPayees->userID = $_SESSION['userID'];

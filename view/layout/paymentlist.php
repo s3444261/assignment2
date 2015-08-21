@@ -1,4 +1,12 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
 ?>
 <h1>Payment List</h1>
 
@@ -161,7 +169,7 @@ $group = 1;
 foreach ( $_SESSION ['payeeTransactions'] as $pt ) {
 	$date = date_create ( $pt ['payeeDate'] );
 	$date = date_format ( $date, 'd M y' );
-	if($pt['payeeAmount'] != '0.00'){
+	if ($pt ['payeeAmount'] != '0.00') {
 		echo '<tr class="group' . $group . ' hideRow">
 				<td>' . $date . '</td>
 				<td>' . $pt ['payeeType'] . '</td>
@@ -172,9 +180,9 @@ foreach ( $_SESSION ['payeeTransactions'] as $pt ) {
 			</tr>';
 	}
 	if ($counter % $displayItems == 0) {
-		$group++;
+		$group ++;
 	}
-	$counter++;
+	$counter ++;
 }
 ?>
 					</tbody>

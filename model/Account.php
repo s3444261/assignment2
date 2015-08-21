@@ -1,8 +1,18 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
 if (! class_exists ( 'Database' )) {
 	require_once ('connect/Database.php');
 }
 class Account {
+	
+	// Attributes
 	private $_accountID = '';
 	private $_userID = '';
 	private $_bsb = '';
@@ -15,6 +25,8 @@ class Account {
 	private $_openBalance = '';
 	private $_created_at;
 	private $_updated_at;
+	
+	// Constructor
 	function __construct($args = array()) {
 		foreach ( $args as $key => $val ) {
 			$name = '_' . $key;
@@ -23,14 +35,20 @@ class Account {
 			}
 		}
 	}
+	
+	// Getters
 	public function &__get($name) {
 		$name = '_' . $name;
 		return $this->$name;
 	}
+	
+	// Setters
 	public function __set($name, $value) {
 		$name = '_' . $name;
 		$this->$name = $value;
 	}
+	
+	// Retrieves an account from the database.
 	public function getAccount() {
 		$query = "SELECT *
     				FROM Accounts
@@ -51,6 +69,8 @@ class Account {
 		$this->_openDate = $row ['openDate'];
 		$this->_openBalance = $row ['openBalance'];
 	}
+	
+	// Inserts a new account into the database.
 	public function set() {
 		$query = "INSERT INTO Accounts
 					SET userID = :userID,
@@ -83,11 +103,15 @@ class Account {
 			return 0;
 		}
 	}
+	
+	// Adds an account transaction.
 	public function accountTransaction($arr) {
 		$arr ['accountID'] = $this->_accountID;
 		$transaction = new Transactions ( $arr );
 		$transaction->set ();
 	}
+	
+	// Retrieves transactions for an account.
 	public function getTransactions() {
 		$query = "SELECT *
     				FROM Transactions
@@ -117,6 +141,8 @@ class Account {
 		
 		return $transactions;
 	}
+	
+	// Retrieves the current balance of an account.
 	public function currentBalance() {
 		$query = "SELECT SUM(credits) - SUM(debits) as currentBalance
 					FROM Transactions 
@@ -132,6 +158,8 @@ class Account {
 		
 		return $row ['currentBalance'] + $this->_openBalance;
 	}
+	
+	// Retrieves the available balance of an account
 	public function availableBalance() {
 		$query = "SELECT SUM(credits) - SUM(debits) as availableBalance
 					FROM Transactions 
@@ -146,8 +174,16 @@ class Account {
 		
 		$this->getAccount ();
 		
-		return $row ['availableBalance'] + $this->_openBalance;
+		$availableBalance = $row ['availableBalance'] + $this->_openBalance;
+		
+		if ($this->_recordedLimit < 0) {
+			$availableBalance = $availableBalance - $this->_recordedLimit;
+		}
+		
+		return $availableBalance;
 	}
+	
+	// Checks there are sufficient funds in an account.
 	public function sufficientFunds($amount) {
 		if (($this->availableBalance () - $this->_recordedLimit) >= $amount) {
 			return true;
@@ -155,6 +191,8 @@ class Account {
 			return false;
 		}
 	}
+	
+	// Processes a bill payment.
 	public function processPayment() {
 		$this->getAccount ();
 		$transaction = new Transactions ();
@@ -182,16 +220,18 @@ class Account {
 		$transaction->debits = $_SESSION ['payAmount'];
 		
 		$transaction->transactionID = $transaction->set ();
-		if ($transaction->transactionID > 0) { 
+		if ($transaction->transactionID > 0) {
 			$transaction->getTransaction ();
 			$conf = 'B' . $paymentDate . $transaction->transactionID;
 			$_SESSION ['payConf'] = $conf;
-			$_SESSION ['payCreated'] = $transaction->transactionDate; 
+			$_SESSION ['payCreated'] = $transaction->transactionDate;
 			return true;
 		} else {
 			return false;
 		}
 	}
+	
+	// Processes a funds transfer.
 	public function processTransfer() {
 		if (isset ( $_SESSION ['transferType'] )) {
 			if ($_SESSION ['transferType'] == 'Account') {
@@ -209,7 +249,16 @@ class Account {
 			}
 		}
 	}
+	
+	// Transfers funds from one of the users accounts to another of the
+	// users accounts.
+	// Note: I did not see the need to lock the tables in this instance
+	// as the funds were being taken from the relevent account first. This
+	// ensures that any other concurrent transactions would not breach any
+	// business rules.
 	public function processTransferAccount() {
+		
+		// Transfer funds from the account.
 		$this->getAccount ();
 		$transaction = new Transactions ();
 		$transaction->accountID = $this->_accountID;
@@ -236,6 +285,8 @@ class Account {
 		$transaction->transactionType = 'Payee';
 		
 		$transaction->transactionID = $transaction->set ();
+		
+		// Transfer funds to the selected account
 		if ($transaction->transactionID > 0) {
 			$transaction->getTransaction ();
 			$conf = 'B' . $transferDate . $transaction->transactionID;
@@ -243,12 +294,12 @@ class Account {
 			$_SESSION ['transferCreated'] = $transaction->transactionDate;
 			
 			// Reverse Transaction
-			$id = explode('-', $_SESSION['transferAccountPayeeID']);
-			$account2 = new Account();
+			$id = explode ( '-', $_SESSION ['transferAccountPayeeID'] );
+			$account2 = new Account ();
 			$account2->accountID = $transaction->accountID;
-			$account2->getAccount();
-			$transaction2 = new Transactions();
-			$transaction2->accountID = $id[1];
+			$account2->getAccount ();
+			$transaction2 = new Transactions ();
+			$transaction2->accountID = $id [1];
 			$transaction2->transactionDate = $transaction->transactionDate;
 			$transaction2->transactionDescription = $transaction->transactionDescription;
 			$transaction2->transactee = $account2->accountName;
@@ -266,6 +317,8 @@ class Account {
 			return false;
 		}
 	}
+	
+	// Transfers funds to a payee.
 	public function processTransferPayee() {
 		$this->getAccount ();
 		$transaction = new Transactions ();
@@ -310,7 +363,7 @@ class Account {
 					FROM Transactions
 					WHERE accountID = :accountID
 					AND transactionDate <= :transactionDate";
-	
+		
 		$db = Database::getInstance ();
 		$stmt = $db->prepare ( $query );
 		$stmt->bindParam ( ':accountID', $this->_accountID );
@@ -326,26 +379,26 @@ class Account {
 	
 	// This function is for the purpose of seed data and is not used in the application.
 	public function dailyInterest($date) {
-		$balance = $this->balanceAtDate($date);
-		if($balance >= 0){
-			$dailyInterest = ($balance * 0.015)/365;
-		} elseif($balance < 0){
-			$dailyInterest = ($balance * 0.1312)/365;
+		$balance = $this->balanceAtDate ( $date );
+		if ($balance >= 0) {
+			$dailyInterest = ($balance * 0.015) / 365;
+		} elseif ($balance < 0) {
+			$dailyInterest = ($balance * 0.1312) / 365;
 		}
 		
 		return $dailyInterest;
 	}
 	
-	public function accruedDebitInterest(){
-		
-		if(date("n") <= 6){
-			$transactionDate = (date("Y") - 1) . '-07-01';
+	// Retrieves the accrued debit interest for an account.
+	public function accruedDebitInterest() {
+		if (date ( "n" ) <= 6) {
+			$transactionDate = (date ( "Y" ) - 1) . '-07-01';
 		} else {
-			$transactionDate = date("Y") . '-07-01';
+			$transactionDate = date ( "Y" ) . '-07-01';
 		}
 		
 		$query = "SELECT SUM(debits) AS debitInterest
-					FROM transactions
+					FROM Transactions
 					WHERE accountID = :accountID
 					AND transactionDescription = 'DEBIT INTEREST'
 					AND transactionDate >= :transactionDate";
@@ -357,19 +410,19 @@ class Account {
 		$stmt->execute ();
 		$row = $stmt->fetch ( PDO::FETCH_ASSOC );
 		
-		return $row['debitInterest'];
+		return $row ['debitInterest'];
 	}
 	
-	public function accruedCreditInterest(){
-		
-		if(date("n") <= 6){
-			$transactionDate = (date("Y") - 1) . '-07-01';
+	// Retrieves the accrued credit interest for an account.
+	public function accruedCreditInterest() {
+		if (date ( "n" ) <= 6) {
+			$transactionDate = (date ( "Y" ) - 1) . '-07-01';
 		} else {
-			$transactionDate = date("Y") . '-07-01';
+			$transactionDate = date ( "Y" ) . '-07-01';
 		}
 		
 		$query = "SELECT SUM(credits) AS creditInterest
-					FROM transactions
+					FROM Transactions
 					WHERE accountID = :accountID
 					AND transactionDescription = 'CREDIT INTEREST'
 					AND transactionDate >= :transactionDate";
@@ -381,21 +434,22 @@ class Account {
 		$stmt->execute ();
 		$row = $stmt->fetch ( PDO::FETCH_ASSOC );
 		
-		return $row['creditInterest'];
+		return $row ['creditInterest'];
 	}
 	
-	public function creditInterestLFY(){
-		
-		if(date("n") <= 6){
-			$startDate = (date("Y") - 2) . '-07-01';
-			$endDate = (date("Y") - 1) . '-06-30';
+	// Retrieves the credit interest for an account for the last
+	// financial year.
+	public function creditInterestLFY() {
+		if (date ( "n" ) <= 6) {
+			$startDate = (date ( "Y" ) - 2) . '-07-01';
+			$endDate = (date ( "Y" ) - 1) . '-06-30';
 		} else {
-			$startDate = (date("Y") - 1) . '-07-01';
-			$endDate = date("Y") . '-06-30';
+			$startDate = (date ( "Y" ) - 1) . '-07-01';
+			$endDate = date ( "Y" ) . '-06-30';
 		}
 		
 		$query = "SELECT SUM(credits) AS creditInterest
-					FROM transactions
+					FROM Transactions
 					WHERE accountID = :accountID
 					AND transactionDescription = 'CREDIT INTEREST'
 					AND transactionDate >= :startDate
@@ -409,7 +463,7 @@ class Account {
 		$stmt->execute ();
 		$row = $stmt->fetch ( PDO::FETCH_ASSOC );
 		
-		return $row['creditInterest'];
+		return $row ['creditInterest'];
 	}
 	
 	// Display Object Contents

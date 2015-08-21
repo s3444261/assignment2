@@ -1,4 +1,12 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
 ?>
 <h1>New Bill Payment - Bank Acknowledgement</h1>
 
@@ -39,13 +47,14 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 textRight marginTop20">
+				<div
+					class="col-xs-9 col-sm-9 col-md-9 col-lg-9 textRight marginTop20">
 					<form class="form-inline" method="post" action="Bill-Payment-List">
 						<button type="submit" name="payPaymentList"
 							class="btn btn-primary">Return To List</button>
 					</form>
-					</div>
-					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 marginTop20">
+				</div>
+				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 marginTop20">
 					<form class="form-inline" method="post" action="New-Bill-Payment">
 						<button type="submit" name="payNewBillPayment"
 							class="btn btn-primary">Pay Another Bill</button>

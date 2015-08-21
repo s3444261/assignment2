@@ -11,6 +11,7 @@
 
 class Paymentamt {
 	
+	// Retrieves the initial values for the Payment Amount Page.
 	public function init(){
 		
 		$accounts = new Accounts();
@@ -35,13 +36,16 @@ class Paymentamt {
 		}
 	}
 	
+	// Clears any previous values for the Payment Amount Page.
 	public function unsetLast(){
 		unset($_SESSION['accounts']);
 		unset($_SESSION['billers']);
 	}
 	
+	// Sets the account selected.
 	public function setAccountSelected($accountID){
-		$accountIDs = array(1,2,3);
+		$accounts = new Accounts();
+		$accountIDs = $accounts->getAccountIDs();
 		
 		foreach($accountIDs as $aID){
 			unset($_SESSION['paySelectedAccount' . $aID]);
@@ -49,8 +53,10 @@ class Paymentamt {
 		$_SESSION['paySelectedAccount' . $accountID] = 'selected="selected"';
 	}
 	
+	// Sets the biller selected.
 	public function setBillerSelected($billerID){
-		$billerIDs = array(1,2,3);
+		$billers = new Billers();
+		$billerIDs = $billers->getBillerIDs();
 	
 		foreach($billerIDs as $bID){
 			unset($_SESSION['paySelectedBiller' . $bID]);

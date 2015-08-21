@@ -1,4 +1,12 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
 ?>
 <h1>Account Details</h1>
 
@@ -18,7 +26,9 @@
 if (isset ( $_SESSION ['accounts'] )) {
 	foreach ( $_SESSION ['accounts'] as $account ) {
 		echo '<option value="' . $account ['accountID'] . '" ';
-		if(isset($_SESSION ['detSelectedAccount' . $account ['accountID']])){ echo $_SESSION ['detSelectedAccount' . $account ['accountID']]; }
+		if (isset ( $_SESSION ['detSelectedAccount' . $account ['accountID']] )) {
+			echo $_SESSION ['detSelectedAccount' . $account ['accountID']];
+		}
 		echo ' >' . $account ['accountName'] . '</option>';
 	}
 }
@@ -30,8 +40,7 @@ if (isset ( $_SESSION ['accounts'] )) {
 			</div>
 		</div>
 		<div class="row">
-			<div
-				class="col-xs-12 col-sm-12 col-md-12 col-lg-12 marginTop20">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 marginTop20">
 				<div class="col-xs-6 col-md-4">Account Nickname:</div>
 				<div class="col-xs-6 col-md-3 textRight"><?php if(isset($_SESSION['detAccountNickname'])){ echo $_SESSION['detAccountNickname']; } ?></div>
 				<div class="col-xs-hidden col-md-5">&nbsp;</div>

@@ -8,7 +8,11 @@
  * 2015 - Study Period 2
  */
 class ChecktransferController {
+	
+	// Displays the layout for the Check Transfer page.
 	public function display() {
+		
+		// Cancels the transfer.
 		if (isset ( $_POST ['cancel'] )) {
 			$transfer = new Transfer ();
 			$transfer->cancelSessions ();
@@ -16,6 +20,8 @@ class ChecktransferController {
 			$pos = strrpos ( $_SERVER ['HTTP_REFERER'], '/' );
 			$pos = strlen ( $_SERVER ['HTTP_REFERER'] ) - $pos;
 			header ( "Location: " . substr ( $_SERVER ['HTTP_REFERER'], 0, - $pos + 1 ) . "New-Funds-Transfer" );
+			
+			// Proceeds with the transfer.
 		} elseif (isset ( $_POST ['next'] )) {
 			
 			$checktransfer = new CheckTransfer ();
@@ -33,6 +39,8 @@ class ChecktransferController {
 			$validate = new Validation ();
 			
 			if (isset ( $_POST ['transferAmount'] )) {
+				
+				// Validates the amount.
 				try {
 					$transferAmount = $_POST ['transferAmount'];
 					unset ( $_POST ['transferAmount'] );
@@ -48,6 +56,7 @@ class ChecktransferController {
 				} else {
 					$_SESSION ['transferAmount'] = $transferAmount;
 					
+					// Validates the description.
 					try {
 						$transferDescription = $_POST ['transferDescription'];
 						unset ( $_POST ['transferDescription'] );
@@ -63,6 +72,7 @@ class ChecktransferController {
 					} else {
 						$_SESSION ['transferDescription'] = $transferDescription;
 						
+						// Validates the remitter.
 						try {
 							$transferRemitter = $_POST ['transferRemitter'];
 							unset ( $_POST ['transferRemitter'] );
@@ -78,6 +88,7 @@ class ChecktransferController {
 						} else {
 							$_SESSION ['transferRemitter'] = $transferRemitter;
 							
+							// Validates the date.
 							try {
 								$transferDate = $_POST ['transferDate'];
 								unset ( $_POST ['transferDate'] );
@@ -93,6 +104,7 @@ class ChecktransferController {
 							} else {
 								$_SESSION ['transferDate'] = $transferDate;
 								
+								// Displays the Check Transfer Page.
 								$checktransfer->init ();
 								
 								include 'view/layout/checktransfer.php';

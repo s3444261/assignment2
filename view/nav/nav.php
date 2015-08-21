@@ -58,11 +58,12 @@
 						<li><a href="Funds-Transfer-Payee-List">Payee List</a></li>
 					</ul></li>
 			</ul>
+			<!--  Note:  To obtain easy access to CreateDB, uncomment this link while testing to reset and reseed the database.
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="createdb.php">Create DB</a></li>
-			</ul>
+			</ul>  -->
 <?php
-if (isset($_SESSION ['loggedin'])) {
+if (isset ( $_SESSION ['loggedin'] )) {
 	echo '<ul class="nav navbar-nav navbar-right">
         <li><a href="Logout">Logout</a></li>
       </ul>';

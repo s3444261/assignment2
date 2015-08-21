@@ -9,6 +9,7 @@
  */
 class BillerdeleteController {
 	
+	// Displays the layout for the Delete Biller Page.
 	public function display()
 	{
 		$biller = new Billers();

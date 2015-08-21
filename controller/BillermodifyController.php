@@ -9,6 +9,7 @@
  */
 class BillermodifyController {
 	
+	// Displays the layout for the Biller Modify Page.
 	public function display()
 	{
 		include 'view/layout/billermodify.php';

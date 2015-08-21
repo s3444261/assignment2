@@ -1,4 +1,12 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
 ?>
 <h1>Payee List</h1>
 
@@ -27,28 +35,28 @@
 				</div>
 			</div>
 		</form>
-	<div class="row">
-		<div
-			class="col-xs-12 col-sm-12 col-md-12 col-lg-12 marginTop20 textRight">
-			<a href="Biller-Add" class="btn btn-primary btn-md"
-				role="button">Add Biller</a> <a href="Payee-Add"
-				class="btn btn-primary btn-md" role="button">Add Payee</a>
+		<div class="row">
+			<div
+				class="col-xs-12 col-sm-12 col-md-12 col-lg-12 marginTop20 textRight">
+				<a href="Biller-Add" class="btn btn-primary btn-md" role="button">Add
+					Biller</a> <a href="Payee-Add" class="btn btn-primary btn-md"
+					role="button">Add Payee</a>
+			</div>
 		</div>
-	</div>
 
-	<div class="row">
-		<div
-			class=" col-xs-12 col-sm-12 col-md-12 col-lg-12 marginTop20 table-responsive">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Nickname</th>
-						<th>Pay To</th>
-						<th>Pay Type</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
+		<div class="row">
+			<div
+				class=" col-xs-12 col-sm-12 col-md-12 col-lg-12 marginTop20 table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Nickname</th>
+							<th>Pay To</th>
+							<th>Pay Type</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
 <?php
 if (isset ( $_SESSION ['payeeList'] )) {
 	foreach ( $_SESSION ['payeeList'] as $p ) {
@@ -64,9 +72,9 @@ if (isset ( $_SESSION ['payeeList'] )) {
 
 ?>
 				</tbody>
-			</table>
+				</table>
+			</div>
 		</div>
 	</div>
-</div>
 </div>
 

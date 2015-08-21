@@ -9,6 +9,7 @@
  */
 class PayeemodifyController {
 	
+	// Display the Modify Payee Page.
 	public function display()
 	{
 		include 'view/layout/payeemodify.php';

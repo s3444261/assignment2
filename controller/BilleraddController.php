@@ -9,6 +9,7 @@
  */
 class BilleraddController {
 	
+	// Displays the layout
 	public function display()
 	{
 		include 'view/layout/billeradd.php';

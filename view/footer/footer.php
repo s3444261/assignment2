@@ -48,5 +48,11 @@ if(isset($_SESSION ['numPayments'])){
 ?>
 });
 </script>
+<?php 
+if($_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/Home'){
+	echo '<footer>&#9400; Federal Australia Bank Limited - A ficticious site built for educational purposes.</footer>';
+}
+?>
+
 </body>
 </html>

@@ -9,6 +9,7 @@
  */
 class PaymentamtController {
 	
+	// Displays the Payment Amount Page.
 	public function display()
 	{
 		$paymentamt = new Paymentamt();
@@ -20,6 +21,7 @@ class PaymentamtController {
 			unset($_POST['account']);
 				
 			$_SESSION['payBillerID'] = $_POST['biller'];
+			$_SESSION ['paySelectedBiller' . $_SESSION['payBillerID']] = 'selected="selected"';
 			unset($_POST['biller']);
 		}
 		

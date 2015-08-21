@@ -1,10 +1,19 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
 if(!class_exists('Database')){
 	require_once('connect/Database.php');
 }
 
 class BillerPayees
 {
+	// Attribute
 	private $_userID = '';
 
 	function __construct($args  = array()){
@@ -16,21 +25,23 @@ class BillerPayees
 		}
 	}
 
+	// Getter
 	public function &__get($name)
 	{
 		$name = '_'.$name;
 		return $this->$name;
 	}
 
+	// Setter
 	public function __set($name, $value)
 	{
 		$name = '_'.$name;
 		$this->$name = $value;
 	}
 	
+	// Retrieve all billers for a user from the database.
 	public function getBillers()
 	{
-    	 
     	$query = "SELECT billerName
     				FROM Billers
     				WHERE userID = :userID
@@ -50,9 +61,9 @@ class BillerPayees
     	return $billers;
 	}
     	
+	// Retrieve all payees for a user from the database.
 	public function getPayees()
 	{
-    	 
     	$query = "SELECT accountName
     				FROM Payees
     				WHERE userID = :userID
@@ -72,10 +83,11 @@ class BillerPayees
     	return $payees;
     }
     
+    // Retrieve both billers and payees for a user from the database.
     public function getBoth()
     {
     	$query = "SELECT accountName AS payeeName
-					FROM payees
+					FROM Payees
 					WHERE userID = :userID
 					AND payeeStatus != 'deleted'
 					UNION
@@ -99,6 +111,7 @@ class BillerPayees
     	return $payees;
     }
     
+    // Retrieve data for the billers list from the database.
     public function getBillersList()
     {
     	$query = "SELECT billerNickname AS payeeNickname,
@@ -129,6 +142,7 @@ class BillerPayees
     	return $billers;
     }
     
+    // Retrieve data for the payees list from the database.
     public function getPayeesList()
     {
     	$query = "SELECT accountNickname AS payeeNickname,
@@ -160,6 +174,7 @@ class BillerPayees
     	return $payeesList;
     }
     
+    // Retrieve data for both the billers and payees for a user from the database.
     public function getBothList()
     {
     	$query = "SELECT billerNickname AS payeeNickname,

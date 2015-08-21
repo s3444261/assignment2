@@ -8,6 +8,8 @@
  * 2015 - Study Period 2
  */
 class Paymentlist {
+	
+	// Initialize the payment list for first viewing.
 	public function init() {
 		$payment = new Payment ();
 		$payment->cancelSessions ();
@@ -38,15 +40,10 @@ class Paymentlist {
 			$_SESSION ['payees'] = $billerPayees->getPayees();
 		}
 		
-		if (isset ( $_SESSION ['billPaymentList'] )) {
-			$this->getBillPayments ();
-		} elseif (isset ( $_SESSION ['fundsTransferPaymentList'] )) {
-			$this->getFundsTransferPayments ();
-		} elseif (isset ( $_SESSION ['allPaymentList'] )) {
-			$this->getAllPayments ();
-		}
+		$this->getPayments();
 	}
 	
+	// Initialize sessions from the last view of the payments list.
 	public function unsetLast() {
 		unset ( $_SESSION ['accounts'] );
 		unset ( $_SESSION ['payeeTransactions'] );
@@ -59,6 +56,7 @@ class Paymentlist {
 		unset ( $_SESSION ['payListToDate'] );
 	}
 	
+	// Clear the search filter.
 	public function clearFilter() {
 		$payees = new Payees();
 		$payeeIDs = $payees->getPayeeIDs();
@@ -74,6 +72,7 @@ class Paymentlist {
 		unset ( $_SESSION ['payListToDate'] );
 	}
 	
+	// Retrieve results based on search.
 	public function searchResults($search) {
 		$payment = new Payment ();
 		$payment->cancelSessions ();
@@ -116,17 +115,10 @@ class Paymentlist {
 		$_SESSION ['payListFromDate'] = $search ['payListFromDate'];
 		$_SESSION ['payListToDate'] = $search ['payListToDate'];
 		
-		if (isset ( $_SESSION ['billPaymentList'] )) {
-			$this->getBillPayments ();
-		} elseif (isset ( $_SESSION ['fundsTransferPaymentList'] )) {
-			$this->getfundsTransferPayments ();
-		} elseif (isset ( $_SESSION ['allPaymentList'] )) {
-			$this->getAllPayments ();
-		}
-		
-		
+		$this->getPayments();
 	}
 	
+	// Set the account that had been selected.
 	public function setAccountSelected($accountID){
 		$accounts = new Accounts();
 		$accounts->userID = $_SESSION['userID'];
@@ -138,26 +130,19 @@ class Paymentlist {
 		$_SESSION ['payListSelectedAccount' . $accountID] = 'selected="selected"';
 	}
 	
-	public function getBillPayments() {
+	// Retrieve payments.
+	public function getPayments() {
 		$payments = new Transactions();
 		$payments->accountID = $_SESSION ['accountID'];
-		$payments->transactionType = 'Biller';
+		if (isset ( $_SESSION ['billPaymentList'] )) {
+			$payments->transactionType = 'Biller';
+		} elseif (isset ( $_SESSION ['fundsTransferPaymentList'] )) {
+			$payments->transactionType = 'Payee';
+		} elseif (isset ( $_SESSION ['allPaymentList'] )) {
+			$payments->transactionType = 'Both';
+		}
 		$_SESSION ['payeeTransactions'] = $payments->getPayments();
 		$_SESSION['numPayments'] = $payments->countPayments(); 
-	}
-	public function getFundsTransferPayments() {
-		$payments = new Transactions();
-		$payments->accountID = $_SESSION ['accountID'];
-		$payments->transactionType = 'Payee';
-		$_SESSION ['payeeTransactions'] = $payments->getPayments();
-		$_SESSION['numPayments'] = $payments->countPayments();
-	}
-	public function getAllPayments() {
-		$payments = new Transactions();
-		$payments->accountID = $_SESSION ['accountID'];
-		$payments->transactionType = 'Both';
-		$_SESSION ['payeeTransactions'] = $payments->getPayments();
-		$_SESSION['numPayments'] = $payments->countPayments();
 	}
 }
 ?>

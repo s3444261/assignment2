@@ -9,6 +9,10 @@
  */
 class DetailsController {
 	
+	// Displays the Account Details Page
+	// If details have already been set, use those,
+	// otherwise display details for the first account
+	// in the list.
 	public function display()
 	{
 		$details = new Details();

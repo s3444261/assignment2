@@ -1,12 +1,22 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
 if(!class_exists('Database')){
 	require_once('connect/Database.php');
 }
 
 class Accounts
 {		
+	// Attribute
 	private $_userID = '';
 	
+	// Constructor
 	function __construct($args  = array()){
 		foreach($args as $key => $val) {
 			$name = '_' . $key;
@@ -16,18 +26,21 @@ class Accounts
 		}
 	}
 	
+	// Getter
 	public function &__get($name)
     {
         $name = '_'.$name;
 		return $this->$name;
     }
 
+    // Setter
 	public function __set($name, $value)
     {
         $name = '_'.$name;
 		$this->$name = $value;
     }
     
+    // Retrieves all accounts from the database for a user.
     public function getAccounts(){
     	 
     	$query = "SELECT *
@@ -65,6 +78,7 @@ class Accounts
     	return $accounts;
     }
     
+    // Retrieve the furst account on a users list from the database.
     public function getFirstAccount(){
     
     	$query = "SELECT *
@@ -96,6 +110,7 @@ class Accounts
     	return $account;
     }
     
+    // Retrieves all accountID's for accounts listed for a user in the database.
     public function getAccountIDs(){
     
     	$query = "SELECT accountID
@@ -116,6 +131,7 @@ class Accounts
     	return $accountIDs;
     }
     
+    // Retrieves the credit balance for all a users accounts.
     public function getCreditBalance(){
     	$creditBalance = null;
     	$accounts = $this->getAccounts(); 
@@ -127,6 +143,7 @@ class Accounts
     	return $creditBalance;
     }
     
+    // Retrieve the debit balance for all a users accounts.
     public function getDebitBalance(){
     	$debitBalance = null;
     	$accounts = $this->getAccounts(); 
@@ -138,6 +155,7 @@ class Accounts
     	return -($debitBalance);
     }
     
+    // Retrieves the net balance for all a users accounts.
     public function getNetBalance(){
     	$netBalance = null;
     	$accounts = $this->getAccounts(); 

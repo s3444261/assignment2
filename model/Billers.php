@@ -1,10 +1,19 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
 if(!class_exists('Database')){
 	require_once('connect/Database.php');
 }
 
 class Billers 
 {		
+	// Attributes
 	private $_billerID = '';
 	private $_userID = '';
 	private $_billerCode = '';
@@ -15,6 +24,7 @@ class Billers
 	private $_created_at;
 	private $_updated_at;
 	
+	// Constructor
 	function __construct($args  = array()){
 		foreach($args as $key => $val) {
 			$name = '_' . $key;
@@ -24,18 +34,21 @@ class Billers
 		}
 	}
 	
+	// Getters
 	public function &__get($name)
     {
         $name = '_'.$name;
 		return $this->$name;
     }
 
+    // Setters
 	public function __set($name, $value)
     {
         $name = '_'.$name;
 		$this->$name = $value;
     }
     
+    // Retrieve a biller from the database.
     public function getBiller(){
     	
     	$query = "SELECT *
@@ -56,6 +69,7 @@ class Billers
     	$this->_billerStatus = $row['billerStatus'];
     }
     
+    // Retrieve all the billers for a user from the database.
     public function getBillers(){
     	 
     	$query = "SELECT *
@@ -85,6 +99,8 @@ class Billers
     	return $billers;
     }
     
+    // Retrieve the biller ID's for all billers for a particular user
+    // stored in the database.
     public function getBillerIDs(){
     
     	$query = "SELECT billerID
@@ -106,6 +122,7 @@ class Billers
     	return $billerIDs;
     }
     
+    // Insert a biller into the database.
     public function set(){
     	 
     	$query = "INSERT INTO Billers
@@ -134,6 +151,7 @@ class Billers
     	} 
     }
     
+    // Update a biller in the database.
     public function update(){
     
     	$query = "UPDATE Billers
@@ -150,6 +168,7 @@ class Billers
     	return true;
     }
     
+    // Set a biller as being deleted in the database.
     public function delete(){
     
     	$query = "UPDATE Billers

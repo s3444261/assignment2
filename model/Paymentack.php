@@ -11,6 +11,7 @@
 
 class Paymentack {
 	
+	// Initializes the values for the Payment Acknowledgement Page.
 	public function init(){
 		$_SESSION['payCreated'] = date("Y-m-d H:i:s"); 
 		if(isset($_SESSION['payDate'])){

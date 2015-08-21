@@ -9,6 +9,7 @@
  */
 class HomeController {
 	
+	// Displays the Home Page.
 	public function display()
 	{
 		include 'view/layout/home.php';

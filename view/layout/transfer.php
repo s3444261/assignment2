@@ -1,4 +1,12 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
 ?>
 <h1>New Funds Transfer</h1>
 
@@ -17,16 +25,18 @@
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 bold textRight">Select
 					Account:</div>
 				<div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8">
-					<select class="form-control" name="account" id="account">
-					<option>--- Select Account ---</option>
+					<select class="form-control" name="account" id="account"
+						placeholder="--- Select Account ---" required>
 <?php
 if (isset ( $_SESSION ['accounts'] )) {
 	foreach ( $_SESSION ['accounts'] as $account ) {
 		echo '<option value="' . $account ['accountID'] . '" ';
-		if(isset($_SESSION ['transferSelectedAccount' . $account ['accountID']])){ echo $_SESSION ['transferSelectedAccount' . $account ['accountID']]; }
-		echo ' >' . $account ['accountName'] . '</option>';
+		if (isset ( $_SESSION ['transferSelectedAccount' . $account ['accountID']] )) {
+			echo $_SESSION ['transferSelectedAccount' . $account ['accountID']];
+		}
+		echo ' >' . $account ['accountName'] . ' ( $' . $account ['currentBalance'] . ' )</option>';
 	}
-} 
+}
 ?>
 					</select>
 				</div>
@@ -44,16 +54,18 @@ if (isset ( $_SESSION ['accounts'] )) {
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 bold textRight">My
 					FAB Account/My Payee:</div>
 				<div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8">
-					<select class="form-control" name="accountPayee" id="accountPayee">
-						<option>--- Select Account/Payee ---</option>
+					<select class="form-control" name="accountPayee" id="accountPayee"
+						required>
 <?php
 if (isset ( $_SESSION ['accountPayee'] )) {
 	foreach ( $_SESSION ['accountPayee'] as $accountPayee ) {
 		echo '<option value="' . $accountPayee ['toID'] . '" ';
-		if(isset($_SESSION ['transferSelectedAccountPayee' . $accountPayee ['toID']])){ echo $_SESSION ['transferSelectedAccountPayee' . $accountPayee ['toID']]; }
+		if (isset ( $_SESSION ['transferSelectedAccountPayee' . $accountPayee ['toID']] )) {
+			echo $_SESSION ['transferSelectedAccountPayee' . $accountPayee ['toID']];
+		}
 		echo ' >' . $accountPayee ['accountName'] . '</option>';
 	}
-} 
+}
 ?>
 					</select>
 				</div>
@@ -71,8 +83,9 @@ if (isset ( $_SESSION ['accountPayee'] )) {
 			<div class="row marginTop20">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 bold textRight">Amount:</div>
 				<div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8">
-					<input type="text" class="form-control" name="transferAmount" id="transferAmount"
-						placeholder="0.00" value="<?php if(isset($_SESSION['transferAmount'])){ echo $_SESSION['transferAmount']; } ?>"
+					<input type="text" class="form-control" name="transferAmount"
+						id="transferAmount" placeholder="0.00"
+						value="<?php if(isset($_SESSION['transferAmount'])){ echo $_SESSION['transferAmount']; } ?>"
 						pattern="\d+(\.\d{2})?" required>
 				</div>
 			</div>
@@ -84,8 +97,10 @@ if (isset ( $_SESSION ['accountPayee'] )) {
 			<div class="row marginTop20">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 bold textRight">Description:</div>
 				<div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8">
-					<input type="text" class="form-control" name="transferDescription" id="transferDescription"
-						placeholder="Description" value="<?php if(isset($_SESSION['transferDescription'])){ echo $_SESSION['transferDescription']; } ?>" required>
+					<input type="text" class="form-control" name="transferDescription"
+						id="transferDescription" placeholder="Description"
+						value="<?php if(isset($_SESSION['transferDescription'])){ echo $_SESSION['transferDescription']; } ?>"
+						required>
 				</div>
 			</div>
 			<div class="row">
@@ -97,8 +112,10 @@ if (isset ( $_SESSION ['accountPayee'] )) {
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 bold textRight">Remitter
 					Name:</div>
 				<div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8">
-					<input type="text" class="form-control" name="transferRemitter" id="transferRemitter"
-						placeholder="Remitter" value="<?php if(isset($_SESSION['transferRemitter'])){ echo $_SESSION['transferRemitter']; } ?>" required>
+					<input type="text" class="form-control" name="transferRemitter"
+						id="transferRemitter" placeholder="Remitter"
+						value="<?php if(isset($_SESSION['transferRemitter'])){ echo $_SESSION['transferRemitter']; } ?>"
+						required>
 				</div>
 			</div>
 			<div class="row">
@@ -114,8 +131,10 @@ if (isset ( $_SESSION ['accountPayee'] )) {
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 bold textRight">Transfer
 					Date:</div>
 				<div class="form-group col-xs-8 col-sm-8 col-md-8 col-lg-8">
-					<input type="date" class="form-control" name="transferDate" id="transferDate"
-						placeholder="Transfer Date" value="<?php if(isset($_SESSION['transferDate'])){ echo $_SESSION['transferDate']; } ?>" required>
+					<input type="date" class="form-control" name="transferDate"
+						id="transferDate" placeholder="Transfer Date"
+						value="<?php if(isset($_SESSION['transferDate'])){ echo $_SESSION['transferDate']; } ?>"
+						required>
 				</div>
 			</div>
 			<div class="row">

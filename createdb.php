@@ -1,4 +1,16 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
+
+// This script creates and seeds the database for
+// testing purposes.
+
 include_once 'connect/config.php';
 if(!class_exists('Database')){
 	require_once('connect/Database.php');
@@ -242,35 +254,35 @@ $args = array();
 $args[] = array('userID' => $userID,
 		'bsb' => '261-452',
 		'accountNumber' => '32-455-2133',
-		'accountName' => 'M.Peterson',
+		'accountName' => 'M Peterson',
 		'accountNickname' => 'Michael Petersons Acct',
 		'payeeStatus' => ''
 );
 $args[] = array('userID' => $userID,
 		'bsb' => '334-544',
 		'accountNumber' => '98-332-3454',
-		'accountName' => 'L.Johnson',
+		'accountName' => 'L Johnson',
 		'accountNickname' => 'Lynda Johnsons Acct',
 		'payeeStatus' => ''
 );
 $args[] = array('userID' => $userID,
 		'bsb' => '243-987',
 		'accountNumber' => '31-354-9987',
-		'accountName' => 'B.Murphy',
+		'accountName' => 'B Murphy',
 		'accountNickname' => 'Brett Murphys Acct',
 		'payeeStatus' => ''
 );
 $args[] = array('userID' => $userID,
 		'bsb' => '276-873',
 		'accountNumber' => '89-987-2765',
-		'accountName' => 'D.A. Ingles',
+		'accountName' => 'D A Ingles',
 		'accountNickname' => 'Darrn Ingles Acct',
 		'payeeStatus' => ''
 );
 $args[] = array('userID' => $userID,
 		'bsb' => '365-986',
 		'accountNumber' => '23-354-8954',
-		'accountName' => 'P.Jones',
+		'accountName' => 'P Jones',
 		'accountNickname' => 'Paul Jones Acct',
 		'payeeStatus' => ''
 );

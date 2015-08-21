@@ -8,7 +8,11 @@
  * 2015 - Study Period 2
  */
 class PaymentlistController {
+	
+	// Display the Payment List Page.
 	public function display() {
+		
+		// Display the list based on the payment type.
 		if (isset ( $_POST ['paymentType'] )) {
 			$paymentType = $_POST ['paymentType'];
 			if ($_POST ['paymentType'] == 'All Payment Types') {
@@ -53,10 +57,12 @@ class PaymentlistController {
 		
 		$paymentlist = new Paymentlist ();
 		
+		// Clear the filter if requested.
 		if (isset ( $_POST ['clearFilter'] )) {
 			$paymentlist->clearFilter ();
 		}
 		
+		// Process any search parameters.
 		if (isset ( $_POST ['account'] )) {
 			$paymentlist->unsetLast ();
 			
@@ -80,6 +86,8 @@ class PaymentlistController {
 			$validate = new Validation();
 			
 			if (isset ( $_POST ['fromAmount'] )) {
+				
+				// Validate the from amount.
 				try {
 					$fromAmount = $_POST ['fromAmount'];
 					unset ( $_POST ['fromAmount'] );
@@ -94,6 +102,8 @@ class PaymentlistController {
 				header ( 'Location: Payment-List' );
 			} else {
 				if (isset ( $_POST ['toAmount'] )) {
+					
+					// Validate the to amount.
 					try {
 						$toAmount = $_POST ['toAmount'];
 						unset ( $_POST ['toAmount'] );
@@ -108,6 +118,8 @@ class PaymentlistController {
 					header ( 'Location: Payment-List' );
 				} else {
 					if (isset ( $_POST ['fromDate'] )) {
+						
+						// Validate the to from date.
 						try {
 							$fromDate = $_POST ['fromDate'];
 							unset ( $_POST ['fromDate'] );
@@ -122,6 +134,8 @@ class PaymentlistController {
 						header ( 'Location: Payment-List' );
 					} else {
 						if (isset ( $_POST ['toDate'] )) {
+							
+							// Validate the to date.
 							try {
 								$toDate = $_POST ['toDate'];
 								unset ( $_POST ['toDate'] );
@@ -146,15 +160,20 @@ class PaymentlistController {
 									'payListToDate' => $toDate 
 							);
 							
+							// Process the search request
 							$paymentlist->searchResults ( $search );
 						}
 					}
 				}
 			}
+			
+		// Display payment list for the first available account based on whether
+		// comping from Bill Payments or Funds Transfers.
 		} else {
 			$paymentlist->init ();
 		}
 		
+		// Display the Payment List layout.
 		include 'view/layout/paymentlist.php';
 	}
 }

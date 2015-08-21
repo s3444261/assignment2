@@ -9,8 +9,8 @@
  */
 class PayeeaddController {
 	
-	public function display()
-	{
+	// Display the Add Payee Page.
+	public function display() {
 		include 'view/layout/payeeadd.php';
 	}
 }

@@ -1,4 +1,12 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
 ?>
 <h1>New Funds Transfer - Bank Acknowledgement</h1>
 
@@ -33,24 +41,26 @@
 				<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10"><?php if(isset($_SESSION['transferAmount'])){ echo '$' . number_format($_SESSION['transferAmount'], 2); } ?></div>
 				<div class="hidden-xs col-sm-3 col-md-2 col-lg-2">Payment Date:</div>
 				<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
-				<?php 
-					if(isset($_SESSION['transferDate'])){ 
-						$date = date_create ( $_SESSION['transferDate'] );
-						$date = date_format ( $date, 'j F Y' );
-						echo $date; 
-					} 
+				<?php
+				if (isset ( $_SESSION ['transferDate'] )) {
+					$date = date_create ( $_SESSION ['transferDate'] );
+					$date = date_format ( $date, 'j F Y' );
+					echo $date;
+				}
 				?></div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 textRight marginTop20">
-					<form class="form-inline" method="post" action="Funds-Transfer-Payment-List">
+				<div
+					class="col-xs-9 col-sm-9 col-md-9 col-lg-9 textRight marginTop20">
+					<form class="form-inline" method="post"
+						action="Funds-Transfer-Payment-List">
 						<button type="submit" name="transferPaymentList"
 							class="btn btn-primary">Return To List</button>
 					</form>
-					</div>
-					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 marginTop20">
+				</div>
+				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 marginTop20">
 					<form class="form-inline" method="post" action="New-Funds-Transfer">
 						<button type="submit" name="transferNewFundsTransfer"
 							class="btn btn-primary">Make Another Funds Transfer</button>

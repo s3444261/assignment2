@@ -1,10 +1,20 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
+
 if(!class_exists('Database')){
 	require_once('connect/Database.php');
 }
 
 class Users 
 {		
+	// Attributes
 	private $_userID = '';
 	private $_user = '';
 	private $_email = '';
@@ -12,6 +22,7 @@ class Users
 	private $_created_at;
 	private $_updated_at;
 	
+	// Constructer
 	function __construct($args  = array()){
 		foreach($args as $key => $val) {
 			$name = '_' . $key;
@@ -21,22 +32,26 @@ class Users
 		}
 	}
 	
+	// Getters
 	public function &__get($name)
     {
         $name = '_'.$name;
 		return $this->$name;
     }
 
+    // Setters
 	public function __set($name, $value)
     {
         $name = '_'.$name;
 		$this->$name = $value;
     }
     
+    // Salt
     private static function salt(){
     	return 'TongalaMooroopnaTatura';
     }
     
+    // Insert instance ino the database.
     public function set(){
     	$this->_password = $this->encryptPassword();
     	
@@ -59,13 +74,13 @@ class Users
     		return 0;
     	}
     }
-    /*
-     * Salt & Encrypt the password.
-     */
+    
+    // Salt & Encrypt the password.
     private function encryptPassword(){
     	return sha1($this->_password . $this->salt());
     }
     
+    // Login.
     public function login(){
 
     	$this->_password = $this->encryptPassword();
@@ -92,6 +107,7 @@ class Users
     	}
     }
     
+    // Confirm a password.
     public function confirmPassword(){
     
     	$this->_password = $this->encryptPassword();
@@ -112,6 +128,7 @@ class Users
     	}
     }
     
+    // Lougout.
 	public function logout(){
 		$_SESSION = array();
 		session_destroy(); 

@@ -9,15 +9,15 @@
  */
 class PayeedeleteController {
 	
-	public function display()
-	{
-		$payee = new Payees();
-		$payee->payeeID = $_SESSION['payeeDeleteID'];
-		$payee->getPayee();
-		$_SESSION['accountName'] = $payee->accountName;
-		$_SESSION['accountNickname'] = $payee->accountNickname;
-		$_SESSION['bsb'] = $payee->bsb;
-		$_SESSION['accountNumber'] = $payee->accountNumber;
+	// Display the Delete Payee Page.
+	public function display() {
+		$payee = new Payees ();
+		$payee->payeeID = $_SESSION ['payeeDeleteID'];
+		$payee->getPayee ();
+		$_SESSION ['accountName'] = $payee->accountName;
+		$_SESSION ['accountNickname'] = $payee->accountNickname;
+		$_SESSION ['bsb'] = $payee->bsb;
+		$_SESSION ['accountNumber'] = $payee->accountNumber;
 		
 		include 'view/layout/payeedelete.php';
 	}

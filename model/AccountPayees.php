@@ -1,16 +1,26 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
 if(!class_exists('Database')){
 	require_once('connect/Database.php');
 }
 
 class AccountPayees
 {
+	// Attributes
 	private $_accountPayeeID = '';
 	private $_userID = '';
 	private $_accountName = '';
 	private $_accountType = '';
 	private $_toID = '';
 
+	// Constructor
 	function __construct($args  = array()){
 		foreach($args as $key => $val) {
 			$name = '_' . $key;
@@ -20,18 +30,22 @@ class AccountPayees
 		}
 	}
 
+	// Getters
 	public function &__get($name)
 	{
 		$name = '_'.$name;
 		return $this->$name;
 	}
 
+	// Setters
 	public function __set($name, $value)
 	{
 		$name = '_'.$name;
 		$this->$name = $value;
 	}
 	
+	// Retrieves either an accountID or a payeeID from the database
+	// as required.
 	public function getAccountPayee()
 	{
 		$id = explode('-', $this->_accountPayeeID);
@@ -63,6 +77,7 @@ class AccountPayees
 		$this->_accountName = $row['accountName'];
 	}
     
+	// Retrieves both accountID's and payeeID's from the database.
     public function getBoth()
     {
     	$query = "SELECT CONCAT('a-', accountID) AS toID, accountName
@@ -91,6 +106,8 @@ class AccountPayees
     	return $accountPayees;
     }
     
+    // Retrieves either account or payeeID's of an account a transfer is
+    // to be made to.
     public function getToIDs()
     {
     	$query = "SELECT CONCAT('a-', accountID) AS toID

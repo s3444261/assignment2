@@ -1,4 +1,12 @@
 <?php
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
 ?>
 <h1>New Bill Payment</h1>
 
@@ -18,10 +26,12 @@
 if (isset ( $_SESSION ['accounts'] )) {
 	foreach ( $_SESSION ['accounts'] as $account ) {
 		echo '<option value="' . $account ['accountID'] . '" ';
-		if(isset($_SESSION ['paySelectedAccount' . $account ['accountID']])){ echo $_SESSION ['paySelectedAccount' . $account ['accountID']]; }
-		echo ' >' . $account ['accountName'] . '</option>';
+		if (isset ( $_SESSION ['paySelectedAccount' . $account ['accountID']] )) {
+			echo $_SESSION ['paySelectedAccount' . $account ['accountID']];
+		}
+		echo ' >' . $account ['accountName'] . ' ( $' . $account ['currentBalance'] . ' )</option>';
 	}
-} 
+}
 ?>
 						</select>
 					</div>
@@ -41,7 +51,9 @@ if (isset ( $_SESSION ['accounts'] )) {
 if (isset ( $_SESSION ['billers'] )) {
 	foreach ( $_SESSION ['billers'] as $biller ) {
 		echo '<option value="' . $biller ['billerID'] . '" ';
-		if(isset($_SESSION ['paySelectedBiller' . $biller ['billerID']])){ echo $_SESSION ['paySelectedBiller' . $biller ['billerID']]; }
+		if (isset ( $_SESSION ['paySelectedBiller' . $biller ['billerID']] )) {
+			echo $_SESSION ['paySelectedBiller' . $biller ['billerID']];
+		}
 		echo ' >' . $biller ['billerNickname'] . '</option>';
 	}
 }
@@ -52,7 +64,8 @@ if (isset ( $_SESSION ['billers'] )) {
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 textRight">
-					<a href="Biller-Add" class="btn btn-primary btn-md" role="button">Add Biller</a>
+					<a href="Biller-Add" class="btn btn-primary btn-md" role="button">Add
+						Biller</a>
 					<button type="submit" class="btn btn-primary">Next</button>
 				</div>
 			</div>

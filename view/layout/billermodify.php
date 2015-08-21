@@ -1,12 +1,20 @@
 <?php
-$biller = new Billers();
-$biller->billerID = $_SESSION['billerModifyID'];
-$biller->userID = $_SESSION['userID']; 
-$biller->getBiller(); 
-$_SESSION['billerCode'] = $biller->billerCode;
-$_SESSION['billerName'] = $biller->billerName;
-$_SESSION['billerNickname'] = $biller->billerNickname;
-$_SESSION['customerReference'] = $biller->customerReference;
+/*
+ * Author: Grant Kinkead
+ * Student Number: s3444261
+ * Student Email: s3444261@student.rmit.edu.au
+ *
+ * CPT375 Web Database Applications
+ * 2015 - Study Period 2
+ */
+$biller = new Billers ();
+$biller->billerID = $_SESSION ['billerModifyID'];
+$biller->userID = $_SESSION ['userID'];
+$biller->getBiller ();
+$_SESSION ['billerCode'] = $biller->billerCode;
+$_SESSION ['billerName'] = $biller->billerName;
+$_SESSION ['billerNickname'] = $biller->billerNickname;
+$_SESSION ['customerReference'] = $biller->customerReference;
 ?>
 <h1>Modify Biller Details</h1>
 
@@ -28,16 +36,21 @@ $_SESSION['customerReference'] = $biller->customerReference;
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Biller Nickname:</div>
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-					<input type="text" class="form-control" name="updateBillerNickname" id="updateBillerNickname"
-						placeholder="Biller Nickname" value="<?php if(isset($_SESSION['billerNickname'])){ echo $_SESSION['billerNickname']; } ?>" required>
+					<input type="text" class="form-control" name="updateBillerNickname"
+						id="updateBillerNickname" placeholder="Biller Nickname"
+						value="<?php if(isset($_SESSION['billerNickname'])){ echo $_SESSION['billerNickname']; } ?>"
+						required>
 				</div>
 			</div>
 			<div class="row marginTop20">
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Customer Reference
 					No:</div>
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-					<input type="number" class="form-control" name="updateBillerCustomerRef" id="updateBillerCustomerRef"
-						placeholder="Customer Reference No" value="<?php if(isset($_SESSION['customerReference'])){ echo $_SESSION['customerReference']; } ?>" required>
+					<input type="number" class="form-control"
+						name="updateBillerCustomerRef" id="updateBillerCustomerRef"
+						placeholder="Customer Reference No"
+						value="<?php if(isset($_SESSION['customerReference'])){ echo $_SESSION['customerReference']; } ?>"
+						required>
 				</div>
 			</div>
 			<div class="row marginTop20">
